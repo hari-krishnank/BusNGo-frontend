@@ -1,58 +1,32 @@
 <app-usernav></app-usernav>
-<div class="home-content">
-    <div class="relative bg-white md:bg-transparent md:h-[70vh] md:min-h-[400px] md:max-h-[600px] mb-12">
-        <div class="hidden md:block absolute inset-0 bg-cover bg-center"
-            style="background-image: url('assets/User/searchbackground-us.jpg');"></div>
-        <div class="hidden md:block absolute inset-0 bg-black opacity-40"></div>
-        <div class="relative z-10 container mx-auto px-4 py-8 md:pt-28 md:pb-0 flex items-center justify-center h-full">
-            <div class="backdrop-blur-sm rounded-lg shadow-lg p-6 w-full max-w-4xl mobile-no-blur pt-10">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="flex items-center">
-                        <div class="mr-3">
-                            <mat-icon class="text-red-500">location_on</mat-icon>
-                        </div>
-                        <div class="flex-grow">
-                            <label for="source" class="labels block text-lg font-mono text-white mb-1">FROM</label>
-                            <input type="text" id="source" placeholder="Enter Source"
-                                class="input-placeholder text-white w-full font-serif text-md bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none p-2">
-                        </div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="mr-3">
-                            <mat-icon class="text-red-500">location_on</mat-icon>
-                        </div>
-                        <div class="flex-grow">
-                            <label for="destination" class="labels block text-lg font-mono text-white mb-1">TO</label>
-                            <input type="text" id="destination" placeholder="Enter Destination"
-                                class="input-placeholder text-white w-full font-serif text-md bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none p-2">
-                        </div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="flex-grow">
-                            <label for="travel-date" class="labels block text-lg font-mono text-white ml-10">TRAVEL
-                                DATE</label>
-                            <div class="flex items-center">
-                                <mat-datepicker-toggle matSuffix [for]="picker"
-                                    class="text-white dateSelect"></mat-datepicker-toggle>
-                                <input matInput [matDatepicker]="picker" id="travel-date" placeholder="Choose a date"
-                                    class="input-placeholder text-white w-full font-serif text-md bg-transparent border-b border-white focus:border-emerald-500 focus:outline-none p-2"
-                                    (focus)="picker.open()">
-                                <mat-datepicker #picker></mat-datepicker>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-6">
-                    <button
-                        class="bg-emerald-500 hover:bg-emerald-600 font-serif py-3 px-6 rounded-lg w-full flex items-center justify-center space-x-2">
-                        <span style="color: white;">SEARCH BUSES</span>
-                        <svg style="color: white;" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+
+<div class="relative mb-12 pt-16">
+    <div class="bg-blue-500 text-white text-center py-2 text-sm">
+        The best bus prices from 5000+ companies!
+    </div>
+
+    <div class="relative bg-cover bg-center h-[400px] flex flex-col justify-between"
+        style="background-image: url('assets/User/searchbackground-us.jpg');">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        
+        <div class="relative z-10 container mx-auto px-4 pt-8 max-w-5xl">
+            <p class="text-white text-3xl font-bold mb-2" style="margin-left: 130px;">Book Cheap Bus Tickets</p>
+            <p class="text-white text-lg" style="margin-left: 130px;">Check Bus Schedules, Compare Prices and Book Your Bus Ticket Online.</p>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-4 pb-24">
+            <div class="bg-white rounded-lg p-4 flex items-center max-w-5xl mx-auto">
+                <div class="flex-grow flex items-center space-x-2">
+                    <input type="text" placeholder="From" class="from-to-input rounded-lg ">
+                    <!-- <button class="swap-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
-                    </button>
+                    </button> -->
+                    <input type="text" placeholder="To" class="from-to-input rounded-lg ml-2">
+                    <input type="date" value="" class="date-input ml-2">
                 </div>
+                <button class="bg-yellow-400 text-black font-bold py-2 px-4 rounded ml-2">Find now</button>
             </div>
         </div>
     </div>

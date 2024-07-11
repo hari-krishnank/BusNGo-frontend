@@ -1,6 +1,6 @@
 export interface IRegistrationResponse {
     message: string;
-    userId: string;
+    // userId: string;  
 }
 
 
