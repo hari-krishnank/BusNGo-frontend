@@ -1,0 +1,35 @@
+<div class="container mx-auto px-4 mb-16">
+    <p class="text-3xl font-bold mb-6 text-start">Exclusive Offers</p>
+
+    <swiper-container init="false" [attr.breakpoints]="stringifyBreakpoints()" navigation="true" pagination="true">
+        <swiper-slide *ngFor="let offer of offers; let i = index">
+            <div class="offer-card rounded-lg overflow-hidden shadow-lg text-white p-4 flex flex-col"
+                [ngClass]="offer.color">
+                <div class="category-label text-sm mb-2">BUS</div>
+                <div class="main-content flex items-center mb-2">
+                    <div class="icon mr-3">
+                        <img [src]="offer.icon" alt="Offer icon" class="w-12 h-12">
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold">{{offer.title}}</p>
+                        <p class="text-lg font-semibold">{{offer.subtitle}}</p>
+                    </div>
+                </div>
+                <div class="promo-code flex items-center mt-auto">
+                    <p class="bg-white bg-opacity-20 px-3 py-1 rounded mr-2 text-black font-semibold">{{offer.code}}</p>
+                    <button class="copy-button mb-2 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </swiper-slide>
+    </swiper-container>
+
+    <div class="text-center mt-8">
+        <button mat-raised-button color="primary" class="px-6 py-2 text-lg">View All Offers</button>
+    </div>
+</div>

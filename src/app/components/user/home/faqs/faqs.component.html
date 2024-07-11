@@ -1,0 +1,18 @@
+<div class="container mx-auto p-6">
+    <p class="text-3xl font-bold mb-6">FAQs related to Bus Tickets Booking</p>
+
+    <div class="space-y-4">
+        <div *ngFor="let faq of faqs" class="border rounded-lg shadow-sm">
+            <button (click)="toggleFAQ(faq)" class="w-full text-left flex justify-between items-center p-4">
+                <span class="font-medium">{{ faq.question }}</span>
+                <svg [class.transform]="faq.isOpen" [class.rotate-45]="faq.isOpen" class="w-5 h-5 transition-transform"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+            </button>
+            <div *ngIf="faq.isOpen" class="p-4 bg-gray-50 border-t">
+                <p class="text-gray-600">{{ faq.answer }}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<app-usernav></app-usernav>
+<div class="bg-white min-h-screen flex flex-col mt-4 pt-16">
+    <div class="flex-grow flex items-start justify-center px-4 pt-8">
+        <div class="flex w-full max-w-5xl bg-gray-50 rounded-lg shadow-lg overflow-hidden">
+            <!-- Image container -->
+            <div class="relative hidden md:block md:w-1/2">
+                <img src="assets/User/pexels-ericson-fernandes-855622-3459765.jpg" alt="Left side image"
+                    class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-25"></div>
+            </div>
+            <!-- Form container -->
+            <div class="w-full md:w-1/2 p-8">
+                <p class="text-2xl font-bold mb-6">User Login</p>
+
+                <div class="flex mb-6 border-b">
+                    <button class="flex-1 px-4 py-2 border-b-2 border-blue-500 text-blue-500 font-medium">Log
+                        in</button>
+                    <button [routerLink]="'/userRegister'" class="flex-1 px-4 py-2 text-gray-500">Register</button>
+                </div>
+
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-black">Email</label>
+                        <input type="email" id="email" formControlName="email"
+                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            placeholder="Enter your email">
+                        @if (email?.invalid && (email?.dirty || email?.touched)) {
+                            <p class="mt-1 text-red-500 text-xs">
+                                @if (email?.errors?.['required']) {
+                                    Email is required.
+                                } @else if (email?.errors?.['email']) {
+                                    Please enter a valid email address.
+                                }
+                            </p>
+                        }
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-black">Password</label>
+                        <input type="password" id="password" formControlName="password" placeholder="Enter password" 
+                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                        @if (password?.invalid && (password?.dirty || password?.touched)) {
+                            <p class="mt-1 text-red-500 text-xs">
+                                @if (password?.errors?.['required']) {
+                                    Password is required.
+                                } @else if (password?.errors?.['minlength']) {
+                                    Password must be at least 3 characters long.
+                                }
+                            </p>
+                        }
+                    </div>
+                    <div class="text-right">
+                        <!-- <a href="#" class="text-sm text-blue-700 hover:underline font-medium">Forgot password?</a> -->
+                    </div>
+                    <button type="submit"
+                        class="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        [disabled]="!loginForm.valid">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>  
+</div>

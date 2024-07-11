@@ -1,0 +1,38 @@
+.input-placeholder::placeholder {
+    color: white;
+    font-weight: 400;
+}
+
+.swiper-slide {
+    background-color: #fff !important;
+    margin-right: 15px !important;
+    border-radius: 8px;
+}
+
+@media (max-width:767px) {
+    .home-content {
+        margin-top: 70px;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .mobile-no-blur {
+        backdrop-filter: none !important;
+        background-color: white !important;
+    }
+
+    .input-placeholder::placeholder {
+        color: black !important;
+        font-weight: 400;
+    }
+
+    .labels {
+        color: black !important;
+    }
+
+    .text-white {
+        color: black !important;
+    }
+
+}
