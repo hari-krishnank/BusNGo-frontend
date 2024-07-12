@@ -1,28 +1,23 @@
 <app-usernav></app-usernav>
 
 <div class="relative mb-12 pt-16">
-    <div class="bg-blue-500 text-white text-center py-2 text-sm">
-        The best bus prices from 5000+ companies!
-    </div>
+
+    <app-notification-banner></app-notification-banner>
 
     <div class="relative bg-cover bg-center h-[400px] flex flex-col justify-between"
         style="background-image: url('assets/User/searchbackground-us.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        
+
         <div class="relative z-10 container mx-auto px-4 pt-8 max-w-5xl">
             <p class="text-white text-3xl font-bold mb-2" style="margin-left: 130px;">Book Cheap Bus Tickets</p>
-            <p class="text-white text-lg" style="margin-left: 130px;">Check Bus Schedules, Compare Prices and Book Your Bus Ticket Online.</p>
+            <p class="text-white text-lg" style="margin-left: 130px;">Check Bus Schedules, Compare Prices and Book Your
+                Bus Ticket Online.</p>
         </div>
 
         <div class="relative z-10 container mx-auto px-4 pb-24">
             <div class="bg-white rounded-lg p-4 flex items-center max-w-5xl mx-auto">
                 <div class="flex-grow flex items-center space-x-2">
                     <input type="text" placeholder="From" class="from-to-input rounded-lg ">
-                    <!-- <button class="swap-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-500">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                    </button> -->
                     <input type="text" placeholder="To" class="from-to-input rounded-lg ml-2">
                     <input type="date" value="" class="date-input ml-2">
                 </div>

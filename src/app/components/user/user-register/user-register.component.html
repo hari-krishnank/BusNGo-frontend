@@ -26,18 +26,27 @@
                         <input type="text" formControlName="username" id="username"
                             class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Enter your Name" required>
-                            <div *ngIf="registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty || registrationForm.get('username')?.touched)" class="text-red-500 text-xs mt-1">
-                            <div *ngIf="registrationForm.get('username')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">Name is required. It cannot be empty or consist only of spaces.</div>                            </div>
+                        <div *ngIf="registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty || registrationForm.get('username')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div
+                                *ngIf="registrationForm.get('username')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">
+                                Name is required. It cannot be empty or consist only of spaces.</div>
+                        </div>
                     </div>
                     <div>
                         <label for="email" class="block text-sm font-medium text-black">Email</label>
                         <input type="email" formControlName="email" id="email"
                             class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Enter your email" required>
-                        <div *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.dirty || registrationForm.get('email')?.touched)" class="text-red-500 text-xs mt-1">
-                            <div *ngIf="registrationForm.get('email')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">Email is required. It cannot be empty or consist only of spaces.</div>
-                            <div *ngIf="registrationForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
-                            <div *ngIf="registrationForm.get('email')?.errors?.['alreadyRegistered']">This email is already registered.</div>
+                        <div *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.dirty || registrationForm.get('email')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div
+                                *ngIf="registrationForm.get('email')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">
+                                Email is required. It cannot be empty or consist only of spaces.</div>
+                            <div *ngIf="registrationForm.get('email')?.errors?.['email']">Please enter a valid email
+                                address.</div>
+                            <div *ngIf="registrationForm.get('email')?.errors?.['alreadyRegistered']">This email is
+                                already registered.</div>
                         </div>
                     </div>
                     <div>
@@ -45,8 +54,11 @@
                         <input type="text" formControlName="phone" id="phone"
                             class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Enter your phone number" required>
-                        <div *ngIf="registrationForm.get('phone')?.invalid && (registrationForm.get('phone')?.dirty || registrationForm.get('phone')?.touched)" class="text-red-500 text-xs mt-1">
-                            <div *ngIf="registrationForm.get('phone')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">Phone number is required. It cannot be empty or consist only of spaces.</div>
+                        <div *ngIf="registrationForm.get('phone')?.invalid && (registrationForm.get('phone')?.dirty || registrationForm.get('phone')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div
+                                *ngIf="registrationForm.get('phone')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">
+                                Phone number is required. It cannot be empty or consist only of spaces.</div>
                         </div>
                     </div>
                     <div>
@@ -54,49 +66,43 @@
                         <input type="password" formControlName="password" id="password" placeholder="Enter password"
                             class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             required>
-                        <div *ngIf="registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)" class="text-red-500 text-xs mt-1">
-                            <div *ngIf="registrationForm.get('password')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">Password is required. It cannot be empty or consist only of spaces.</div>
-                            <div *ngIf="registrationForm.get('password')?.errors?.['minlength']">Password must be at least 3 characters long.</div>
+                        <div *ngIf="registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div
+                                *ngIf="registrationForm.get('password')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">
+                                Password is required. It cannot be empty or consist only of spaces.</div>
+                            <div *ngIf="registrationForm.get('password')?.errors?.['minlength']">Password must be at
+                                least 3 characters long.</div>
                         </div>
                     </div>
                     <div>
-                        <label for="confirmpassword" class="block text-sm font-medium text-black">Confirm Password</label>
+                        <label for="confirmpassword" class="block text-sm font-medium text-black">Confirm
+                            Password</label>
                         <input type="password" formControlName="confirmpassword" id="confirmpassword"
                             placeholder="Enter confirm password"
                             class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             required>
-                        <div *ngIf="registrationForm.get('confirmpassword')?.invalid && (registrationForm.get('confirmpassword')?.dirty || registrationForm.get('confirmpassword')?.touched)" class="text-red-500 text-xs mt-1">
-                            <div *ngIf="registrationForm.get('confirmpassword')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">Confirm password is required. It cannot be empty or consist only of spaces.</div>
+                        <div *ngIf="registrationForm.get('confirmpassword')?.invalid && (registrationForm.get('confirmpassword')?.dirty || registrationForm.get('confirmpassword')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div
+                                *ngIf="registrationForm.get('confirmpassword')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">
+                                Confirm password is required. It cannot be empty or consist only of spaces.</div>
                         </div>
-                        <div *ngIf="registrationForm.errors?.['mismatch'] && (registrationForm.get('confirmpassword')?.dirty || registrationForm.get('confirmpassword')?.touched)" class="text-red-500 text-xs mt-1">
+                        <div *ngIf="registrationForm.errors?.['mismatch'] && (registrationForm.get('confirmpassword')?.dirty || registrationForm.get('confirmpassword')?.touched)"
+                            class="text-red-500 text-xs mt-1">
                             Passwords do not match.
                         </div>
                     </div>
                     <button type="submit" [disabled]="isSignUpDisabled || registrationForm.invalid"
                         class="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         [ngClass]="{'opacity-50 cursor-not-allowed': isSignUpDisabled || registrationForm.invalid}">
-                        {{ remainingTime > 0 ? 'Resend OTP in ' + remainingTime + 's' : 'Sign Up' }}
-                    </button>
-                </form>
-                
-                <!-- OTP input area -->
-                <form *ngIf="showOtpArea" [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()" class="space-y-4">
-                    <div>
-                        <label for="otp" class="block text-sm font-medium text-black">Enter OTP</label>
-                        <input type="text" formControlName="otp" id="otp"
-                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Enter OTP" required>
-                        <div *ngIf="otpForm.get('otp')?.invalid && (otpForm.get('otp')?.dirty || otpForm.get('otp')?.touched)" class="text-red-500 text-xs mt-1">
-                            <div *ngIf="otpForm.get('otp')?.errors?.['required'] || registrationForm.get('username')?.errors?.['whitespace']">OTP is required. It cannot be empty or consist only of spaces.</div>
-                            <div *ngIf="otpForm.get('otp')?.errors?.['pattern']">OTP must be 5 digits.</div>
-                        </div>
-                    </div>
-                    <button type="submit" [disabled]="otpForm.invalid"
-                        class="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                        Verify OTP
+                        Sign Up
                     </button>
                 </form>
             </div>
+            <app-otp *ngIf="showOtpModal" [email]="registrationForm.get('email')?.value || ''"
+                (verifyOtp)="onVerifyOtp($event)" (closeModal)="closeOtpModal()">
+            </app-otp>
         </div>
     </div>
 </div>

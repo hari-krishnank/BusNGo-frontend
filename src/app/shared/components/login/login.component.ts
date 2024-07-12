@@ -16,7 +16,10 @@ import { ILoginOption } from '../../../models/user/login';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  loginOptions:ILoginOption[] = [
+
+  constructor() { }
+
+  loginOptions: ILoginOption[] = [
     {
       title: 'For Bus Owners',
       subtitle: 'Streamline Fleet Management with Our Advanced Tools',

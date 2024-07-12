@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
-interface FAQ {
-  question: string;
-  answer: string;
-  isOpen: boolean;
-}
+import { IFAQ } from '../../../../models/user/home';
 
 @Component({
   selector: 'app-faqs',
@@ -18,7 +13,7 @@ interface FAQ {
 })
 export class FaqsComponent {
 
-  faqs: FAQ[] = [
+  faqs: IFAQ[] = [
     {
       question: 'Can I track the location of my booked bus online?',
       answer: 'Yes, BusNGo offers real-time tracking of your booked bus. You can easily track the location of your bus through the BusNGo app or website, ensuring you are updated with its current status and expected arrival time.',
@@ -56,9 +51,7 @@ export class FaqsComponent {
     },
   ];
 
-
-  toggleFAQ(faq: FAQ) {
+  toggleFAQ(faq: IFAQ) {
     faq.isOpen = !faq.isOpen;
   }
-
 }

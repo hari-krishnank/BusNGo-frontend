@@ -27,8 +27,15 @@ export class SignupService {
       })
     )
   }
-
+  
   verifyOtp(email: string, otp: number): Observable<IOtpVerificationResponse> {
-    return this.httpclient.post<IOtpVerificationResponse>(`${this.backendURL}/users/verify-otp`, { email, otp });
+    return this.httpclient.post<IOtpVerificationResponse>(`${this.backendURL}/users/verify-otp`, {
+      email,
+      otp
+    }).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('An error occurred during OTP verification'));
+      })
+    );
   }
 }

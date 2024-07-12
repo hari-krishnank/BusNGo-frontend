@@ -1,16 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-interface Benefit {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-interface GridItem {
-  imageSrc: string;
-  title: string;
-  description: string;
-}
+import { IBenefit, IGridItem } from '../../../../models/user/home';
 
 @Component({
   selector: 'app-bus-benefits',
@@ -23,7 +13,7 @@ interface GridItem {
 })
 export class BusBenefitsComponent {
 
-  showFullDescription = false;
+  showFullDescription: boolean = false;
 
   headerText = 'Book Bus Tickets Online';
 
@@ -43,7 +33,7 @@ export class BusBenefitsComponent {
 
   mainTitle = 'Benefit of booking bus with BusNGo';
 
-  benefits: Benefit[] = [
+  benefits: IBenefit[] = [
     {
       icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
       title: 'On Time',
@@ -61,7 +51,7 @@ export class BusBenefitsComponent {
     }
   ];
 
-  gridItems: GridItem[] = [
+  gridItems: IGridItem[] = [
     {
       imageSrc: 'assets/User/bus.png',
       title: 'Safe and Secure',

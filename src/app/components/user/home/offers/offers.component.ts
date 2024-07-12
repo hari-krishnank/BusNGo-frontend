@@ -79,7 +79,6 @@ export class OffersComponent implements OnInit, AfterViewInit, OnDestroy {
     window.removeEventListener('resize', this.resizeListener);
   }
 
-
   stringifyBreakpoints(): string {
     return JSON.stringify(this.breakpoints);
   }

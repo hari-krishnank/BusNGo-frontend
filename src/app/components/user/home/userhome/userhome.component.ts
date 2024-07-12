@@ -10,6 +10,7 @@ import { OffersComponent } from '../offers/offers.component';
 import { FooterComponent } from '../../common/footer/footer.component';
 import { FaqsComponent } from '../faqs/faqs.component';
 import { BusBenefitsComponent } from '../bus-benefits/bus-benefits.component';
+import { NotificationBannerComponent } from '../notification-banner/notification-banner.component';
 
 @Component({
   selector: 'app-userhome',
@@ -25,11 +26,12 @@ import { BusBenefitsComponent } from '../bus-benefits/bus-benefits.component';
     OffersComponent,
     BusBenefitsComponent,
     FaqsComponent,
-    FooterComponent
+    FooterComponent,
+    NotificationBannerComponent
   ],
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',
 })
 export class UserhomeComponent {
-
+ 
 }

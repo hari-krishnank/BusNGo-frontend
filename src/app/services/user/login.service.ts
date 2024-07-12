@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { ILoginResponse } from '../../models/user/login';
 
@@ -14,6 +14,15 @@ export class LoginService {
 
   login(email: string, password: string): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.backendURL}/auth/login`, { email, password })
+      .pipe(
+        catchError(error => {
+          console.error('Login error:', error);
+          if (error.status === 401) {
+            return throwError(() => new Error('Invalid email or password'));
+          }
+          return throwError(() => new Error('An unexpected error occurred'));
+        })
+      );
   }
 
   setToken(token: string): void {

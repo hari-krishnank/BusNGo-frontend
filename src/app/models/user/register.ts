@@ -1,8 +1,6 @@
 export interface IRegistrationResponse {
-    message: string;
-    // userId: string;  
+    success:boolean
 }
-
 
 export interface IOtpVerificationResponse {
     message: string;

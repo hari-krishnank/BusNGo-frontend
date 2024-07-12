@@ -44,10 +44,11 @@ export class UserLoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
+      console.log('Login attempt:', { email, password });
       this.loginService.login(email, password).subscribe({
-        next: (response:ILoginResponse) => {
+        next: (response: ILoginResponse) => {
           this.loginService.setToken(response.access_token);
-          this.router.navigate(['/home']); 
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('Login failed', error);
@@ -56,5 +57,5 @@ export class UserLoginComponent {
     } else {
       this.loginForm.markAllAsTouched();
     }
-  }
+  }  
 } 
