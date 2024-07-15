@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UsernavComponent } from './components/user/common/usernav/usernav.component';
-import { UserhomeComponent } from './components/user/home/userhome/userhome.component';
+import { UsernavComponent } from './shared/widgets/usernav/usernav.component';
+import { UserhomeComponent } from './pages/user/home/userhome/userhome.component';
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,42 @@
+<nav class="bg-white border-b border-gray-200 shadow-md fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+            <div [routerLink]="" class="flex-shrink-0 flex items-center hover:cursor-pointer">
+                <span class="text-xl font-bold">
+                    <span class="text-red-500">B</span>usNGo
+                </span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button mat-button [matMenuTriggerFor]="accountMenu" class="text-sm text-black">
+                    <mat-icon style="color: black;">account_circle</mat-icon>
+                    Account
+                </button>
+                <mat-icon style="margin-left: -2px;">arrow_drop_down</mat-icon>
+                <mat-menu #accountMenu="matMenu">
+                    <ng-container>
+                        <button mat-menu-item [routerLink]="'/login'">
+                            <mat-icon>login</mat-icon>
+                            <span>Login / SignUp</span>
+                        </button>
+                    </ng-container>
+                    <!-- <ng-template #loggedInMenu>
+                        <button mat-menu-item (click)="logout()" style="width: 180px;">
+                            <mat-icon>logout</mat-icon>
+                            <span>Logout</span>
+                        </button>
+                    </ng-template>
+                    <ng-template #loggedInMenu>
+                        <button mat-menu-item>
+                            <mat-icon style="color: black;">person</mat-icon>
+                            Profile
+                        </button>
+                    </ng-template> -->
+                    <button mat-menu-item>
+                        <mat-icon style="color: black;">help</mat-icon>
+                        Help
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+</nav>

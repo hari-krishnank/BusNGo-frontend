@@ -1,0 +1,75 @@
+<app-ownernav></app-ownernav>
+
+<div class="bg-gray-100 pt-20">
+    <div class="container mx-auto mt-10">
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                        </svg>
+                        Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                    </span>
+                </li>
+                <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                        </svg>
+                        Business <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                    </span>
+                </li>
+                <li class="flex items-center text-blue-600">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    <span class="me-2">3</span>
+                    Confirmation
+                </li>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-gray-100 pt-4 pb-20">
+    <div class="container mx-auto mt-10">
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div class="mb-6">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center justify-center w-10 h-10 text-white bg-blue-500 rounded-full">3</div>
+                    <p class="text-xl font-semibold pt-3">Confirmation</p>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <p class="text-lg font-semibold mb-4">Please review your information:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-medium text-lg">Personal Information</p>
+                        <p>First Name: [First Name]</p>
+                        <p>Last Name: [Last Name]</p>
+                        <p>Email: [Email]</p>
+                        <p>Mobile: [Mobile]</p>
+                    </div>
+                    <div>
+                        <p class="font-medium text-lg">Agency Information</p>
+                        <p>Agency Name: [Agency Name]</p>
+                        <p>Designation: [Designation]</p>
+                        <p>Country: [Country]</p>
+                        <p>State: [State]</p>
+                        <p>City: [City]</p>
+                        <p>Postal Code: [Postal Code]</p>
+                        <p>Address: [Address]</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center mt-8">
+                    <button [routerLink]="'/ownerDashboard'" class="px-6 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-700">Confirm and Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-bus-ownerfooter></app-bus-ownerfooter>
