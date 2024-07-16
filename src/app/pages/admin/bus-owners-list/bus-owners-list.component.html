@@ -1,0 +1,38 @@
+<div class="flex">
+    <app-admin-side-nav class="w-64 flex-shrink-0"></app-admin-side-nav>
+    <div class="flex-grow p-8 mt-14">
+        <h1 class="text-2xl font-bold mb-6">Owners</h1>
+        <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-200 text-gray-700">
+                <tr>
+                    <th class="py-3 px-4 text-left">Name</th>
+                    <th class="py-3 px-4 text-left">Email</th>
+                    <th class="py-3 px-4 text-left">Phone</th>
+                    <th class="py-3 px-4 text-left">Agency name</th>
+                    <th class="py-3 px-4 text-left">Designation</th>
+                    <th class="py-3 px-4 text-left">Address</th>
+                    <th class="py-3 px-4 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let owner of verifiedOwners">
+                    <td class="py-3 px-4">{{ owner.firstName }} {{ owner.lastName }}</td>
+                    <td class="py-3 px-4">{{ owner.email }}</td>
+                    <td class="py-3 px-4">{{ owner.mobile }}</td>
+                    <td class="py-3 px-4">{{ owner.agencyName }}</td>
+                    <td class="py-3 px-4">{{ owner.designation }}</td>
+                    <td class="py-3 px-4">{{ owner.registeredAddress }}, {{ owner.city }}, {{ owner.state }}, {{
+                        owner.country }}</td>
+
+                    <td class="py-3 px-4">
+                        <button (click)="toggleBlockStatus(owner)"
+                            [ngClass]="{'bg-red-500 hover:bg-red-700': !owner.is_blocked, 'bg-green-500 hover:bg-green-700': owner.is_blocked}"
+                            class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            {{ owner.is_blocked ? 'Unblock' : 'Block' }}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AdminLoginService {
-  private apiUrl = 'http://localhost:3000'; 
+  private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
 
@@ -23,14 +23,39 @@ export class AdminLoginService {
       headers: { Authorization: `Bearer ${token}` }
     });
   }
-  
+
   getToken(): string | null {
     const token = localStorage.getItem('adminToken');
-    console.log('Retrieved token:', token); 
+    console.log('Retrieved token:', token);
     return token;
   }
 
   removeToken(): void {
     localStorage.removeItem('adminToken');
   }
+
+  getVerifiedUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/admin/verified-users`, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
+  }
+
+  getVerifiedOwners(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/admin/verified-owners`, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
+  }
+
+  updateOwnerBlockStatus(ownerId: string, isBlocked: boolean): Observable<any> {
+    return this.http.put(`${this.apiUrl}/admin/owner/${ownerId}/block`, { isBlocked }, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
+  }
+
 }

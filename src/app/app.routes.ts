@@ -16,6 +16,8 @@ import { AgencyDetailsComponent } from './pages/busOwner/agency-details/agency-d
 import { ConfirmDetailsComponent } from './pages/busOwner/confirm-details/confirm-details.component';
 import { DashboardComponent } from './pages/busOwner/dashboard/dashboard.component';
 import { OwnerAuthGuard } from './core/guards/ownerauth.guard';
+import { BusOwnersListComponent } from './pages/admin/bus-owners-list/bus-owners-list.component';
+import { OwnerNoAuthGuard } from './core/guards/owner-no-auth.guard';
 
 export const routes: Routes = [
 
@@ -48,26 +50,32 @@ export const routes: Routes = [
     {
         path: 'ownerLogin',
         component: OwnerLoginComponent,
+        canActivate:[OwnerNoAuthGuard]
     },
     {
         path: 'ownerRegister',
         component: OwnerRegisterComponent,
+        canActivate:[OwnerNoAuthGuard]
     },
     {
         path: 'ownerOtp',
-        component: OwnerOtpComponent
+        component: OwnerOtpComponent,
+        canActivate:[OwnerNoAuthGuard]
     },
     {
         path: 'ownerDetails',
-        component: OwnerDetailsComponent
+        component: OwnerDetailsComponent,
+        canActivate:[OwnerNoAuthGuard]
     },
     {
         path: 'agencyDetails',
-        component: AgencyDetailsComponent
+        component: AgencyDetailsComponent,
+        canActivate:[OwnerNoAuthGuard]
     },
     {
         path: 'confirmation',
-        component: ConfirmDetailsComponent
+        component: ConfirmDetailsComponent,
+        canActivate:[OwnerNoAuthGuard]
     },
     {
         path: 'ownerDashboard',
@@ -84,7 +92,8 @@ export const routes: Routes = [
     {
         path: 'admin',
         children: [
-            { path: 'listUsers', component: UsersListComponent, canActivate: [AuthGuard] }
+            { path: 'listUsers', component: UsersListComponent, canActivate: [AuthGuard] },
+            { path: 'listOwners', component: BusOwnersListComponent, canActivate: [AuthGuard] },
         ]
     }
 ];

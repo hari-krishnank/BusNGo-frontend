@@ -46,7 +46,7 @@ export class AgencyDetailsComponent implements OnInit {
       state: this.state,
       city: this.city,
       postalCode: this.postalCode,
-      address: this.address
+      registeredAddress: this.address
     };
 
     this.http.put('http://localhost:3000/owner/update-details', ownerDetails).subscribe(

@@ -10,7 +10,7 @@ import { signupService } from '../../../core/services/busOwner/signup.service';
 @Component({
   selector: 'app-owner-login',
   standalone: true,
-  imports: [ OwnernavComponent, MatIconModule, OwnerFaqComponent, OwnerFooterComponent, RouterModule, FormsModule ],
+  imports: [OwnernavComponent, MatIconModule, OwnerFaqComponent, OwnerFooterComponent, RouterModule, FormsModule],
   templateUrl: './owner-login.component.html',
   styleUrl: './owner-login.component.css'
 })
@@ -21,13 +21,13 @@ export class OwnerLoginComponent {
   };
   errorMessage: string | null = null;
 
-  constructor(private signupService: signupService, private router: Router) {}
+  constructor(private signupService: signupService, private router: Router) { }
 
   onSubmit() {
     this.signupService.login(this.loginData).subscribe(
       (response) => {
         // localStorage.setItem('ownertoken', response.owner_token);
-        this.router.navigate(['/ownerDashboard']); 
+        this.router.navigate(['/ownerDashboard']);
       },
       (error) => {
         this.errorMessage = 'Invalid email or password';
