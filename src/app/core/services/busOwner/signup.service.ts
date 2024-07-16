@@ -20,7 +20,10 @@ export class signupService {
     return this.http.post<any>(`${this.apiUrl}/owner/verify-otp`, { email, otp });
   }
 
-
+  resendOtp(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/owner/resend-otp`, { email });
+  }
+  
   setEmail(email: string): void {
     localStorage.setItem(this.EMAIL_KEY, email);
   }
