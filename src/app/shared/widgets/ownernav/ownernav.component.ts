@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { signupService } from '../../../core/services/busOwner/signup.service';
 
 @Component({
   selector: 'app-ownernav',
@@ -13,5 +14,14 @@ import { RouterModule } from '@angular/router';
   styleUrl: './ownernav.component.css'
 })
 export class OwnernavComponent {
+  constructor(private signupService: signupService, private router: Router) {}
 
+  isLoggedIn(): boolean {
+    return this.signupService.isLoggedIn();
+  }
+
+  logout(): void {
+    this.signupService.logout();
+    this.router.navigate(['/ownerLogin']);
+  }
 }

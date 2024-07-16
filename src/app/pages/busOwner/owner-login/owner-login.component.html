@@ -15,18 +15,22 @@
                 <p class="text-xl font-semibold mb-6">
                     Sign In and Add Your Bus Fleet with BusNGo
                 </p>
-                <form>
-                    <input type="email" placeholder="Enter Email" class="w-full p-3 mb-4 border rounded">
-                    <input type="password" placeholder="Enter Password" class="w-full p-3 mb-4 border rounded">
-                    <button class="w-full py-3 bg-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-400">
+                <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                    <input type="email" placeholder="Enter Email" class="w-full p-3 mb-4 border rounded"
+                        [(ngModel)]="loginData.email" name="email" required>
+                    <input type="password" placeholder="Enter Password" class="w-full p-3 mb-4 border rounded"
+                        [(ngModel)]="loginData.password" name="password" required>
+                    <button type="submit"
+                        class="w-full py-3 bg-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-400"
+                        [disabled]="!loginForm.form.valid">
                         SIGN IN
                     </button>
                 </form>
                 <div class="text-center mb-6 mt-6">
-                    <p class="text-black text-sm">Do you have already an account ? <a
-                            [routerLink] ="'/ownerRegister'">Sign up here</a> </p>
+                    <p class="text-black text-sm">Do you already have an account? <a routerLink="/ownerRegister">Sign up here</a> </p>
                 </div>
             </div>
+
         </div>
     </div>
 

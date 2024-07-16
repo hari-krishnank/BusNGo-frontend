@@ -15,6 +15,7 @@ import { OwnerDetailsComponent } from './pages/busOwner/owner-details/owner-deta
 import { AgencyDetailsComponent } from './pages/busOwner/agency-details/agency-details.component';
 import { ConfirmDetailsComponent } from './pages/busOwner/confirm-details/confirm-details.component';
 import { DashboardComponent } from './pages/busOwner/dashboard/dashboard.component';
+import { OwnerAuthGuard } from './core/guards/ownerauth.guard';
 
 export const routes: Routes = [
 
@@ -70,7 +71,8 @@ export const routes: Routes = [
     },
     {
         path: 'ownerDashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [OwnerAuthGuard]
     },
 
     //---ADMIN ROUTES
