@@ -15,22 +15,40 @@
                 <p class="text-xl font-semibold mb-6">
                     Sign In and Add Your Bus Fleet with BusNGo
                 </p>
-                <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-                    <input type="email" placeholder="Enter Email" class="w-full p-3 mb-4 border rounded"
-                        [(ngModel)]="loginData.email" name="email" required>
-                    <input type="password" placeholder="Enter Password" class="w-full p-3 mb-4 border rounded"
-                        [(ngModel)]="loginData.password" name="password" required>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-4">
+                        <input type="email" formControlName="email" placeholder="Enter Email"
+                            class="w-full p-3 border rounded"
+                            [ngClass]="{'border-red-500': formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)}">
+                        <div *ngIf="formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)"
+                            class="text-red-500 text-sm mt-1">
+                            <div *ngIf="formControls['email'].errors?.['required']">Email is required.</div>
+                            <div *ngIf="formControls['email'].errors?.['email']">Please enter a valid email address.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <input type="password" formControlName="password" placeholder="Enter Password"
+                            class="w-full p-3 border rounded"
+                            [ngClass]="{'border-red-500': formControls['password'].invalid && (formControls['password'].dirty || formControls['password'].touched)}">
+                        <div *ngIf="formControls['password'].invalid && (formControls['password'].dirty || formControls['password'].touched)"
+                            class="text-red-500 text-sm mt-1">
+                            <div *ngIf="formControls['password'].errors?.['required']">Password is required.</div>
+                        </div>
+                    </div>
                     <button type="submit"
                         class="w-full py-3 bg-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-400"
-                        [disabled]="!loginForm.form.valid">
+                        [disabled]="!loginForm.valid">
                         SIGN IN
                     </button>
                 </form>
+                <div *ngIf="errorMessage" class="text-red-500 text-sm mt-2 text-center">
+                    {{ errorMessage }}
+                </div>
                 <div class="text-center mb-6 mt-6">
-                    <p class="text-black text-sm">Do you already have an account? <a routerLink="/ownerRegister">Sign up here</a> </p>
+                    <p class="text-black text-sm">Do you already have an account? <a routerLink="/ownerRegister">Sign up here</a></p>
                 </div>
             </div>
-
         </div>
     </div>
 

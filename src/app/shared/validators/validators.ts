@@ -13,3 +13,13 @@ export function noWhitespaceValidator(): ValidatorFn {
         return isValid ? null : { 'whitespace': true };
     };
 }
+
+export function phoneNumberValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const phoneNumber = control.value;
+        if (!phoneNumber || phoneNumber.length !== 10) {
+            return { 'invalidPhoneNumber': true };
+        }
+        return null;
+    };
+}

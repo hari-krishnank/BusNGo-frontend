@@ -58,4 +58,8 @@ export class AdminLoginService {
     });
   }
 
+  updateUserBlockStatus(userId: string, isBlocked: boolean) {
+    return this.http.put(`${this.apiUrl}/admin/user/${userId}/block`, { isBlocked });
+  }
+
 }

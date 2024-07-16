@@ -15,11 +15,21 @@
                 <p class="text-xl font-semibold mb-6">
                     Register Your Bus Fleet with BusNGo
                 </p>
-                <form (ngSubmit)="generateOtp()">
-                    <input type="email" placeholder="Enter Email" [(ngModel)]="email" name="email"
-                        class="w-full p-3 mb-4 border rounded" required>
+                <form [formGroup]="registerForm" (ngSubmit)="generateOtp()">
+                    <div class="mb-4">
+                        <input type="email" formControlName="email" placeholder="Enter Email"
+                            class="w-full p-3 border rounded"
+                            [ngClass]="{'border-red-500': formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)}">
+                        <div *ngIf="formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)"
+                            class="text-red-500 text-sm mt-1">
+                            <div *ngIf="formControls['email'].errors?.['required']">Email is required.</div>
+                            <div *ngIf="formControls['email'].errors?.['email']">Please enter a valid email address.
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit"
-                        class="w-full py-3 bg-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-400">
+                        class="w-full py-3 bg-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-400"
+                        [disabled]="!registerForm.valid">
                         GENERATE OTP (One Time Password)
                     </button>
                 </form>

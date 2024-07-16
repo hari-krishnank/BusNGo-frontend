@@ -32,7 +32,7 @@ export class UsersListComponent implements OnInit {
       (data) => {
         this.users = data;
         console.log(this.users);
-        
+
       },
       (error) => {
         console.error('Error fetching verified users', error);
@@ -40,4 +40,16 @@ export class UsersListComponent implements OnInit {
     );
   }
 
+
+  toggleBlockStatus(user: any) {
+    const newBlockStatus = !user.is_blocked;
+    this.adminLoginService.updateUserBlockStatus(user._id, newBlockStatus).subscribe(
+      () => {
+        user.is_blocked = newBlockStatus;
+      },
+      (error) => {
+        console.error('Error updating user block status', error);
+      }
+    );
+  }
 }

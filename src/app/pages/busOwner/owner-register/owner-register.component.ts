@@ -4,31 +4,41 @@ import { OwnerFooterComponent } from '../../../shared/widgets/owner-footer/owner
 import { OwnerFaqComponent } from '../owner-faq/owner-faq.component';
 import { Router, RouterModule } from '@angular/router';
 import { OtpComponent } from '../../user/otp/otp.component';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { signupService } from '../../../core/services/busOwner/signup.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-owner-register',
   standalone: true,
-  imports: [OwnernavComponent, OwnerFooterComponent, OwnerFaqComponent, RouterModule, OtpComponent, FormsModule],
+  imports: [OwnernavComponent, OwnerFooterComponent, OwnerFaqComponent, RouterModule, OtpComponent, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './owner-register.component.html',
   styleUrl: './owner-register.component.css'
 })
 export class OwnerRegisterComponent {
-  email: string = '';
+  registerForm!: FormGroup;
 
   constructor(
+    private formBuilder: FormBuilder,
     private signupService: signupService,
     private router: Router
   ) { }
 
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
+
+  get formControls() { return this.registerForm.controls; }
+
   generateOtp(): void {
-    if (this.email) {
-      this.signupService.sendOtp(this.email).subscribe(
+    if (this.registerForm.valid) {
+      const email = this.registerForm.get('email')?.value;
+      this.signupService.sendOtp(email).subscribe(
         () => {
           console.log('OTP sent successfully');
-          this.signupService.setEmail(this.email);
+          this.signupService.setEmail(email);
           this.router.navigate(['/ownerOtp']);
         },
         error => {

@@ -7,7 +7,7 @@ import { SignupService } from '../../../core/services/user/signup.service';
 import { HttpClientModule } from '@angular/common/http';
 import { IOtpVerificationResponse, IRegistrationResponse } from '../../../core/models/user/register';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { noWhitespaceValidator, passwordMatchValidator } from '../../../shared/validators/validators';
+import { noWhitespaceValidator, passwordMatchValidator, phoneNumberValidator } from '../../../shared/validators/validators';
 import { OtpComponent } from '../otp/otp.component';
 
 @Component({
@@ -31,7 +31,7 @@ export class UserRegisterComponent {
     this.registrationForm = this.fb.group({
       username: ['', [Validators.required, noWhitespaceValidator()]],
       email: ['', [Validators.required, Validators.email, noWhitespaceValidator()]],
-      phone: ['', [Validators.required, noWhitespaceValidator()]],
+      phone: ['', [Validators.required, noWhitespaceValidator(), phoneNumberValidator()]],
       password: ['', [Validators.required, Validators.minLength(3), noWhitespaceValidator()]],
       confirmpassword: ['', [Validators.required, noWhitespaceValidator()]]
     }, { validator: passwordMatchValidator });
