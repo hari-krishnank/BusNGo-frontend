@@ -7,3 +7,8 @@ export interface ILoginOption {
 export interface ILoginResponse {
     access_token: string
 }
+
+export interface ILoginFormValue {
+    email: string;
+    password: string;
+}

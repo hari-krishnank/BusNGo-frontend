@@ -4,12 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SignupService } from '../../../core/services/user/signup.service';
-import { IOtpVerificationResponse, IRegistrationResponse } from '../../../core/models/user/register';
+import { IOtpVerificationResponse, IRegistrationResponse, IRegistrationFormValue } from '../../../core/models/user/register';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { noWhitespaceValidator, passwordMatchValidator, phoneNumberValidator } from '../../../shared/validators/validators';
 import { OtpComponent } from '../otp/otp.component';
 import { FormComponent } from '../../../shared/reusable/form/form.component';
 import { registrationFields } from '../../../shared/configs/user/registerForm-config';
+import { FormField } from '../../../core/models/user/form-fields.interface';
 
 @Component({
   selector: 'app-user-register',
@@ -23,7 +24,7 @@ export class UserRegisterComponent {
   showOtpModal: boolean = false;
   isSignUpDisabled: boolean = false;
   registrationForm: FormGroup;
-  registrationFields = registrationFields
+  registrationFields: FormField[] = registrationFields
 
   constructor(private signupService: SignupService, private router: Router, private fb: FormBuilder) {
     this.registrationForm = this.fb.group({
@@ -35,7 +36,7 @@ export class UserRegisterComponent {
     }, { validator: passwordMatchValidator });
   }
 
-  onSignUp(formValue: any) {
+  onSignUp(formValue: IRegistrationFormValue) {
     this.isSignUpDisabled = true;
     const { username, email, phone, password } = formValue;
     this.signupService.initiateRegistration(username, email, phone, password).subscribe(

@@ -1,32 +1,28 @@
 <app-usernav></app-usernav>
 <div class="min-h-screen flex flex-col pt-20">
-  <div class="flex-grow flex items-start justify-center px-4 pt-8">
-    <div class="flex w-full mb-20 max-w-5xl bg-gray-50 rounded-lg shadow-lg overflow-hidden">
-      <div class="relative hidden md:block md:w-1/2">
-        <img src="assets/User/pexels-ericson-fernandes-855622-3459765.jpg" alt="Left side image"
-          class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-black bg-opacity-25"></div>
-      </div>
+    <div class="flex-grow flex items-start justify-center px-4 pt-8">
+        <div class="flex w-full mb-20 max-w-5xl bg-gray-50 rounded-lg shadow-lg overflow-hidden">
+            <div class="relative hidden md:block md:w-1/2">
+                <img src="assets/User/pexels-ericson-fernandes-855622-3459765.jpg" alt="Left side image"
+                    class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-25"></div>
+            </div>
 
-      <div class="w-full md:w-1/2 p-8">
-        <p class="text-2xl font-bold mb-6">User Registration</p>
+            <div class="w-full md:w-1/2 p-8">
+                <p class="text-2xl font-bold mb-6">User Registration</p>
 
-        <div class="flex mb-6 border-b">
-          <button class="flex-1 px-4 py-2 text-gray-500" [routerLink]="'/userLogin'">Log in</button>
-          <button class="flex-1 px-4 py-2 border-b-2 border-blue-500 text-blue-500 font-medium">Register</button>
+                <div class="flex mb-6 border-b">
+                    <button class="flex-1 px-4 py-2 text-gray-500" [routerLink]="'/userLogin'">Log in</button>
+                    <button
+                        class="flex-1 px-4 py-2 border-b-2 border-blue-500 text-blue-500 font-medium">Register</button>
+                </div>
+                <app-form [form]="registrationForm" [fields]="registrationFields" submitButtonText="Sign Up"
+                    (formSubmit)="onSignUp($event)" [disabled]="isSignUpDisabled || registrationForm.invalid">
+                </app-form>
+            </div>
+            <app-otp *ngIf="showOtpModal" [email]="registrationForm.get('email')?.value || ''"
+                (verifyOtp)="onVerifyOtp($event)" (closeModal)="closeOtpModal()">
+            </app-otp>
         </div>
-
-        <app-form 
-          [form]="registrationForm" 
-          [fields]="registrationFields"
-          submitButtonText="Sign Up"
-          (formSubmit)="onSignUp($event)"
-          [disabled]="isSignUpDisabled || registrationForm.invalid">
-        </app-form>
-      </div>
-      <app-otp *ngIf="showOtpModal" [email]="registrationForm.get('email')?.value || ''"
-        (verifyOtp)="onVerifyOtp($event)" (closeModal)="closeOtpModal()">
-      </app-otp>
     </div>
-  </div>
 </div>

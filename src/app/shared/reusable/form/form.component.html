@@ -1,10 +1,13 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 max-w-md mx-auto">
     <ng-container *ngFor="let field of fields">
-        <div>
-            <label [for]="field.name" class="block text-sm font-medium text-black">{{ field.label }}</label>
+        <div class="relative">
             <input [type]="field.type" [id]="field.name" [formControlName]="field.name"
-                class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                [placeholder]="field.placeholder">
+                class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                placeholder=" ">
+            <label [for]="field.name"
+                class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                {{ field.placeholder }}
+            </label>
             <ng-container
                 *ngIf="form.get(field.name)?.invalid && (form.get(field.name)?.dirty || form.get(field.name)?.touched)">
                 <p class="mt-1 text-red-500 text-xs" *ngFor="let error of field.errors">
@@ -13,6 +16,39 @@
                     </ng-container>
                 </p>
             </ng-container>
+        </div>
+    </ng-container>
+    <button type="submit"
+        class="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        [disabled]="!form.valid">{{ submitButtonText }}
+    </button>
+</form> -->
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 max-w-md mx-auto">
+    <ng-container *ngFor="let field of fields">
+        <div class="relative">
+            <input [type]="field.type" [id]="field.name" [formControlName]="field.name"
+                class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                placeholder=" ">
+            <ng-container
+                *ngIf="form.get(field.name)?.invalid && (form.get(field.name)?.dirty || form.get(field.name)?.touched)">
+                <p class="mt-1 text-red-500 text-xs" *ngFor="let error of field.errors">
+                    <ng-container *ngIf="form.get(field.name)?.hasError(error.type)">
+                        {{ error.message }}
+                    </ng-container>
+                </p>
+            </ng-container>
+            <label [for]="field.name"
+                class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                {{ field.placeholder }}
+            </label>
+            <div *ngIf="!shouldShowError(field.name) && form.get(field.name)?.valid"
+                class="absolute right-3 top-3 text-green-500">
+                <span class="material-icons">check_circle</span>
+            </div>
+            <div *ngIf="shouldShowError(field.name)" class="absolute right-3 top-3 text-red-500">
+                <span class="material-icons">error</span>
+            </div>
         </div>
     </ng-container>
     <button type="submit"

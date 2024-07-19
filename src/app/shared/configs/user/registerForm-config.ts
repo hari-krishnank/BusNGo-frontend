@@ -1,4 +1,6 @@
-export const registrationFields = [
+import { FormField } from "../../../core/models/user/form-fields.interface";
+
+export const registrationFields : FormField[] = [
     {
         name: 'username',
         label: 'Name',

@@ -4,9 +4,10 @@ import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../../core/services/user/login.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ILoginResponse } from '../../../core/models/user/login';
+import { ILoginFormValue, ILoginResponse } from '../../../core/models/user/login';
 import { FormComponent } from '../../../shared/reusable/form/form.component';
 import { loginFields } from '../../../shared/configs/user/loginForm-config';
+import { FormField } from '../../../core/models/user/form-fields.interface';
 
 @Component({
   selector: 'app-user-login',
@@ -18,7 +19,7 @@ import { loginFields } from '../../../shared/configs/user/loginForm-config';
 
 export class UserLoginComponent {
   loginForm: FormGroup;
-  loginFields = loginFields;
+  loginFields: FormField[] = loginFields;
 
   constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -27,7 +28,7 @@ export class UserLoginComponent {
     });
   }
 
-  onSubmit(formValue: any) {
+  onSubmit(formValue: ILoginFormValue) {
     console.log('Login attempt:', formValue);
     this.loginService.login(formValue.email, formValue.password).subscribe({
       next: (response: ILoginResponse) => {
