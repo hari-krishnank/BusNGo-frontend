@@ -25,8 +25,7 @@ export class OffersComponent implements OnInit, AfterViewInit, OnDestroy {
       code: 'BNG111',
       description: 'Grab Discount Up to Rs. 250 on First Bus Booking with BusNGo',
       validTill: '30th June, 2024',
-      icon: 'rupee-icon.png',
-      color: 'bg-gray-400'
+      backgroundImage: 'assets/User/img5.webp'
     },
     {
       title: 'Book Bus & get',
@@ -34,8 +33,7 @@ export class OffersComponent implements OnInit, AfterViewInit, OnDestroy {
       code: 'BNG123',
       description: 'Enjoy Bus Tickets to Different Destinations At A Discount up to Rs.500',
       validTill: '30th June, 2024',
-      icon: 'rupee-icon.png',
-      color: 'bg-gray-400'
+      backgroundImage: 'assets/User/img1.png'
     },
     {
       title: 'Book Bus & get',
@@ -43,17 +41,7 @@ export class OffersComponent implements OnInit, AfterViewInit, OnDestroy {
       code: 'BNG123',
       description: 'Enjoy Bus Tickets to Different Destinations At A Discount up to Rs.500',
       validTill: '30th June, 2024',
-      icon: 'rupee-icon.png',
-      color: 'bg-gray-400'
-    },
-    {
-      title: 'Do UPI Payment &',
-      subtitle: 'Grab 15% Off',
-      code: 'UPIPAY',
-      description: 'Enjoy huge discounts on travel booking by paying through UPI',
-      validTill: '30th June, 2024',
-      icon: 'rupee-icon.png',
-      color: 'bg-gray-400'
+      backgroundImage: 'assets/User/img4.webp'
     }
   ];
 

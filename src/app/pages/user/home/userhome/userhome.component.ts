@@ -11,6 +11,9 @@ import { FooterComponent } from '../../../../shared/widgets/footer/footer.compon
 import { FaqsComponent } from '../faqs/faqs.component';
 import { BusBenefitsComponent } from '../bus-benefits/bus-benefits.component';
 import { NotificationBannerComponent } from '../notification-banner/notification-banner.component';
+import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-userhome',
@@ -27,11 +30,15 @@ import { NotificationBannerComponent } from '../notification-banner/notification
     BusBenefitsComponent,
     FaqsComponent,
     FooterComponent,
-    NotificationBannerComponent
+    NotificationBannerComponent,
+    NgbDatepickerModule,
+    NgbAlertModule,
+    FormsModule,
+    JsonPipe,
   ],
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',
 })
 export class UserhomeComponent {
- 
-}
+  model !: NgbDateStruct;
+} 
