@@ -15,5 +15,4 @@ export interface FormField {
     validators?: any[];
 }
 
-
-export type FormValue = IRegistrationFormValue | ILoginFormValue;
+export type FormValue = IRegistrationFormValue | ILoginFormValue ;

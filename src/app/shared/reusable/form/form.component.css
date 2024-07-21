@@ -1,0 +1,10 @@
+.relative .mat-tooltip {
+    margin-left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tooltip {
+    margin-top: 30px
+}

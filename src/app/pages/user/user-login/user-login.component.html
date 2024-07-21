@@ -1,12 +1,12 @@
 <app-usernav></app-usernav>
 <div class="bg-white min-h-screen flex flex-col mt-4 pt-16">
     <div class="flex-grow flex items-start justify-center px-4 pt-8">
-        <div class="flex w-full max-w-5xl bg-gray-50 rounded-lg shadow-lg overflow-hidden">
-
+        <div class="flex w-full max-w-5xl bg-gray-50 rounded-lg shadow-md overflow-hidden">
             <div class="relative hidden md:block md:w-1/2">
-                <img src="assets/User/pexels-ericson-fernandes-855622-3459765.jpg" alt="Left side image"
-                    class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black bg-opacity-25"></div>
+                <div class="w-full h-full bg-white rounded-l-lg p-8">
+                     <img src="assets/User/Bus Stop (2).gif?v={{timestamp}}" alt="">
+                     <!-- <img src="assets/User/Location search.gif?v={{timestamp}}" alt=""> -->
+                </div>
             </div>
 
             <div class="w-full md:w-1/2 p-8">
@@ -19,9 +19,10 @@
                     (formSubmit)="onSubmit($event)">
                 </app-form>
                 <div class="text-right mt-4">
-                    <a href="#" class="text-sm text-blue-700 hover:underline font-medium">Forgot password?</a>
+                    <a href="#" class="text-sm text-red-400 hover:underline font-serif" style="font-weight: bold;">Forgot password ?</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<app-footer></app-footer>

@@ -5,14 +5,16 @@ import { FormField } from '../../../core/models/user/form-fields.interface';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule],
   templateUrl: './form.component.html',
-  styleUrl: './form.component.css'
+  styleUrl: './form.component.css',
 })
 export class FormComponent<T> {
   @Input() form !: FormGroup
@@ -29,14 +31,13 @@ export class FormComponent<T> {
     }
   }
 
-  getErrorMessage(field: FormField): string {
+  getAllErrorMessages(field: FormField): string {
     const control = this.form.get(field.name);
     if (control?.errors) {
-      for (const error of field.errors) {
-        if (control.hasError(error.type)) {
-          return error.message;
-        }
-      }
+      return field.errors
+        .filter(error => control.hasError(error.type))
+        .map(error => error.message)
+        .join('\n');
     }
     return '';
   }
@@ -44,5 +45,14 @@ export class FormComponent<T> {
   shouldShowError(fieldName: string): boolean {
     const control = this.form.get(fieldName);
     return control ? (control.invalid && (control.dirty || control.touched)) : false;
+  }
+
+  showTooltipIfInvalid(fieldName: string, tooltip: MatTooltip) {
+    const control = this.form.get(fieldName);
+    if (control && control.invalid && (control.dirty || control.touched)) {
+      tooltip.show();
+    } else {
+      tooltip.hide();
+    }
   }
 }

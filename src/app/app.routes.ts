@@ -18,6 +18,7 @@ import { DashboardComponent } from './pages/busOwner/dashboard/dashboard.compone
 import { OwnerAuthGuard } from './core/guards/ownerauth.guard';
 import { BusOwnersListComponent } from './pages/admin/bus-owners-list/bus-owners-list.component';
 import { OwnerNoAuthGuard } from './core/guards/owner-no-auth.guard';
+import { SearchResultsComponent } from './pages/user/search-results/search-results.component';
 
 export const routes: Routes = [
 
@@ -44,6 +45,10 @@ export const routes: Routes = [
         path: 'userRegister',
         component: UserRegisterComponent,
         canActivate: [NoAuthGuard]
+    },
+    {
+        path: 'searchresults',
+        component: SearchResultsComponent
     },
 
     //---BUS OWNER ROUTES

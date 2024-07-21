@@ -14,6 +14,7 @@ import { NotificationBannerComponent } from '../notification-banner/notification
 import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-userhome',
@@ -35,6 +36,7 @@ import { JsonPipe } from '@angular/common';
     NgbAlertModule,
     FormsModule,
     JsonPipe,
+    RouterModule
   ],
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',

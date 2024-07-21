@@ -8,11 +8,12 @@ import { ILoginFormValue, ILoginResponse } from '../../../core/models/user/login
 import { FormComponent } from '../../../shared/reusable/form/form.component';
 import { loginFields } from '../../../shared/configs/user/loginForm-config';
 import { FormField } from '../../../core/models/user/form-fields.interface';
+import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent],
+  imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent, FooterComponent],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.css'
 })
@@ -20,6 +21,7 @@ import { FormField } from '../../../core/models/user/form-fields.interface';
 export class UserLoginComponent {
   loginForm: FormGroup;
   loginFields: FormField[] = loginFields;
+  timestamp = new Date().getTime();
 
   constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({

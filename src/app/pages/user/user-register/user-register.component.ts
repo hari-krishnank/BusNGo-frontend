@@ -11,11 +11,12 @@ import { OtpComponent } from '../otp/otp.component';
 import { FormComponent } from '../../../shared/reusable/form/form.component';
 import { registrationFields } from '../../../shared/configs/user/registerForm-config';
 import { FormField } from '../../../core/models/user/form-fields.interface';
+import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule, UsernavComponent, FormComponent, OtpComponent],
+  imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule, UsernavComponent, FormComponent, OtpComponent, FooterComponent],
   templateUrl: './user-register.component.html',
   styleUrl: './user-register.component.css'
 })
@@ -25,6 +26,7 @@ export class UserRegisterComponent {
   isSignUpDisabled: boolean = false;
   registrationForm: FormGroup;
   registrationFields: FormField[] = registrationFields
+  timestamp = new Date().getTime();
 
   constructor(private signupService: SignupService, private router: Router, private fb: FormBuilder) {
     this.registrationForm = this.fb.group({
