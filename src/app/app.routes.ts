@@ -19,6 +19,11 @@ import { OwnerAuthGuard } from './core/guards/ownerauth.guard';
 import { BusOwnersListComponent } from './pages/admin/bus-owners-list/bus-owners-list.component';
 import { OwnerNoAuthGuard } from './core/guards/owner-no-auth.guard';
 import { SearchResultsComponent } from './pages/user/search-results/search-results.component';
+import { CountersComponent } from './pages/busOwner/counters/counters.component';
+import { AmenitiesComponent } from './pages/busOwner/amenities/amenities.component';
+import { SeatLayoutsComponent } from './pages/busOwner/seat-layouts/seat-layouts.component';
+import { FleettypeComponent } from './pages/busOwner/fleettype/fleettype.component';
+import { BusesComponent } from './pages/busOwner/buses/buses.component';
 
 export const routes: Routes = [
 
@@ -85,6 +90,31 @@ export const routes: Routes = [
     {
         path: 'ownerDashboard',
         component: DashboardComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'counters',
+        component: CountersComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'amenities',
+        component: AmenitiesComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'seatlayout',
+        component: SeatLayoutsComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'fleet',
+        component: FleettypeComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'buses',
+        component: BusesComponent,
         canActivate: [OwnerAuthGuard]
     },
 

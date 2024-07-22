@@ -1,0 +1,73 @@
+<div class="fixed top-0 left-0 right-0 z-50 bg-emerald-500">
+    <app-ownernav></app-ownernav>
+
+    <div class="p-3 mt-16">
+        <div class="container mx-auto flex items-center justify-center space-x-64">
+            <div class="flex items-center space-x-4">
+                <button mat-button class="text-sm text-white" [routerLink]="'/ownerDashboard'">
+                    <mat-icon>dashboard</mat-icon>
+                    Dashboard
+                </button>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button mat-button [matMenuTriggerFor]="FleetMenu" class="text-sm text-white">
+                    <mat-icon>directions_bus</mat-icon>
+                    Manage Fleets
+                </button>
+                <mat-icon style="margin-left: -2px; color: white;">arrow_drop_down</mat-icon>
+                <mat-menu #FleetMenu="matMenu">
+                    <button mat-menu-item [routerLink]="'/counters'">
+                        <mat-icon>store</mat-icon>
+                        <span>Counters</span>
+                    </button>
+                    <button mat-menu-item [routerLink]="'/amenities'">
+                        <mat-icon>hotel</mat-icon>
+                        <span>Amenities</span>
+                    </button>
+                    <button mat-menu-item [routerLink]="'/seatlayout'">
+                        <mat-icon>airline_seat_recline_extra</mat-icon>
+                        <span>Seat Layouts</span>
+                    </button>
+                    <button mat-menu-item [routerLink]="'/fleet'">
+                        <mat-icon>category</mat-icon>
+                        <span>Fleet Type</span>
+                    </button>
+                    <button mat-menu-item [routerLink]="'/buses'">
+                        <mat-icon>directions_bus</mat-icon>
+                        <span>Buses</span>
+                    </button>
+                </mat-menu>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button mat-button [matMenuTriggerFor]="TripMenu" class="text-sm text-white">
+                    <mat-icon>map</mat-icon>
+                    Manage Trips
+                </button>
+                <mat-icon style="margin-left: -2px; color: white;">arrow_drop_down</mat-icon>
+                <mat-menu #TripMenu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>navigation</mat-icon>
+                        <span>Route</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>schedule</mat-icon>
+                        <span>Schedule</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>attach_money</mat-icon>
+                        <span>Ticket Price</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>card_travel</mat-icon>
+                        <span>Trip</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>assignment</mat-icon>
+                        <span>Assigned Bus</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+</div>
