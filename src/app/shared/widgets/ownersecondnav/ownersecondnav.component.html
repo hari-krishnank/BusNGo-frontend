@@ -46,23 +46,23 @@
                 </button>
                 <mat-icon style="margin-left: -2px; color: white;">arrow_drop_down</mat-icon>
                 <mat-menu #TripMenu="matMenu">
-                    <button mat-menu-item>
+                    <button mat-menu-item [routerLink]="'/routes'">
                         <mat-icon>navigation</mat-icon>
                         <span>Route</span>
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item [routerLink]="'/schedule'">
                         <mat-icon>schedule</mat-icon>
                         <span>Schedule</span>
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item [routerLink]="'/ticketPrice'">
                         <mat-icon>attach_money</mat-icon>
                         <span>Ticket Price</span>
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item [routerLink]="'/trip'">
                         <mat-icon>card_travel</mat-icon>
                         <span>Trip</span>
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item [routerLink]="'/assignBus'">
                         <mat-icon>assignment</mat-icon>
                         <span>Assigned Bus</span>
                     </button>

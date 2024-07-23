@@ -15,4 +15,10 @@ import { RouterModule } from '@angular/router';
 export class OwnersecondnavComponent {
   FleetMenu!: MatMenuTrigger;
   TripMenu!: MatMenuTrigger;
+
+  isMobileMenuOpen = false;
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
 }

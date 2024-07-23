@@ -15,4 +15,12 @@ export interface FormField {
     validators?: any[];
 }
 
+export interface ModalFormField {
+    name: string;
+    placeholder: string;
+    type: string;
+    errors: { type: string; message: string }[];
+    options?: { value: string; label: string }[];
+  }
+
 export type FormValue = IRegistrationFormValue | ILoginFormValue ;

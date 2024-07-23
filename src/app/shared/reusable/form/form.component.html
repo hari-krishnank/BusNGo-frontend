@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 max-w-md mx-auto">
     <ng-container *ngFor="let field of fields">
         <div class="relative">
-            <input [type]="field.type" [id]="field.name" [formControlName]="field.name"
+            <input [type]="field.type" [id]="field.name" [formControlName]="field.name" 
                 class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
                 placeholder=" " (input)="showTooltipIfInvalid(field.name, tooltip)">
             <label [for]="field.name"

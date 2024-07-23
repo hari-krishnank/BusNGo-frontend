@@ -24,6 +24,11 @@ import { AmenitiesComponent } from './pages/busOwner/amenities/amenities.compone
 import { SeatLayoutsComponent } from './pages/busOwner/seat-layouts/seat-layouts.component';
 import { FleettypeComponent } from './pages/busOwner/fleettype/fleettype.component';
 import { BusesComponent } from './pages/busOwner/buses/buses.component';
+import { ScheduleComponent } from './pages/busOwner/schedule/schedule.component';
+import { TicketPriceComponent } from './pages/busOwner/ticket-price/ticket-price.component';
+import { TripComponent } from './pages/busOwner/trip/trip.component';
+import { AssignedBusComponent } from './pages/busOwner/assigned-bus/assigned-bus.component';
+import { AddRoutesComponent } from './pages/busOwner/add-routes/add-routes.component';
 
 export const routes: Routes = [
 
@@ -115,6 +120,31 @@ export const routes: Routes = [
     {
         path: 'buses',
         component: BusesComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'routes',
+        component: AddRoutesComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'schedule',
+        component: ScheduleComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'ticketPrice',
+        component: TicketPriceComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'trip',
+        component: TripComponent,
+        canActivate: [OwnerAuthGuard]
+    },
+    {
+        path: 'assignBus',
+        component: AssignedBusComponent,
         canActivate: [OwnerAuthGuard]
     },
 

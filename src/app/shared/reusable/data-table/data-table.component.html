@@ -1,11 +1,12 @@
 <div class="container mx-auto px-4 sm:px-8 mt-40">
     <div class="py-8">
         <div class="flex justify-between items-center mb-4">
-            <p class="text-2xl font-semibold leading-tight">{{ title }}</p>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD NEW</button>
+            <p class="text-2xl font-semibold leading-tight font-sans">{{ title }}</p>
+            <button mat-raised-button color="primary" (click)="onAddNew()">ADD NEW</button>
         </div>
+
         <div class="block sm:hidden">
-            <div *ngFor="let item of data" class="bg-white shadow rounded-lg mb-4 p-4">
+            <div *ngFor="let item of data" class="bg-white shadow rounded-sm mb-4 p-4">
                 <dl>
                     <ng-container *ngFor="let column of columns">
                         <div class="flex justify-between py-2 border-b">
@@ -13,44 +14,44 @@
                             <dd class="text-sm text-gray-900">{{ item[column.key] }}</dd>
                         </div>
                     </ng-container>
-                    <div class="flex justify-between py-2">
+                    <div class="flex justify-between py-2 mt-2">
                         <dt class="text-sm font-medium text-gray-500">Action</dt>
                         <dd class="text-sm text-gray-900">
-                            <button class="text-blue-600 hover:text-blue-900 mr-2">Edit</button>
-                            <button class="text-red-600 hover:text-red-900">Delete</button>
+                            <button mat-button color="primary">Edit</button>
+                            <button mat-button color="warn">Delete</button>
                         </dd>
                     </div>
                 </dl>
             </div>
         </div>
+
         <div class="hidden sm:block">
-            <div class="bg-white shadow-md rounded-lg">
-                <table class="w-full">
-                    <thead>
-                        <tr>
-                            <th *ngFor="let column of columns"
-                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                {{ column.label }}
-                            </th>
-                            <th
-                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                ACTION
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of data" class="hover:bg-gray-50">
-                            <td *ngFor="let column of columns" class="px-5 py-5 border-b border-gray-200 text-sm">
-                                <p class="text-gray-900 whitespace-normal">{{ item[column.key] }}</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                                <button class="text-blue-600 hover:text-blue-900 mr-2">Edit</button>
-                                <button class="text-red-600 hover:text-red-900">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <table mat-table [dataSource]="data" class="mat-elevation-z8 w-full">
+                <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+                    <th mat-header-cell *matHeaderCellDef
+                        class="bg-gray-100 text-gray-700 font-semibold px-6 py-4 text-left">
+                        {{ column.label }}
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap">
+                        {{ element[column.key] }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef
+                        class="bg-gray-100 text-gray-700 font-semibold px-6 py-4 text-center">
+                        ACTIONS
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap text-center">
+                        <button mat-button color="primary" class="mr-2">Edit</button>
+                        <button mat-button color="warn">Delete</button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    class="hover:bg-gray-50 transition-colors duration-200"></tr>
+            </table>
         </div>
     </div>
 </div>

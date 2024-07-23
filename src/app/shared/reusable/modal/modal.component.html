@@ -1,0 +1,10 @@
+<div class="modal-container">
+    <button class="close-button" (click)="onCancel()">
+        &#10005;
+    </button>
+    <p class="modal-title">{{data.title}}</p>
+    <mat-dialog-content class="custom-scroll">
+        <app-form [form]="form" [fields]="data.fields" [submitButtonText]="'Save'" (formSubmit)="onSave($event)">
+        </app-form>
+    </mat-dialog-content>
+</div>
