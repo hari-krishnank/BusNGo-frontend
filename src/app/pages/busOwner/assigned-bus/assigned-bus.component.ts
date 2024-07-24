@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
-import { DataTableComponent } from '../../../shared/reusable/data-table/data-table.component';
-import { ModalComponent } from '../../../shared/reusable/modal/modal.component';
+import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
+import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 

@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
-import { DataTableComponent } from '../../../shared/reusable/data-table/data-table.component';
+import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from '../../../shared/reusable/modal/modal.component';
+import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
+import { countersData } from '../../../shared/data/busOwner/counters/counters-data';
+import { countersColumns } from '../../../shared/data/busOwner/counters/counters-columns';
 
 @Component({
   selector: 'app-counters',
@@ -14,26 +17,9 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
   styleUrl: './counters.component.css'
 })
 export class CountersComponent {
-
-  countersData = [
-    { name: 'Calicut', mobileNumber: '7994673892', city: 'Calicut', location: 'Calicut', status: 'Active' },
-    { name: 'Kannur', mobileNumber: '9562648963', city: 'Kannur', location: 'Kannur', status: 'Active' },
-  ];
-
-  countersColumns = [
-    { key: 'name', label: 'Name' },
-    { key: 'mobileNumber', label: 'MOBILE NUMBER' },
-    { key: 'city', label: 'CITY' },
-    { key: 'location', label: 'LOCATION' },
-    { key: 'status', label: 'STATUS' },
-  ];
-
-  modalFields: ModalFormField[] = [
-    { name: 'name', placeholder: 'Enter Counter Name', type: 'text', errors: [] },
-    { name: 'city', placeholder: 'Enter City Name', type: 'text', errors: [] },
-    { name: 'location', placeholder: 'Enter City Location', type: 'text', errors: [] },
-    { name: 'mobileNumber', placeholder: 'Enter Counter Contact Number', type: 'text', errors: [] },
-  ];
+  countersData = countersData;
+  countersColumns = countersColumns;
+  modalFields: ModalFormField[] = counterModalFields;
 
   constructor(private dialog: MatDialog) { }
 

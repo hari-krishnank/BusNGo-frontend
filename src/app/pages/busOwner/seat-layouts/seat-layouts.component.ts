@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
-import { DataTableComponent } from '../../../shared/reusable/data-table/data-table.component';
+import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from '../../../shared/reusable/modal/modal.component';
+import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { seatLayoutmodalFields } from '../../../shared/configs/busOwner/seatLayoutsForm-config';
+import { seatLayoutsData } from '../../../shared/data/busOwner/seatLayouts/seatLayout-data';
+import { seatLayoutsColumns } from '../../../shared/data/busOwner/seatLayouts/seatLayout-columns';
 
 @Component({
   selector: 'app-seat-layouts',
@@ -13,33 +16,11 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
   styleUrl: './seat-layouts.component.css'
 })
 export class SeatLayoutsComponent {
-  seatLayoutsData = [
-    { slNo: 1, DriverSeat: 'Right', rows: '12', columns: '4' },
-    { slNo: 2, DriverSeat: 'Left', rows: '12', columns: '4' },
-  ];
-
-  seatLayoutsColumns = [
-    { key: 'slNo', label: 'SI NO', },
-    { key: 'DriverSeat', label: 'DRIVER SEAT POSITION' },
-    { key: 'rows', label: 'ROWS' },
-    { key: 'columns', label: 'COLUMNS' },
-  ];
-
-
-  modalFields: ModalFormField[] = [
-    {
-      name: 'driverSeatPosition', placeholder: 'Select Driver Seat Position', type: 'select', errors: [], options: [
-        { value: 'Right', label: 'Right' },
-        { value: 'Left', label: 'Left' }
-      ]
-    },
-    { name: 'rows', placeholder: 'Enter Rows', type: 'text', errors: [] },
-    { name: 'columns', placeholder: 'Enter Columns', type: 'text', errors: [] }
-  ];
-
+  seatLayoutsData = seatLayoutsData;
+  seatLayoutsColumns = seatLayoutsColumns;
+  modalFields: ModalFormField[] = seatLayoutmodalFields
 
   constructor(private dialog: MatDialog) { }
-
 
   openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {

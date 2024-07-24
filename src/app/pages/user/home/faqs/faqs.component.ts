@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { IFAQ } from '../../../../core/models/user/home';
+import { IFAQ } from '../../../../core/models/user/home.interface';
 
 @Component({
   selector: 'app-faqs',

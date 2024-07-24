@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { IBenefit, IGridItem } from '../../../../core/models/user/home';
+import { IBenefit, IGridItem } from '../../../../core/models/user/home.interface';
 
 @Component({
   selector: 'app-bus-benefits',

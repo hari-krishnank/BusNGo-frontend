@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
-import { ILoginOption } from '../../../core/models/user/login';
+import { ILoginOption } from '../../../core/models/user/login.interface';
 import { MainnavComponent } from '../mainnav/mainnav.component';
 
 @Component({
