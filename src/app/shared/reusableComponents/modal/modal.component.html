@@ -1,10 +1,11 @@
 <div class="modal-container">
-    <button class="close-button" (click)="onCancel()">
-        &#10005;
-    </button>
+    <button class="close-button" (click)="onCancel()">&#10005;</button>
     <p class="modal-title">{{data.title}}</p>
     <mat-dialog-content class="custom-scroll">
-        <app-form [form]="form" [fields]="data.fields" [submitButtonText]="'Save'" (formSubmit)="onSave($event)">
+        <app-form [form]="form" [fields]="data.fields" [submitButtonText]="data.submitButtonText"
+            (formSubmit)="onSave($event)">
         </app-form>
+        <app-resend-otp *ngIf="data.showResendOtp" [cooldownTime]="data.resendCooldown || 30"
+            (resend)="onResendOtp()"></app-resend-otp>
     </mat-dialog-content>
 </div>

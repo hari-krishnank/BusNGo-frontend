@@ -4,4 +4,4 @@ export const countersColumns = [
     { key: 'city', label: 'CITY' },
     { key: 'location', label: 'LOCATION' },
     { key: 'status', label: 'STATUS' },
-];
+];   

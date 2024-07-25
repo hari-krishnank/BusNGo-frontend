@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ILoginFormValue, ILoginResponse } from '../../../core/models/user/login.interface';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
-import { loginFields } from '../../../shared/configs/user/loginForm-config';
+import { loginFields } from '../../../shared/configs/user/loginForm.config';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
+import { noWhitespaceValidator, strongPasswordValidator } from '../../../shared/validators/validators';
 
 @Component({
   selector: 'app-user-login',
@@ -25,8 +26,8 @@ export class UserLoginComponent {
 
   constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      email: ['', [Validators.required, Validators.email, noWhitespaceValidator()]],
+      password: ['', [Validators.required, Validators.minLength(8), noWhitespaceValidator(), strongPasswordValidator()]],
     });
   }
 

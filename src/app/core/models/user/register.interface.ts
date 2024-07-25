@@ -5,6 +5,7 @@ export interface IRegistrationResponse {
 export interface IOtpVerificationResponse {
     message: string;
     token?: string;
+    success?: boolean
 }
 
 export interface IRegistrationFormValue {

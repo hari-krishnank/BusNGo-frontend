@@ -1,0 +1,10 @@
+<div class="resend-otp-container">
+    <button mat-raised-button
+        class="w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-gray-100 transition-colors duration-300 bg-white text-gray-700 border border-gray-300"
+        [disabled]="!canResend" (click)="resendOtp()">
+        Resend OTP
+    </button>
+    <div class="timer" *ngIf="!canResend">
+        Resend available in {{ remainingTime }}s
+    </div>
+</div>

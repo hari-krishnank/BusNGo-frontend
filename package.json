@@ -31,6 +31,7 @@
     "bootstrap-icons": "^1.11.3",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
+    "ngx-toastr": "^19.0.0",
     "popper.js": "^1.16.1",
     "primeng": "^17.18.4",
     "rxjs": "~7.8.0",

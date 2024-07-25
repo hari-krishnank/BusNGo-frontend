@@ -5,4 +5,4 @@ export const counterModalFields: ModalFormField[] = [
     { name: 'city', placeholder: 'Enter City Name', type: 'text', errors: [] },
     { name: 'location', placeholder: 'Enter City Location', type: 'text', errors: [] },
     { name: 'mobileNumber', placeholder: 'Enter Counter Contact Number', type: 'text', errors: [] },
-];
+]; 

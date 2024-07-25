@@ -18,7 +18,8 @@ export const loginFields: FormField[] = [
         placeholder: 'Enter password',
         errors: [
             { type: 'required', message: 'Password is required.' },
-            { type: 'minlength', message: 'Password must be at least 3 characters long.' }
+            { type: 'minlength', message: 'Password must be at least 8 characters long.' },
+            { type: 'strongPassword', message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }
         ]
-    }
+    },
 ];

@@ -1,14 +1,16 @@
 import { FormField } from "../../../core/models/user/form-fields.interface";
 
-export const registrationFields : FormField[] = [
+export const registrationFields: FormField[] = [
     {
         name: 'username',
-        label: 'Name',
+        label: 'Username',
         type: 'text',
-        placeholder: 'Enter your Name',
+        placeholder: 'Enter your username',
         errors: [
-            { type: 'required', message: 'Name is required.' },
-            { type: 'whitespace', message: 'Name cannot consist only of spaces.' }
+            { type: 'required', message: 'Username is required.' },
+            { type: 'whitespace', message: 'Username cannot consist only of spaces.' },
+            { type: 'minlength', message: 'Username must be at least 4 characters long.' },
+            { type: 'onlyLetters', message: 'Username should contain only letters (no numbers).' }
         ]
     },
     {
@@ -29,7 +31,8 @@ export const registrationFields : FormField[] = [
         placeholder: 'Enter your phone number',
         errors: [
             { type: 'required', message: 'Phone number is required.' },
-            { type: 'phoneNumber', message: 'Please enter a valid 10-digit phone number.' }
+            { type: 'invalidLength', message: 'Phone number must be exactly 10 digits long.' },
+            { type: 'invalidCharacters', message: 'Phone number should only contain digits.' }
         ]
     },
     {
@@ -39,7 +42,8 @@ export const registrationFields : FormField[] = [
         placeholder: 'Enter password',
         errors: [
             { type: 'required', message: 'Password is required.' },
-            { type: 'minlength', message: 'Password must be at least 3 characters long.' }
+            { type: 'minlength', message: 'Password must be at least 8 characters long.' },
+            { type: 'strongPassword', message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }
         ]
     },
     {
@@ -49,7 +53,7 @@ export const registrationFields : FormField[] = [
         placeholder: 'Enter confirm password',
         errors: [
             { type: 'required', message: 'Confirm password is required.' },
-            { type: 'mismatch', message: 'Passwords do not match.' }
+            { type: 'passwordMismatch', message: 'Passwords do not match.' }
         ]
     }
 ];

@@ -22,7 +22,7 @@ export class DataTableComponent implements OnInit {
   @Input() title: string = '';
   @Output() addNew = new EventEmitter<void>();
 
-  ngOnInit() {
+  ngOnInit() { 
     this.updateDisplayedColumns();
   }
 

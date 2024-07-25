@@ -1,9 +1,30 @@
 import { AbstractControl, FormGroup, ValidatorFn } from "@angular/forms";
 
-export function passwordMatchValidator(pass: FormGroup) {
-    const password = pass.get('password')?.value;
-    const confirmPassword = pass.get('confirmpassword')?.value;
-    return password === confirmPassword ? null : { 'mismatch': true };
+export function usernameValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const username = control.value;
+        if (username.length < 4) {
+            return { 'minlength': true };
+        }
+        if (!/^[a-zA-Z]+$/.test(username)) {
+            return { 'onlyLetters': true };
+        }
+        return null;
+    };
+}
+
+export function passwordMatchValidator(controlName: string, matchingControlName: string): ValidatorFn {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+        const control = formGroup.get(controlName);
+        const matchingControl = formGroup.get(matchingControlName);
+
+        if (control && matchingControl && control.value !== matchingControl.value) {
+            matchingControl.setErrors({ 'passwordMismatch': true });
+            return { 'passwordMismatch': true };
+        } else {
+            return null;
+        }
+    };
 }
 
 export function noWhitespaceValidator(): ValidatorFn {
@@ -17,9 +38,34 @@ export function noWhitespaceValidator(): ValidatorFn {
 export function phoneNumberValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const phoneNumber = control.value;
-        if (!phoneNumber || phoneNumber.length !== 10) {
-            return { 'invalidPhoneNumber': true };
+        const numericRegex = /^[0-9]+$/;
+        if (!phoneNumber) {
+            return { 'required': true };
         }
+        if (phoneNumber.length !== 10) {
+            return { 'invalidLength': true };
+        }
+        if (!numericRegex.test(phoneNumber)) {
+            return { 'invalidCharacters': true };
+        }
+        return null;
+    };
+}
+
+export function strongPasswordValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const password = control.value;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumeric = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+
+        const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar && password.length >= 8;
+
+        if (!valid) {
+            return { 'strongPassword': true };
+        }
+
         return null;
     };
 }

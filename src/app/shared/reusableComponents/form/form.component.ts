@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'app-form',
+  selector: 'app-form', 
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule],
   templateUrl: './form.component.html',

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development.js';
 import { IOtpVerificationResponse, IRegistrationResponse } from '../../models/user/register.interface.js';
 
@@ -34,7 +34,8 @@ export class SignupService {
       otp
     }).pipe(
       catchError((error) => {
-        return throwError(() => new Error('An error occurred during OTP verification'));
+        console.error('Error in verifyOtp:', error);
+        return of({ success: false, message: 'OTP verification failed' });
       })
     );
   }

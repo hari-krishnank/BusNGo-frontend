@@ -1,0 +1,11 @@
+.resend-otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.timer {
+    color: #ff6666;
+    margin-top: 5px;
+}
