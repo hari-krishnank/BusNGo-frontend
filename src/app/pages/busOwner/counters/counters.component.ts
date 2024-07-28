@@ -50,6 +50,7 @@ export class CountersComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Modal closed with result:', result);
       if (result) {
         this.saveCounter(result);
       }
@@ -66,6 +67,7 @@ export class CountersComponent implements OnInit {
   }
 
   saveCounter(formData: any) {
+    console.log('Saving counter:', formData);
     this.countersService.addCounter(formData).subscribe(
       (response) => {
         console.log('New counter added:', response);

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { ILoginResponse } from '../../models/user/login.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { ILoginResponse } from '../../models/user/login.interface';
 export class LoginService {
   private backendURL = environment.backendUrl
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   login(email: string, password: string): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.backendURL}/auth/login`, { email, password })
@@ -18,9 +19,12 @@ export class LoginService {
         catchError(error => {
           console.error('Login error:', error);
           if (error.status === 401) {
-            return throwError(() => new Error('Invalid email or password'));
+            if (error.error && error.error.message === 'Your account has been blocked. Please contact support.') {
+              return throwError(() => new Error('ACCOUNT_BLOCKED'));
+            }
+            return throwError(() => new Error('INVALID_CREDENTIALS'));
           }
-          return throwError(() => new Error('An unexpected error occurred'));
+          return throwError(() => new Error('UNEXPECTED_ERROR'));
         })
       );
   }
@@ -37,7 +41,18 @@ export class LoginService {
     return !!this.getToken();
   }
 
+  checkUserBlockStatus(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.backendURL}/auth/check-block-status`)
+      .pipe(
+        catchError(error => {
+          console.error('Error checking user block status:', error);
+          return throwError(() => new Error('Failed to check user block status'));
+        })
+      );
+  }
+
   logout(): void {
     localStorage.removeItem('token');
+    this.toastr.info('You have been logged out successfully', 'Logged Out');
   }
 }

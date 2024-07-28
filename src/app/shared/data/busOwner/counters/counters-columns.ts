@@ -1,5 +1,5 @@
 export const countersColumns = [
-    { key: 'name', label: 'Name' },
+    { key: 'name', label: 'NAME' },
     { key: 'mobileNumber', label: 'MOBILE NUMBER' },
     { key: 'city', label: 'CITY' },
     { key: 'location', label: 'LOCATION' },

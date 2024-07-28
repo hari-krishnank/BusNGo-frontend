@@ -25,10 +25,10 @@ export class ModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      title: string, 
-      fields: FormField[], 
-      submitButtonText: string, 
+    @Inject(MAT_DIALOG_DATA) public data: {
+      title: string,
+      fields: FormField[],
+      submitButtonText: string,
       form: FormGroup,
       showResendOtp?: boolean,
       resendCooldown?: number
@@ -43,7 +43,14 @@ export class ModalComponent {
   }
 
   onSave(formData: any): void {
-    this.formSubmitted.emit(formData);
+    if (this.form.valid) {
+      this.formSubmitted.emit(formData);
+      this.dialogRef.close(formData);
+    } else {
+      Object.values(this.form.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
   }
 
   onResendOtp(): void {

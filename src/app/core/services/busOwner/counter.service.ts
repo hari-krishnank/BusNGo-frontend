@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CounterService {
-  private backendUrl = environment.backendUrl
+  private backendUrl = `${environment.backendUrl}/counters`;
 
   constructor(private http: HttpClient) { }
 
@@ -16,6 +16,7 @@ export class CounterService {
   }
 
   addCounter(counterData: any): Observable<any[]> {
+    console.log('Sending counter data:', counterData);
     return this.http.post<any[]>(this.backendUrl, counterData)
   }
 }
