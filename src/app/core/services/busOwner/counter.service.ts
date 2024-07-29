@@ -19,4 +19,12 @@ export class CounterService {
     console.log('Sending counter data:', counterData);
     return this.http.post<any[]>(this.backendUrl, counterData)
   }
+
+  updateCounter(id: string, counterData: any): Observable<any> {
+    return this.http.put(`${this.backendUrl}/${id}`, counterData);
+  }
+
+  deleteCounter(id: string): Observable<any> {
+    return this.http.delete(`${this.backendUrl}/${id}`);
+  }
 }

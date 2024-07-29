@@ -10,11 +10,12 @@ import { FormComponent } from '../form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { ResendOtpComponent } from '../../../pages/user/resend-otp/resend-otp.component';
+import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, FormComponent, ReactiveFormsModule, FormsModule, ResendOtpComponent, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogActions, MatDialogContent, MatIconModule],
+  imports: [CommonModule, FormComponent, ReactiveFormsModule, SeatPreviewComponent, FormsModule, ResendOtpComponent, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogActions, MatDialogContent, MatIconModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css'
 })
@@ -22,6 +23,7 @@ export class ModalComponent {
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() resendOtp = new EventEmitter<void>();
   form !: FormGroup;
+  selectedSeats: string[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
@@ -42,10 +44,26 @@ export class ModalComponent {
     this.dialogRef.close();
   }
 
+  // onSave(formData: any): void {
+  //   if (this.form.valid) {
+  //     this.formSubmitted.emit(formData);
+  //     this.dialogRef.close(formData);
+  //   } else {
+  //     Object.values(this.form.controls).forEach(control => {
+  //       control.markAsTouched();
+  //     });
+  //   }
+  // }
+
   onSave(formData: any): void {
     if (this.form.valid) {
-      this.formSubmitted.emit(formData);
-      this.dialogRef.close(formData);
+      const dataToSave = {
+        ...formData,
+        selectedSeats: this.selectedSeats
+      };
+      console.log('Data to save:', dataToSave);
+      this.formSubmitted.emit(dataToSave);
+      this.dialogRef.close(dataToSave);
     } else {
       Object.values(this.form.controls).forEach(control => {
         control.markAsTouched();
@@ -55,5 +73,10 @@ export class ModalComponent {
 
   onResendOtp(): void {
     this.resendOtp.emit();
+  }
+
+  onSeatsSelected(seats: string[]) {
+    this.selectedSeats = seats;
+    console.log('Selected seats:', this.selectedSeats);
   }
 }

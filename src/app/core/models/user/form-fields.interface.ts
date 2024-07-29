@@ -11,10 +11,11 @@ export interface FormFieldError {
 export interface FormField {
     name: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'tel';
+    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect';
     placeholder: string;
     errors: FormFieldError[];
     validators?: any[];
+    options?: { value: string; label: string, iconClass?: string }[];
 }
 
 
@@ -23,7 +24,7 @@ export interface ModalFormField {
     placeholder: string;
     type: string;
     errors: { type: string; message: string }[];
-    options?: { value: string; label: string }[];
+    options?: { value: string; label: string, iconClass?: string }[];
 }
 
 export type FormValue = IRegistrationFormValue | ILoginFormValue;

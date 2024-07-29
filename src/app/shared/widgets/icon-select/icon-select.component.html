@@ -1,0 +1,6 @@
+<div class="icon-select">
+    <button *ngFor="let option of options" [class.selected]="value === option.value" (click)="selectIcon(option.value)">
+        <i [class]="option.iconClass"></i>
+        {{option.label}}
+    </button>
+</div>

@@ -1,2 +1,9 @@
 <app-ownersecondnav></app-ownersecondnav>
-<app-data-table [data]="countersData" [columns]="countersColumns" title="ALL COUNTERS" (addNew)="openModal()"></app-data-table> 
+<app-data-table 
+    [data]="countersData" 
+    [columns]="countersColumns" 
+    title="ALL COUNTERS" 
+    (addNew)="openModal()" 
+    (edit)="openModal($event)"
+    (delete)="deleteCounter($event)">
+</app-data-table>

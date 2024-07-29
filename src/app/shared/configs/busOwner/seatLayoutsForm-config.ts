@@ -8,5 +8,11 @@ export const seatLayoutmodalFields: ModalFormField[] = [
         ]
     },
     { name: 'rows', placeholder: 'Enter Rows', type: 'text', errors: [] },
-    { name: 'columns', placeholder: 'Enter Columns', type: 'text', errors: [] }
+    { name: 'columns', placeholder: 'Enter Columns', type: 'text', errors: [] },
+    {
+        name: 'upperDeck',
+        placeholder: 'Seat Plan for Upper Deck',
+        type: "toggle",
+        errors: []
+    }
 ];

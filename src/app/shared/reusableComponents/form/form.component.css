@@ -8,3 +8,23 @@
 .tooltip {
     margin-top: 30px
 }
+
+::ng-deep .mat-select-arrow-wrapper {
+    display: none;
+}
+
+::ng-deep .mat-select-value {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+::ng-deep .mat-option {
+    height: auto;
+    line-height: normal;
+    padding: 0.5rem 1rem;
+}
+
+::ng-deep .mat-option .mat-icon {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}

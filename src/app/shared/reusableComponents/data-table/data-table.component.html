@@ -33,7 +33,12 @@
                         {{ column.label }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap">
-                        {{ element[column.key] }}
+                        <ng-container *ngIf="column.type === 'icon'; else defaultCell">
+                            <span [innerHTML]="element[column.key] | icon"></span>
+                        </ng-container>
+                        <ng-template #defaultCell>
+                            {{ element[column.key] }}
+                        </ng-template>
                     </td>
                 </ng-container>
 
@@ -43,8 +48,8 @@
                         ACTIONS 
                     </th>
                     <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap text-center">
-                        <button mat-button color="primary" class="mr-2">Edit</button>
-                        <button mat-button color="warn">Delete</button>
+                        <button mat-button color="primary" class="mr-2" (click)="onEdit(element)">Edit</button>
+                        <button mat-button color="warn" (click)="onDelete(element)">Delete</button>
                     </td>
                 </ng-container>
 
