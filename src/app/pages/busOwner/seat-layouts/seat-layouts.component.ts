@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { seatLayoutmodalFields } from '../../../shared/configs/busOwner/seatLayoutsForm-config';
-import { seatLayoutsData } from '../../../shared/data/busOwner/seatLayouts/seatLayout-data';
 import { seatLayoutsColumns } from '../../../shared/data/busOwner/seatLayouts/seatLayout-columns';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
@@ -19,7 +18,6 @@ import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout.s
   styleUrl: './seat-layouts.component.css'
 })
 export class SeatLayoutsComponent implements OnInit {
-
   seatLayoutsData: any[] = [];
   seatLayoutsColumns = seatLayoutsColumns;
   modalFields: ModalFormField[] = seatLayoutmodalFields;
@@ -38,7 +36,13 @@ export class SeatLayoutsComponent implements OnInit {
   loadSeatLayouts() {
     this.seatLayoutService.getAllSeatLayouts().subscribe(
       (layouts) => {
-        this.seatLayoutsData = layouts;
+        this.seatLayoutsData = layouts.map((layout, index) => ({
+          ...layout,
+          siNo: index + 1,
+          driverSeatPosition: layout.driverSeatPosition,
+          selectedSeats: layout.selectedSeats || [],
+          totalSeats: this.calculateTotalSeats(layout)
+        }));
       },
       (error) => {
         console.error('Error loading seat layouts:', error);
@@ -64,8 +68,13 @@ export class SeatLayoutsComponent implements OnInit {
     });
   }
 
+  calculateTotalSeats(layout: any): number {
+    return layout.selectedSeats ? layout.selectedSeats.length : 0;
+  }
+
   createLayoutsForm(layout?: any): FormGroup {
     return this.formBuilder.group({
+      layoutName: [layout?.layoutName || '', Validators.required],
       driverSeatPosition: [layout?.driverSeatPosition || '', Validators.required],
       rows: [layout?.rows || '', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       columns: [layout?.columns || '', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
@@ -75,12 +84,7 @@ export class SeatLayoutsComponent implements OnInit {
 
   saveSeatLayout(formData: any) {
     console.log('Saving seat layout:', formData);
-    const seatLayoutData = {
-      ...formData,
-      selectedSeats: this.selectedSeats
-    };
-
-    this.seatLayoutService.createSeatLayout(seatLayoutData).subscribe(
+    this.seatLayoutService.createSeatLayout(formData).subscribe(
       (response) => {
         console.log('Seat layout saved:', response);
         this.loadSeatLayouts();

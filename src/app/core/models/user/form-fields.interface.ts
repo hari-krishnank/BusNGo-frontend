@@ -11,7 +11,7 @@ export interface FormFieldError {
 export interface FormField {
     name: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect';
+    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle';
     placeholder: string;
     errors: FormFieldError[];
     validators?: any[];

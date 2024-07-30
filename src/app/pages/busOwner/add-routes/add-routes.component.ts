@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { addRouteModalFields } from '../../../shared/configs/busOwner/addRoutesForm-config';
+import { routesData } from '../../../shared/data/busOwner/addroutes/routes-data';
+import { routesColumns } from '../../../shared/data/busOwner/addroutes/routes-columns';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-routes',
@@ -12,55 +16,49 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './add-routes.component.html',
   styleUrl: './add-routes.component.css'
 })
-export class AddRoutesComponent {
+export class AddRoutesComponent implements OnInit {
+  routesData = routesData
+  routesColumns = routesColumns
+  modalFields: ModalFormField[] = addRouteModalFields
+  routeForm!: FormGroup;
 
-  routesData = [
-    { name: 'Calicut to Kannur', startingPoint: 'Calicut', endingPoint: 'Kannur', distance: '93 KM', time: '8 Hour', status: 'Active' }
-  ];
+  constructor(private dialog: MatDialog, private fb: FormBuilder) { }
 
-  routesColumns = [
-    { key: 'name', label: 'NAME' },
-    { key: 'startingPoint', label: 'STARTING POINT' },
-    { key: 'endingPoint', label: 'ENDING POINT' },
-    { key: 'distance', label: 'DISTANCE' },
-    { key: 'time', label: 'TIME' },
-    { key: 'status', label: 'STATUS' },
-  ];
+  ngOnInit() {
+    this.createRouteForm();
+  }
 
-  modalFields: ModalFormField[] = [
-    { name: 'name', placeholder: 'Enter Route Name', type: 'text', errors: [] },
-    {
-      name: 'FleetType', placeholder: 'Select Fleet Type', type: 'select', errors: [], options: [
-        { value: 'AC', label: 'AC' },
-        { value: 'Non-AC', label: 'Non-AC' }
-      ]
-    },
-    { name: 'regNo', placeholder: 'Enter Reg No', type: 'text', errors: [] },
-    { name: 'engineNo', placeholder: 'Enter Engine No.', type: 'text', errors: [] },
-    { name: 'chasisNo', placeholder: 'Enter Chasis No.', type: 'text', errors: [] },
-    { name: 'ModelNo', placeholder: 'Enter Model No.', type: 'text', errors: [] },
-  ];
-
-  constructor(private dialog: MatDialog) { }
+  createRouteForm() {
+    this.routeForm = this.fb.group({
+      name: ['', Validators.required],
+      from: ['', Validators.required],
+      to: ['', Validators.required],
+      distance: ['', [Validators.required, Validators.min(0)]],
+      duration: ['', Validators.required],
+      fare: ['', [Validators.required, Validators.min(0)]]
+    });
+  }
 
   openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '500px',
       data: {
         title: 'Add Route',
-        fields: this.modalFields
+        fields: this.modalFields,
+        form: this.routeForm,
+        submitButtonText: 'Save Route'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.saveBus(result);
+        this.saveRoute(result);
       }
     });
   }
 
-  saveBus(formData: any) {
-    console.log('New bus:', formData);
+  saveRoute(formData: any) {
+    console.log('New route:', formData);
     this.routesData.push({ ...formData, status: 'Active' });
   }
 }

@@ -33,19 +33,27 @@
                         {{ column.label }}
                     </th>
                     <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap">
-                        <ng-container *ngIf="column.type === 'icon'; else defaultCell">
-                            <span [innerHTML]="element[column.key] | icon"></span>
+                        <ng-container [ngSwitch]="column.type">
+                            <ng-container *ngSwitchCase="'icon'">
+                                <span [innerHTML]="element[column.key] | icon"></span>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'seatPreview'">
+                                <app-seat-preview [rows]="element.rows" [columns]="element.columns"
+                                    [driverSeatPosition]="element.driverSeatPosition"
+                                    [selectedSeats]="element.selectedSeats" [previewMode]="true">
+                                </app-seat-preview>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                {{ element[column.key] }}
+                            </ng-container>
                         </ng-container>
-                        <ng-template #defaultCell>
-                            {{ element[column.key] }}
-                        </ng-template>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef
                         class="bg-gray-100 text-gray-700 font-semibold px-6 py-4 text-center">
-                        ACTIONS 
+                        ACTIONS
                     </th>
                     <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap text-center">
                         <button mat-button color="primary" class="mr-2" (click)="onEdit(element)">Edit</button>

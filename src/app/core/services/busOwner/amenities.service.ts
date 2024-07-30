@@ -19,6 +19,10 @@ export class AmenitiesService {
     return this.http.get<any>(`${this.backendUrl}/${id}`);
   }
 
+  getAllAmenities(): Observable<any[]> {
+    return this.http.get<any[]>(this.backendUrl);
+  }
+
   createAmenity(amenity: any): Observable<any> {
     return this.http.post<any>(this.backendUrl, amenity);
   }

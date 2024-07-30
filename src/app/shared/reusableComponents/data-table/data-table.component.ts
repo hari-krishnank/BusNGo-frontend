@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { IconPipe } from '../../pipes/icon.pipe';
+import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
 
 interface Column {
   key: string;
@@ -13,7 +14,7 @@ interface Column {
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatTableModule, IconPipe],
+  imports: [CommonModule, MatButtonModule, MatTableModule, IconPipe, SeatPreviewComponent],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.css'
 })

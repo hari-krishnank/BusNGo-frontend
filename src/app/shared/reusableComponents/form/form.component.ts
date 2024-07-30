@@ -9,11 +9,12 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, SeatPreviewComponent, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css',
 })
@@ -23,10 +24,17 @@ export class FormComponent<T> {
   @Input() submitButtonText: string = 'Submit'
   @Output() formSubmit = new EventEmitter<T>()
   @Input() disabled: boolean = false;
+  selectedSeats: string[] = [];
+
+  onSeatsSelected(seats: string[]) {
+    this.selectedSeats = seats;
+    this.form.patchValue({ selectedSeats: this.selectedSeats });
+    console.log('Selected seats:', this.selectedSeats);
+  }
 
   onSubmit() {
     if (this.form.valid) {
-      this.formSubmit.emit(this.form.value as T);
+      this.formSubmit.emit(this.form.value as T);  
     } else {
       this.form.markAllAsTouched();
     }

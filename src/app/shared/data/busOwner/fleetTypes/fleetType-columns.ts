@@ -1,8 +1,7 @@
 export const fleetTypesColumns = [
     { key: 'name', label: 'NAME' },
-    { key: 'layout', label: 'SEAT LAYOUT' },
-    { key: 'deck', label: 'NO DECK' },
-    { key: 'seats', label: 'TOTAL SEATS' },
+    { key: 'seatLayout', label: 'SEAT LAYOUT', type: 'custom' },
     { key: 'facilities', label: 'FACILITIES' },
+    { key: 'acStatus', label: 'AC STATUS' },
     { key: 'status', label: 'STATUS' },
 ];

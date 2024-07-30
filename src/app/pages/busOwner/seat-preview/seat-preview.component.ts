@@ -12,18 +12,28 @@ export class SeatPreviewComponent implements OnChanges {
   @Input() rows!: number;
   @Input() columns!: number;
   @Input() driverSeatPosition!: 'Left' | 'Right';
+  @Input() selectedSeats: string[] = [];
+  @Input() previewMode: boolean = false;
   @Output() seatsSelected = new EventEmitter<string[]>();
 
   seatLayout!: string[][];
-  selectedSeats: Set<string> = new Set();
+  selectedSeatsSet: Set<string> = new Set();
 
   ngOnChanges(changes: SimpleChanges) {
-    if (
-      (changes['rows'] && this.rows !== undefined) ||
-      (changes['columns'] && this.columns !== undefined) ||
-      (changes['driverSeatPosition'] && this.driverSeatPosition !== undefined)
-    ) {
+
+    console.log('SeatPreviewComponent inputs:', {
+      rows: this.rows,
+      columns: this.columns,
+      driverSeatPosition: this.driverSeatPosition,
+      selectedSeats: this.selectedSeats
+    });
+
+    if (changes['selectedSeats']) {
+      this.selectedSeatsSet = new Set(this.selectedSeats);
+    }
+    if (changes['rows'] || changes['columns'] || changes['driverSeatPosition'] || changes['selectedSeats']) {
       this.generateSeatLayout();
+      this.selectedSeatsSet = new Set(this.selectedSeats);
     }
   }
 
@@ -47,12 +57,16 @@ export class SeatPreviewComponent implements OnChanges {
   }
 
   toggleSeatSelection(seat: string) {
-    if (seat === 'D') return;
-    if (this.selectedSeats.has(seat)) {
-      this.selectedSeats.delete(seat);
+    if (seat === 'D' || this.previewMode) return;
+    if (this.selectedSeatsSet.has(seat)) {
+      this.selectedSeatsSet.delete(seat);
     } else {
-      this.selectedSeats.add(seat);
+      this.selectedSeatsSet.add(seat);
     }
-    this.seatsSelected.emit(Array.from(this.selectedSeats));
+    this.seatsSelected.emit(Array.from(this.selectedSeatsSet));
+  }
+
+  isSeatSelected(seat: string): boolean {
+    return this.selectedSeatsSet.has(seat);
   }
 }

@@ -12,4 +12,10 @@ export const addBusmodalFields: ModalFormField[] = [
     { name: 'engineNo', placeholder: 'Enter Engine No.', type: 'text', errors: [] },
     { name: 'chasisNo', placeholder: 'Enter Chasis No.', type: 'text', errors: [] },
     { name: 'ModelNo', placeholder: 'Enter Model No.', type: 'text', errors: [] },
+    {
+        name: 'status', placeholder: 'Select Status', type: 'select', errors: [], options: [
+            { value: 'Active', label: 'Active' },
+            { value: 'Inactive', label: 'Inactive' }
+        ]
+    }
 ];

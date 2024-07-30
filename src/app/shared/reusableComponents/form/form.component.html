@@ -27,7 +27,7 @@
 
                 <ng-container *ngSwitchCase="'iconSelect'">
                     <mat-select [id]="field.name" [formControlName]="field.name"
-                       class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                        class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
                         (selectionChange)="showTooltipIfInvalid(field.name, tooltip)">
                         <mat-option *ngFor="let option of field.options" [value]="option.value">
                             <mat-icon>{{option.iconClass}}</mat-icon>
@@ -51,7 +51,7 @@
                 </ng-container>
             </ng-container>
 
-            <div *ngIf="!shouldShowError(field.name) && form.get(field.name)?.valid"
+            <div *ngIf="!shouldShowError(field.name) && form.get(field.name)?.valid && field.type !== 'toggle'"
                 class="absolute right-3 top-4 text-green-500">
                 <span class="material-icons">check_circle</span>
             </div>
@@ -67,6 +67,16 @@
             </div>
         </div>
     </ng-container>
+
+
+    <p class="text-2xl font-serif text-blue-600 mb-4"
+        *ngIf="form.get('rows')?.value && form.get('columns')?.value && form.get('driverSeatPosition')?.value">Seat Preview</p>
+    <app-seat-preview *ngIf="form.get('rows') && form.get('columns') && form.get('driverSeatPosition')"
+        [rows]="form.get('rows')?.value" [columns]="form.get('columns')?.value"
+        [driverSeatPosition]="form.get('driverSeatPosition')?.value" (seatsSelected)="onSeatsSelected($event)">
+    </app-seat-preview>
+
+    <!-- <input type="hidden" formControlName="selectedSeats"> -->
 
     <button mat-raised-button style="background-color: rgb(5, 109, 173); color: white;"
         class="w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-opacity-80 transition-colors duration-300"

@@ -1,8 +1,11 @@
-<div class="seat-layout pt-12">
-    <div *ngFor="let row of seatLayout" class="row">
-        <div *ngFor="let seat of row" class="seat" [class.driver-seat]="seat === 'D'"
-            [class.selected]="selectedSeats.has(seat)" (click)="toggleSeatSelection(seat)">
-            {{ seat }}
+<div *ngIf="seatLayout && seatLayout.length > 0">
+    <div class="seat-layout" [class.preview-mode]="previewMode">
+        <div *ngFor="let row of seatLayout" class="row">
+            <div *ngFor="let seat of row" class="seat" [class.driver-seat]="seat === 'D'"
+                [class.selected]="isSeatSelected(seat)" [class.disabled]="previewMode"
+                (click)="toggleSeatSelection(seat)">
+                {{ seat }}
+            </div>
         </div>
     </div>
 </div>
