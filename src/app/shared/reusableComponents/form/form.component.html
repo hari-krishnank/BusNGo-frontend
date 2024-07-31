@@ -1,82 +1,130 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 max-w-md mx-auto">
     <ng-container *ngFor="let field of fields">
-        <div class="relative">
-            <ng-container [ngSwitch]="field.type">
+        <ng-container *ngIf="!field.conditionalDisplay || form.get(field.conditionalDisplay)?.value">
+            <div class="relative">
+                <ng-container [ngSwitch]="field.type">
+                    <ng-container *ngSwitchCase="'select'">
+                        <ng-container *ngIf="field.name === 'additionalStops'">
+                            <div formArrayName="additionalStops">
+                                <div *ngFor="let stop of additionalStops.controls; let i = index"
+                                    class="flex items-center mb-4 relative">
+                                    <div class="flex-grow">
+                                        <mat-select [formControlName]="i"
+                                            class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer">
+                                            <mat-option *ngFor="let option of field.options" [value]="option.value">
+                                                <mat-icon>{{option.iconClass}}</mat-icon>
+                                                {{option.label}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <label
+                                            class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                                            {{ field.placeholder }}
+                                        </label>
+                                    </div>
+                                    <button mat-icon-button type="button" (click)="removeAdditionalStop(i)"
+                                        class="ml-2">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <button mat-button color="warn" type="button" (click)="addAdditionalStop()" class="mt-2">
+                                Add more stops
+                            </button>
+                        </ng-container>
 
-                <ng-container *ngSwitchCase="'select'">
-                    <mat-select [id]="field.name" [formControlName]="field.name"
-                        class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
-                        (selectionChange)="showTooltipIfInvalid(field.name, tooltip)">
-                        <mat-option *ngFor="let option of field.options" [value]="option.value">
-                            <mat-icon>{{option.iconClass}}</mat-icon>
-                            {{option.label}}
-                        </mat-option>
-                    </mat-select>
-                    <label [for]="field.name"
-                        class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
-                        {{ field.placeholder }}
-                    </label>
+                        <ng-container *ngIf="field.name !== 'additionalStops'">
+                            <mat-select [id]="field.name" [formControlName]="field.name"
+                                class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                                (selectionChange)="showTooltipIfInvalid(field.name, tooltip)">
+                                <mat-option *ngFor="let option of field.options" [value]="option.value">
+                                    <mat-icon>{{option.iconClass}}</mat-icon>
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-select>
+                            <label [for]="field.name"
+                                class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                                {{ field.placeholder }}
+                            </label>
+                        </ng-container>
+                    </ng-container>
+
+
+                    <ng-container *ngSwitchCase="'toggle'">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-gray-600">{{ field.placeholder }}</span>
+                            <mat-slide-toggle [id]="field.name" [formControlName]="field.name"></mat-slide-toggle>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'checkbox'">
+                        <div class="flex items-center space-x-3">
+                            <mat-checkbox [id]="field.name" [formControlName]="field.name">
+                                {{ field.placeholder }}
+                            </mat-checkbox>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'iconSelect'">
+                        <mat-select [id]="field.name" [formControlName]="field.name"
+                            class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                            (selectionChange)="showTooltipIfInvalid(field.name, tooltip)">
+                            <mat-option *ngFor="let option of field.options" [value]="option.value">
+                                <mat-icon>{{option.iconClass}}</mat-icon>
+                                {{option.label}}
+                            </mat-option>
+                        </mat-select>
+                        <label [for]="field.name"
+                            class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                            {{ field.placeholder }}
+                        </label>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        <input [type]="field.type" [id]="field.name" [formControlName]="field.name"
+                            class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                            placeholder=" " (input)="showTooltipIfInvalid(field.name, tooltip)">
+                        <label [for]="field.name"
+                            class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                            {{ field.placeholder }}
+                        </label>
+                    </ng-container>
                 </ng-container>
 
-                <ng-container *ngSwitchCase="'toggle'">
-                    <div class="flex items-center space-x-3">
-                        <span class="text-gray-600">{{ field.placeholder }}</span>
-                        <mat-slide-toggle [id]="field.name" [formControlName]="field.name"></mat-slide-toggle>
-                    </div>
-                </ng-container>
+                <!-- <div *ngIf="!shouldShowError(field.name) && form.get(field.name)?.valid && field.type !== 'toggle' && field.type !== 'checkbox'"
+                    class="absolute right-3 top-4 text-green-500">
+                    <span class="material-icons">check_circle</span>
+                </div>
+                <div *ngIf="shouldShowError(field.name)" class="absolute right-3 top-4 text-red-500">
+                    <span class="material-icons">error</span>
+                </div> -->
 
-                <ng-container *ngSwitchCase="'iconSelect'">
-                    <mat-select [id]="field.name" [formControlName]="field.name"
-                        class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
-                        (selectionChange)="showTooltipIfInvalid(field.name, tooltip)">
-                        <mat-option *ngFor="let option of field.options" [value]="option.value">
-                            <mat-icon>{{option.iconClass}}</mat-icon>
-                            {{option.label}}
-                        </mat-option>
-                    </mat-select>
-                    <label [for]="field.name"
-                        class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
-                        {{ field.placeholder }}
-                    </label>
-                </ng-container>
+                <div *ngIf="!shouldShowError(field.name) && form.get(field.name)?.valid && field.type !== 'toggle' && field.type !== 'checkbox' && field.name !== 'additionalStops'"
+                    class="absolute right-3 top-4 text-green-500">
+                    <span class="material-icons">check_circle</span>
+                </div>
+                <div *ngIf="shouldShowError(field.name) && field.name !== 'additionalStops'"
+                    class="absolute right-3 top-4 text-red-500">
+                    <span class="material-icons">error</span>
+                </div>
 
-                <ng-container *ngSwitchDefault>
-                    <input [type]="field.type" [id]="field.name" [formControlName]="field.name"
-                        class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
-                        placeholder=" " (input)="showTooltipIfInvalid(field.name, tooltip)">
-                    <label [for]="field.name"
-                        class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
-                        {{ field.placeholder }}
-                    </label>
-                </ng-container>
-            </ng-container>
-
-            <div *ngIf="!shouldShowError(field.name) && form.get(field.name)?.valid && field.type !== 'toggle'"
-                class="absolute right-3 top-4 text-green-500">
-                <span class="material-icons">check_circle</span>
+                <div class="absolute right-3 top-0 flex items-center h-full">
+                    <mat-icon *ngIf="shouldShowError(field.name)" class="text-red-500">error</mat-icon>
+                    <span class="tooltip" #tooltip="matTooltip" [matTooltip]="getAllErrorMessages(field)"
+                        [matTooltipClass]="'error-tooltip'" [matTooltipDisabled]="!shouldShowError(field.name)"
+                        matTooltipPosition="below">
+                    </span>
+                </div>
             </div>
-            <div *ngIf="shouldShowError(field.name)" class="absolute right-3 top-4 text-red-500">
-                <span class="material-icons">error</span>
-            </div>
-            <div class="absolute right-3 top-0 flex items-center h-full">
-                <mat-icon *ngIf="shouldShowError(field.name)" class="text-red-500">error</mat-icon>
-                <span class="tooltip" #tooltip="matTooltip" [matTooltip]="getAllErrorMessages(field)"
-                    [matTooltipClass]="'error-tooltip'" [matTooltipDisabled]="!shouldShowError(field.name)"
-                    matTooltipPosition="below">
-                </span>
-            </div>
-        </div>
+        </ng-container>
     </ng-container>
 
-
     <p class="text-2xl font-serif text-blue-600 mb-4"
-        *ngIf="form.get('rows')?.value && form.get('columns')?.value && form.get('driverSeatPosition')?.value">Seat Preview</p>
+        *ngIf="form.get('rows')?.value && form.get('columns')?.value && form.get('driverSeatPosition')?.value">Seat
+        Preview</p>
     <app-seat-preview *ngIf="form.get('rows') && form.get('columns') && form.get('driverSeatPosition')"
         [rows]="form.get('rows')?.value" [columns]="form.get('columns')?.value"
         [driverSeatPosition]="form.get('driverSeatPosition')?.value" (seatsSelected)="onSeatsSelected($event)">
     </app-seat-preview>
-
-    <!-- <input type="hidden" formControlName="selectedSeats"> -->
 
     <button mat-raised-button style="background-color: rgb(5, 109, 173); color: white;"
         class="w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-opacity-80 transition-colors duration-300"

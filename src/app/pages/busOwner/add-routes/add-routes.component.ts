@@ -5,9 +5,10 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { addRouteModalFields } from '../../../shared/configs/busOwner/addRoutesForm-config';
-import { routesData } from '../../../shared/data/busOwner/addroutes/routes-data';
 import { routesColumns } from '../../../shared/data/busOwner/addroutes/routes-columns';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RouteService } from '../../../core/services/busOwner/add-route.service';
+import { CounterService } from '../../../core/services/busOwner/counter.service';
 
 @Component({
   selector: 'app-add-routes',
@@ -17,25 +18,39 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add-routes.component.css'
 })
 export class AddRoutesComponent implements OnInit {
-  routesData = routesData
+  routesData: any[] = []
   routesColumns = routesColumns
   modalFields: ModalFormField[] = addRouteModalFields
   routeForm!: FormGroup;
+  counters: any[] = [];
 
-  constructor(private dialog: MatDialog, private fb: FormBuilder) { }
+  constructor(private dialog: MatDialog, private fb: FormBuilder, private routeService: RouteService, private counterService: CounterService) { }
 
   ngOnInit() {
     this.createRouteForm();
+    this.loadRoutes();
+    this.loadCounters();
   }
 
   createRouteForm() {
     this.routeForm = this.fb.group({
       name: ['', Validators.required],
-      from: ['', Validators.required],
-      to: ['', Validators.required],
+      startingPoint: ['', Validators.required],
+      endingPoint: ['', Validators.required],
+      hasMoreStoppage: [false],
+      additionalStops: this.fb.array([]),
       distance: ['', [Validators.required, Validators.min(0)]],
-      duration: ['', Validators.required],
-      fare: ['', [Validators.required, Validators.min(0)]]
+      time: ['', Validators.required],
+      status: ['', Validators.required]
+    });
+
+    this.routeForm.get('hasMoreStoppage')?.valueChanges.subscribe(hasMore => {
+      const additionalStopsArray = this.routeForm.get('additionalStops') as FormArray;
+      if (hasMore) {
+        additionalStopsArray.push(this.fb.control('', Validators.required));
+      } else {
+        additionalStopsArray.clear();
+      }
     });
   }
 
@@ -57,8 +72,60 @@ export class AddRoutesComponent implements OnInit {
     });
   }
 
+  loadRoutes() {
+    this.routeService.getRoutes().subscribe(
+      (routes) => {
+        this.routesData = routes.map(route => ({
+          ...route,
+          startingPoint: route.startingPoint && route.startingPoint.name ? route.startingPoint.name : 'N/A',
+          endingPoint: route.endingPoint && route.endingPoint.name ? route.endingPoint.name : 'N/A'
+        }));
+      },
+      (error) => {
+        console.error('Error loading routes:', error);
+      }
+    );
+  }
+
+  loadCounters() {
+    this.counterService.getCounters().subscribe(
+      (counters) => {
+        this.counters = counters;
+        this.updateCounterOptions();
+      },
+      (error) => {
+        console.error('Error loading counters:', error);
+      }
+    );
+  }
+
+  updateCounterOptions() {
+    const counterOptions = this.counters.map(counter => ({
+      value: counter._id,
+      label: counter.name
+    }));
+
+    this.modalFields.forEach(field => {
+      if (['startingPoint', 'endingPoint', 'additionalStops'].includes(field.name)) {
+        field.options = counterOptions;
+      }
+    });
+  }
+
   saveRoute(formData: any) {
-    console.log('New route:', formData);
-    this.routesData.push({ ...formData, status: 'Active' });
+    this.routeService.addRoute(formData).subscribe(
+      (newRoute) => {
+        console.log('New route added:', newRoute);
+        const transformedRoute = {
+          ...newRoute,
+          startingPoint: newRoute.startingPoint.name,
+          endingPoint: newRoute.endingPoint.name
+        };
+        this.routesData = [...this.routesData, transformedRoute];
+      },
+      (error) => {
+        console.error('Error adding route:', error);
+      }
+    );
   }
 }

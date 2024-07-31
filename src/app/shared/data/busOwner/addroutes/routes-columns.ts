@@ -1,8 +1,8 @@
 export const routesColumns = [
-    { key: 'name', label: 'NAME' },
-    { key: 'startingPoint', label: 'STARTING POINT' },
-    { key: 'endingPoint', label: 'ENDING POINT' },
-    { key: 'distance', label: 'DISTANCE' },
-    { key: 'time', label: 'TIME' },
-    { key: 'status', label: 'STATUS' },
-];
+    { key: 'name', label: 'Name' },
+    { key: 'startingPoint', label: 'Starting Point' },
+    { key: 'endingPoint', label: 'Ending Point' },
+    { key: 'distance', label: 'Distance' },
+    { key: 'time', label: 'Time' },
+    { key: 'status', label: 'Status' }
+  ];

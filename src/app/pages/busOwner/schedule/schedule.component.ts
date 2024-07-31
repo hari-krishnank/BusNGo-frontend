@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { scheduleColumns } from '../../../shared/data/busOwner/schedule/schedule-column';
+import { scheduleModalFields } from '../../../shared/configs/busOwner/scheduleForm-config';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ScheduleService } from '../../../core/services/busOwner/schedule.service';
 
 @Component({
   selector: 'app-schedule',
@@ -12,52 +16,70 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.css'
 })
-export class ScheduleComponent {
-  scheduleData = [
-    { startFrom: '08:00 AM', end: '04:30 PM', duration: '8 hours 30 minutes', status: 'Active' }
-  ];
+export class ScheduleComponent implements OnInit {
+  scheduleData: any[] = [];
+  scheduleColumns = scheduleColumns;
+  modalFields: ModalFormField[] = scheduleModalFields;
+  scheduleForm!: FormGroup;
 
-  scheduleColumns = [
-    { key: 'startFrom', label: 'START FROM' },
-    { key: 'end', label: 'END' },
-    { key: 'duration', label: 'DURATION' },
-    { key: 'status', label: 'STATUS' },
-  ];
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private scheduleService: ScheduleService
+  ) {}
 
-  modalFields: ModalFormField[] = [
-    { name: 'name', placeholder: 'Enter Route Name', type: 'text', errors: [] },
-    {
-      name: 'FleetType', placeholder: 'Select Fleet Type', type: 'select', errors: [], options: [
-        { value: 'AC', label: 'AC' },
-        { value: 'Non-AC', label: 'Non-AC' }
-      ]
-    },
-    { name: 'regNo', placeholder: 'Enter Reg No', type: 'text', errors: [] },
-    { name: 'engineNo', placeholder: 'Enter Engine No.', type: 'text', errors: [] },
-    { name: 'chasisNo', placeholder: 'Enter Chasis No.', type: 'text', errors: [] },
-    { name: 'ModelNo', placeholder: 'Enter Model No.', type: 'text', errors: [] },
-  ];
+  ngOnInit(): void {
+    this.createScheduleForm();
+    this.loadSchedules();
+  }
 
-  constructor(private dialog: MatDialog) { }
+  createScheduleForm() {
+    this.scheduleForm = this.fb.group({
+      startFrom: ['', Validators.required],
+      end: ['', Validators.required],
+      duration: ['', Validators.required],
+      status: ['', Validators.required]
+    });
+  }
+
+  loadSchedules() {
+    this.scheduleService.getSchedules().subscribe(
+      (schedules) => {
+        this.scheduleData = schedules;
+      },
+      (error) => {
+        console.error('Error loading schedules:', error);
+      }
+    );
+  }
 
   openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '500px',
       data: {
         title: 'Add Schedule',
-        fields: this.modalFields
+        fields: this.modalFields,
+        form: this.scheduleForm,
+        submitButtonText: 'Add Schedule'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.saveBus(result);
+        this.saveSchedule(result);
       }
     });
   }
 
-  saveBus(formData: any) {
-    console.log('New bus:', formData);
-    this.scheduleData.push({ ...formData, status: 'Active' });
+  saveSchedule(formData: any) {
+    this.scheduleService.createSchedule(formData).subscribe(
+      (newSchedule) => {
+        console.log('New schedule:', newSchedule);
+        this.scheduleData = [...this.scheduleData, newSchedule];
+      },
+      (error) => {
+        console.error('Error creating schedule:', error);
+      }
+    );
   }
 }

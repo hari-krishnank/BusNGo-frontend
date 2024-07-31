@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormField, ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,12 +9,13 @@ import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SeatPreviewComponent, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, SeatPreviewComponent, MatSlideToggleModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css',
 })
@@ -26,6 +27,8 @@ export class FormComponent<T> {
   @Input() disabled: boolean = false;
   selectedSeats: string[] = [];
 
+  constructor(private fb: FormBuilder) { }
+
   onSeatsSelected(seats: string[]) {
     this.selectedSeats = seats;
     this.form.patchValue({ selectedSeats: this.selectedSeats });
@@ -34,7 +37,7 @@ export class FormComponent<T> {
 
   onSubmit() {
     if (this.form.valid) {
-      this.formSubmit.emit(this.form.value as T);  
+      this.formSubmit.emit(this.form.value as T);
     } else {
       this.form.markAllAsTouched();
     }
@@ -51,12 +54,28 @@ export class FormComponent<T> {
     return '';
   }
 
+  // shouldShowError(fieldName: string): boolean {
+  //   const control = this.form.get(fieldName);
+  //   return control ? (control.invalid && (control.dirty || control.touched)) : false;
+  // }
+
   shouldShowError(fieldName: string): boolean {
+    if (fieldName === 'additionalStops') return false;
     const control = this.form.get(fieldName);
     return control ? (control.invalid && (control.dirty || control.touched)) : false;
   }
 
+  // showTooltipIfInvalid(fieldName: string, tooltip: MatTooltip) {
+  //   const control = this.form.get(fieldName);
+  //   if (control && control.invalid && (control.dirty || control.touched)) {
+  //     tooltip.show();
+  //   } else {
+  //     tooltip.hide();
+  //   }
+  // }
+
   showTooltipIfInvalid(fieldName: string, tooltip: MatTooltip) {
+    if (fieldName === 'additionalStops') return;
     const control = this.form.get(fieldName);
     if (control && control.invalid && (control.dirty || control.touched)) {
       tooltip.show();
@@ -72,4 +91,18 @@ export class FormComponent<T> {
   isSelectField(field: ModalFormField): boolean {
     return field.type === 'select';
   }
+
+  get additionalStops() {
+    return this.form.get('additionalStops') as FormArray;
+  }
+
+  addAdditionalStop() {
+    const newControl = this.fb.control('',Validators.required);
+    this.additionalStops.push(newControl);
+  }
+
+  removeAdditionalStop(index: number) {
+    this.additionalStops.removeAt(index);
+  }
+
 }

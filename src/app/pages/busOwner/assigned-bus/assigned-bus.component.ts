@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { assignedBusData } from '../../../shared/data/busOwner/assignBus/asssignBus-data';
+import { assignedBusColumns } from '../../../shared/data/busOwner/assignBus/assignBus-column';
+import { assignedBusModalFields } from '../../../shared/configs/busOwner/assignBusForm-config';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AssignedBusService } from '../../../core/services/busOwner/assigned-bus.service';
+import { TripService } from '../../../core/services/busOwner/trip.service';
+import { BusService } from '../../../core/services/busOwner/add-bus.service';
 
 @Component({
   selector: 'app-assigned-bus',
@@ -12,40 +19,99 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
   templateUrl: './assigned-bus.component.html',
   styleUrl: './assigned-bus.component.css'
 })
-export class AssignedBusComponent {
-  assignedBusData = [
-    { trip: 'AC - Calicut to Kannur Bus', busNickName: 'Emerald Travels', regNo: 'KL-15-A-1234', status: 'Active' }
-  ];
+export class AssignedBusComponent implements OnInit {
+  assignedBusData: any[] = [];
+  assignedBusColumns = assignedBusColumns;
+  modalFields: ModalFormField[] = assignedBusModalFields;
+  assignBusForm!: FormGroup;
+  trips: any[] = [];
+  buses: any[] = [];
 
-  assignedBusColumns = [
-    { key: 'trip', label: 'TRIP' },
-    { key: 'busNickName', label: 'BUS NICK NAME' },
-    { key: 'regNo', label: 'REGISTER NUMBER' },
-    { key: 'status', label: 'STATUS' },
-  ];
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private assignedBusService: AssignedBusService,
+    private tripService: TripService,
+    private busService: BusService
+  ) { }
 
-  modalFields: ModalFormField[] = [
-    { name: 'name', placeholder: 'Enter Route Name', type: 'text', errors: [] },
-    {
-      name: 'FleetType', placeholder: 'Select Fleet Type', type: 'select', errors: [], options: [
-        { value: 'AC', label: 'AC' },
-        { value: 'Non-AC', label: 'Non-AC' }
-      ]
-    },
-    { name: 'regNo', placeholder: 'Enter Reg No', type: 'text', errors: [] },
-    { name: 'engineNo', placeholder: 'Enter Engine No.', type: 'text', errors: [] },
-    { name: 'chasisNo', placeholder: 'Enter Chasis No.', type: 'text', errors: [] },
-    { name: 'ModelNo', placeholder: 'Enter Model No.', type: 'text', errors: [] },
-  ];
+  ngOnInit(): void {
+    this.createAssignBusForm();
+    this.loadAssignedBuses();
+    this.loadTrips();
+    this.loadBuses();
+  }
 
-  constructor(private dialog: MatDialog) { }
+  createAssignBusForm() {
+    this.assignBusForm = this.fb.group({
+      trip: ['', Validators.required],
+      bus: ['', Validators.required]
+    });
+  }
+
+  loadAssignedBuses() {
+    this.assignedBusService.getAllAssignedBuses().subscribe(
+      data => {
+        this.assignedBusData = data;
+      },
+      error => {
+        console.error('Error loading assigned buses:', error);
+      }
+    );
+  }
+
+  loadTrips() {
+    this.tripService.getAllTrips().subscribe(
+      data => {
+        this.trips = data;
+        this.updateTripOptions();
+      },
+      error => {
+        console.error('Error loading trips:', error);
+      }
+    );
+  }
+
+  loadBuses() {
+    this.busService.getAllBuses().subscribe(
+      data => {
+        this.buses = data;
+        this.updateBusOptions();
+      },
+      error => {
+        console.error('Error loading buses:', error);
+      }
+    );
+  }
+
+  updateTripOptions() {
+    const tripField = this.modalFields.find(field => field.name === 'trip');
+    if (tripField) {
+      tripField.options = this.trips.map(trip => ({
+        value: trip._id,
+        label: `${trip.origin} to ${trip.destination}`
+      }));
+    }
+  }
+
+  updateBusOptions() {
+    const busField = this.modalFields.find(field => field.name === 'bus');
+    if (busField) {
+      busField.options = this.buses.map(bus => ({
+        value: bus._id,
+        label: bus.registrationNumber
+      }));
+    }
+  }
 
   openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '500px',
       data: {
         title: 'Assign Trip to the Buses',
-        fields: this.modalFields
+        fields: this.modalFields,
+        form: this.assignBusForm,
+        submitButtonText: 'Assign Trip to Bus'
       }
     });
 
@@ -57,7 +123,14 @@ export class AssignedBusComponent {
   }
 
   saveBus(formData: any) {
-    console.log('New bus:', formData);
-    this.assignedBusData.push({ ...formData, status: 'Active' });
+    this.assignedBusService.assignBusToTrip(formData.trip, formData.bus).subscribe(
+      response => {
+        console.log('Bus assigned successfully:', response);
+        this.loadAssignedBuses(); 
+      },
+      error => {
+        console.error('Error assigning bus:', error);
+      }
+    );
   }
 }

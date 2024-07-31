@@ -23,11 +23,7 @@ export class SeatLayoutsComponent implements OnInit {
   modalFields: ModalFormField[] = seatLayoutmodalFields;
   selectedSeats: string[] = [];
 
-  constructor(
-    private dialog: MatDialog,
-    private formBuilder: FormBuilder,
-    private seatLayoutService: SeatLayoutService
-  ) { }
+  constructor(private dialog: MatDialog, private formBuilder: FormBuilder, private seatLayoutService: SeatLayoutService) { }
 
   ngOnInit() {
     this.loadSeatLayouts();
