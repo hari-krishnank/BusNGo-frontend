@@ -4,13 +4,12 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
-import { ticketsData } from '../../../shared/data/busOwner/ticketPrice/ticketPrice-data';
 import { ticketsColumns } from '../../../shared/data/busOwner/ticketPrice/ticketPrice-column';
 import { ticketPriceModalFields } from '../../../shared/configs/busOwner/ticketPriceForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TicketPriceService } from '../../../core/services/busOwner/ticket-price.service';
-import { FleetTypeService } from '../../../core/services/busOwner/fleet-type.service';
-import { RouteService } from '../../../core/services/busOwner/add-route.service';
+import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';
+import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';
+import { TicketPriceService } from '../../../core/services/busOwner/ticket-price/ticket-price.service';
 
 @Component({
   selector: 'app-ticket-price',

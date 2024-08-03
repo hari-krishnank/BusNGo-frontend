@@ -7,7 +7,7 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
 import { scheduleColumns } from '../../../shared/data/busOwner/schedule/schedule-column';
 import { scheduleModalFields } from '../../../shared/configs/busOwner/scheduleForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ScheduleService } from '../../../core/services/busOwner/schedule.service';
+import { ScheduleService } from '../../../core/services/busOwner/schedule/schedule.service';
 
 @Component({
   selector: 'app-schedule',

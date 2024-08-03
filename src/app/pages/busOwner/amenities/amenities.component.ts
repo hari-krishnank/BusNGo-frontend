@@ -7,7 +7,7 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
 import { amenitiesModalFields } from '../../../shared/configs/busOwner/amenitiesForm-config';
 import { amenitiesColumns } from '../../../shared/data/busOwner/amenities/amenities-columns';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AmenitiesService } from '../../../core/services/busOwner/amenities.service';
+import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
 import { ConfirmDialogComponent } from '../../../shared/reusableComponents/confirm-dialog/confirm-dialog.component';
 
 @Component({

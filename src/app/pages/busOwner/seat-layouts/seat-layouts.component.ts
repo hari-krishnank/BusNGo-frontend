@@ -8,7 +8,7 @@ import { seatLayoutmodalFields } from '../../../shared/configs/busOwner/seatLayo
 import { seatLayoutsColumns } from '../../../shared/data/busOwner/seatLayouts/seatLayout-columns';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
-import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout.service';
+import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/seat-layout.service';
 
 @Component({
   selector: 'app-seat-layouts',

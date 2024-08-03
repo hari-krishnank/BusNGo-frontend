@@ -4,7 +4,7 @@ import { OwnerFooterComponent } from '../../../shared/widgets/owner-footer/owner
 import { OwnerFaqComponent } from '../owner-faq/owner-faq.component';
 import { Router, RouterModule } from '@angular/router';
 import { OwnerDetailsComponent } from '../owner-details/owner-details.component';
-import { signupService } from '../../../core/services/busOwner/signup.service';
+import { signupService } from '../../../core/services/busOwner/signup/signup.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 

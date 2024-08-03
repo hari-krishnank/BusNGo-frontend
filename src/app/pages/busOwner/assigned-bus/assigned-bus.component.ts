@@ -4,13 +4,12 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
-import { assignedBusData } from '../../../shared/data/busOwner/assignBus/asssignBus-data';
 import { assignedBusColumns } from '../../../shared/data/busOwner/assignBus/assignBus-column';
 import { assignedBusModalFields } from '../../../shared/configs/busOwner/assignBusForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AssignedBusService } from '../../../core/services/busOwner/assigned-bus.service';
-import { TripService } from '../../../core/services/busOwner/trip.service';
-import { BusService } from '../../../core/services/busOwner/add-bus.service';
+import { BusService } from '../../../core/services/busOwner/add-bus/add-bus.service';
+import { AssignedBusService } from '../../../core/services/busOwner/assigned-bus/assigned-bus.service';
+import { TripService } from '../../../core/services/busOwner/trip/trip.service';
 
 @Component({
   selector: 'app-assigned-bus',

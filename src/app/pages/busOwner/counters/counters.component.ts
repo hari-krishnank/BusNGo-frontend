@@ -3,124 +3,82 @@ import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ModalFormField } from '../../../core/models/user/form-fields.interface';
-import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BusOwnerfooterComponent } from '../../../shared/widgets/bus-ownerfooter/bus-ownerfooter.component';
+import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
+import { CounterModalService } from '../../../core/services/busOwner/counters/counter-modal.service';
+import { CounterSearchService } from '../../../core/services/busOwner/counters/counter-search.service';
 import { countersColumns } from '../../../shared/data/busOwner/counters/counters-columns';
-import { CounterService } from '../../../core/services/busOwner/counter.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ConfirmDialogComponent } from '../../../shared/reusableComponents/confirm-dialog/confirm-dialog.component';
+import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
 
 @Component({
   selector: 'app-counters',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent, CommonModule, ModalComponent, CommonModule, ReactiveFormsModule],
+  imports: [OwnersecondnavComponent, DataTableComponent, CommonModule, ModalComponent, ReactiveFormsModule, BusOwnerfooterComponent],
   templateUrl: './counters.component.html',
   styleUrl: './counters.component.css'
 })
 export class CountersComponent implements OnInit {
-  countersData: any[] = []
+  allCountersData: any[] = [];
+  countersData: any[] = [];
   countersColumns = countersColumns;
-  modalFields: ModalFormField[] = counterModalFields;
+  modalFields = counterModalFields;
 
-  constructor(private dialog: MatDialog, private countersService: CounterService, private formBuilder: FormBuilder) { }
+  constructor(
+    private countersService: CounterService,
+    private counterModalService: CounterModalService,
+    private counterSearchService: CounterSearchService
+  ) { }
 
   ngOnInit(): void {
-    this.loadCounters()
+    this.loadCounters();
   }
 
-  loadCounters() {
+  loadCounters(): void {
     this.countersService.getCounters().subscribe(
-      (data) => {
+      data => {
+        this.allCountersData = data;
         this.countersData = data;
-        console.log('counterData:', this.countersData);
-
       },
-      (error) => {
-        console.error('Error loading counters:', error);
-      }
+      error => console.error('Error loading counters:', error)
     );
   }
 
-  openModal(counter?: any) {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '500px',
-      data: {
-        title: counter ? 'Edit Counter' : 'Add Counter',
-        fields: this.modalFields,
-        submitButtonText: counter ? 'Update Counter' : 'Add Counter',
-        form: this.createCounterForm(counter)
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Modal closed with result:', result);
-      if (result) {
-        if (counter) {
-          this.updateCounter(counter._id, result);
-        } else {
-          this.saveCounter(result);
+  openModal(counter?: any): void {
+    this.counterModalService.openCounterModal(counter, this.modalFields)
+      .subscribe(result => {
+        if (result) {
+          counter ? this.updateCounter(counter._id, result) : this.saveCounter(result);
         }
-      }
-    });
+      });
   }
 
-  createCounterForm(counter?: any): FormGroup {
-    return this.formBuilder.group({
-      name: [counter ? counter.name : '', Validators.required],
-      city: [counter ? counter.city : ''],
-      location: [counter ? counter.location : ''],
-      mobileNumber: [counter ? counter.mobileNumber : '']
-    });
-  }
-
-  updateCounter(id: string, formData: any) {
-    console.log('Updating counter:', formData);
+  updateCounter(id: string, formData: any): void {
     this.countersService.updateCounter(id, formData).subscribe(
-      (response) => {
-        console.log('Counter updated:', response);
-        this.loadCounters();
-      },
-      (error) => {
-        console.error('Error updating counter:', error);
-      }
+      () => this.loadCounters(),
+      error => console.error('Error updating counter:', error)
     );
   }
 
-  saveCounter(formData: any) {
-    console.log('Saving counter:', formData);
+  saveCounter(formData: any): void {
     this.countersService.addCounter(formData).subscribe(
-      (response) => {
-        console.log('New counter added:', response);
-        this.loadCounters();
-      },
-      (error) => {
-        console.error('Error adding counter:', error);
-      }
+      () => this.loadCounters(),
+      error => console.error('Error adding counter:', error)
     );
   }
 
-
-  deleteCounter(counter: any) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Confirm Delete',
-        message: `Are you sure you want to delete the counter "${counter.name}"?`
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+  deleteCounter(counter: any): void {
+    this.counterModalService.confirmDelete(counter.name).subscribe(result => {
       if (result) {
         this.countersService.deleteCounter(counter._id).subscribe(
-          () => {
-            console.log('Counter deleted successfully');
-            this.loadCounters();
-          },
-          error => {
-            console.error('Error deleting counter:', error);
-          }
+          () => this.loadCounters(),
+          error => console.error('Error deleting Bus Station:', error)
         );
       }
     });
+  }
+
+  searchCounters(searchTerm: string): void {
+    this.countersData = this.counterSearchService.searchCounters(this.allCountersData, searchTerm);
   }
 }

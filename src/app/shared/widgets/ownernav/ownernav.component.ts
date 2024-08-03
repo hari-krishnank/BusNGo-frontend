@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
-import { signupService } from '../../../core/services/busOwner/signup.service';
+import { signupService } from '../../../core/services/busOwner/signup/signup.service';
 
 @Component({
   selector: 'app-ownernav',

@@ -5,7 +5,7 @@ import { OwnerFaqComponent } from '../owner-faq/owner-faq.component';
 import { Router, RouterModule } from '@angular/router';
 import { OtpComponent } from '../../user/otp/otp.component';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { signupService } from '../../../core/services/busOwner/signup.service';
+import { signupService } from '../../../core/services/busOwner/signup/signup.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

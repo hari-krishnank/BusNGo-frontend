@@ -12,13 +12,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 .dialog-content {
-    color: #666;
-    font-size: 14px;
+    color: rgb(97, 97, 97);
+    font-size: 15px;
     line-height: 1.5;
     margin-bottom: 24px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .dialog-actions {
@@ -30,15 +32,6 @@
 button {
     text-transform: uppercase;
     font-weight: bold;
-}
-
-.cancel-button {
-    color: #666;
-}
-
-.confirm-button {
-    background-color: #f44336;
-    color: white;
 }
 
 mat-icon {

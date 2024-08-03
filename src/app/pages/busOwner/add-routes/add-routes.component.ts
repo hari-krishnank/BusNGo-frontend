@@ -7,8 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { addRouteModalFields } from '../../../shared/configs/busOwner/addRoutesForm-config';
 import { routesColumns } from '../../../shared/data/busOwner/addroutes/routes-columns';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouteService } from '../../../core/services/busOwner/add-route.service';
-import { CounterService } from '../../../core/services/busOwner/counter.service';
+import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
+import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';
 
 @Component({
   selector: 'app-add-routes',

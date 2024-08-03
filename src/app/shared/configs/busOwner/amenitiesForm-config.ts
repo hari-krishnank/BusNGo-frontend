@@ -6,7 +6,9 @@ export const amenitiesModalFields: ModalFormField[] = [
         name: 'icon',
         placeholder: 'Select Icon',
         type: 'iconSelect',
-        errors: [],
+        errors: [
+            
+        ],
         options: [
             { value: 'wifi', label: 'Wi-Fi', iconClass: 'fas fa-wifi' },
             { value: 'ac', label: 'Air Conditioning', iconClass: 'fas fa-snowflake' },
@@ -18,7 +20,7 @@ export const amenitiesModalFields: ModalFormField[] = [
             { value: 'blanket', label: 'Blanket', iconClass: 'fas fa-layer-group' },
             { value: 'pillow', label: 'Pillow', iconClass: 'fas fa-bed' },
             { value: 'snacks', label: 'Snacks', iconClass: 'fas fa-cookie' },
-            { value: 'headphones', label: 'Headphones', iconClass: 'fas fa-headphones' }
+            { value: 'headphones', label: 'Headphones', iconClass: 'fas fa-headphones' }    
         ]
     },
 ];

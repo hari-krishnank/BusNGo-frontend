@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 import { Router, RouterModule } from '@angular/router';
 import { BusOwnerfooterComponent } from '../../../shared/widgets/bus-ownerfooter/bus-ownerfooter.component';
-import { signupService } from '../../../core/services/busOwner/signup.service';
+import { signupService } from '../../../core/services/busOwner/signup/signup.service';
 
 @Component({
   selector: 'app-confirm-details',

@@ -9,22 +9,21 @@ export interface FormFieldError {
 export interface FormField {
     name: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox';
+    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete';
     placeholder: string;
     errors: FormFieldError[];
     validators?: any[];
     options?: { value: string; label: string, iconClass?: string }[];
-    conditionalDisplay ?: string
+    conditionalDisplay?: string
 }
 
-
-export interface ModalFormField {
+export interface ModalFormField  {
     name: string;
     placeholder: string;
     type: string;
-    errors: { type: string; message: string }[];
+    errors: FormFieldError[]
     options?: { value: string; label: string, iconClass?: string }[];
-    conditionalDisplay ?: string
+    conditionalDisplay?: string
 }
 
 export type FormValue = IRegistrationFormValue | ILoginFormValue;

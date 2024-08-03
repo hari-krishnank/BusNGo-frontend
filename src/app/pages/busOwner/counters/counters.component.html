@@ -2,8 +2,10 @@
 <app-data-table 
     [data]="countersData" 
     [columns]="countersColumns" 
-    title="ALL COUNTERS" 
+    title="ALL BUS STATIONS" 
     (addNew)="openModal()" 
     (edit)="openModal($event)"
-    (delete)="deleteCounter($event)">
+    (delete)="deleteCounter($event)"
+    (search)="searchCounters($event)">
 </app-data-table>
+<!-- <app-bus-ownerfooter></app-bus-ownerfooter> -->

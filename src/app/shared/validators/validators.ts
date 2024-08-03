@@ -65,7 +65,6 @@ export function strongPasswordValidator(): ValidatorFn {
         if (!valid) {
             return { 'strongPassword': true };
         }
-
         return null;
     };
 }

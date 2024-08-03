@@ -7,11 +7,11 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
 import { fleetTypesColumns } from '../../../shared/data/busOwner/fleetTypes/fleetType-columns';
 import { fleetTypeModalFields } from '../../../shared/configs/busOwner/fleetTypeForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FleetTypeService } from '../../../core/services/busOwner/fleet-type.service';
 import { forkJoin } from 'rxjs';
-import { AmenitiesService } from '../../../core/services/busOwner/amenities.service';
-import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout.service';
+import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
+import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';
+import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/seat-layout.service';
 
 @Component({
   selector: 'app-fleettype',
