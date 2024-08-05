@@ -1,13 +1,20 @@
 import { ModalFormField } from "../../../core/models/user/form-fields.interface";
 
 export const amenitiesModalFields: ModalFormField[] = [
-    { name: 'title', placeholder: 'Enter Title', type: 'text', errors: [] },
+    {
+        name: 'title',
+        placeholder: 'Enter Title',
+        type: 'text',
+        errors: [
+            { type: 'whitespace', message: 'Amenities title cannot be empty' }
+        ]
+    },
     {
         name: 'icon',
         placeholder: 'Select Icon',
         type: 'iconSelect',
         errors: [
-            
+            { type: 'whitespace', message: 'Amenities icon cannot be empty' }
         ],
         options: [
             { value: 'wifi', label: 'Wi-Fi', iconClass: 'fas fa-wifi' },
@@ -20,7 +27,19 @@ export const amenitiesModalFields: ModalFormField[] = [
             { value: 'blanket', label: 'Blanket', iconClass: 'fas fa-layer-group' },
             { value: 'pillow', label: 'Pillow', iconClass: 'fas fa-bed' },
             { value: 'snacks', label: 'Snacks', iconClass: 'fas fa-cookie' },
-            { value: 'headphones', label: 'Headphones', iconClass: 'fas fa-headphones' }    
+            { value: 'headphones', label: 'Headphones', iconClass: 'fas fa-headphones' }
         ]
     },
+    {
+        name: 'status',
+        placeholder: 'Select Status',
+        type: 'select',
+        errors: [
+            { type: 'whitespace', message: 'Amenities title cannot be empty' }
+        ],
+        options: [
+            { value: 'Active', label: 'Active' },
+            { value: 'Inactive', label: 'Inactive' }
+        ]
+    }
 ];

@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { FormComponent } from '../form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 interface Column {
   key: string;
@@ -22,7 +23,24 @@ interface Column {
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatTableModule, IconPipe, SeatPreviewComponent, MatIconModule, MatPaginatorModule, MatInputModule, FormsModule, FormComponent],
   templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.css'
+  styleUrl: './data-table.component.css',
+  animations: [
+    trigger('tableAnimation', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-20px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition('* => void', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(-20px)' }))
+      ])
+    ]),
+    trigger('rowAnimation', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateX(-20px)' }),
+        animate('200ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+      ])
+    ])
+  ]
 })
 export class DataTableComponent implements OnInit {
   displayedColumns: string[] = [];
@@ -34,6 +52,7 @@ export class DataTableComponent implements OnInit {
   @Output() delete = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() viewPreview = new EventEmitter<any>();
 
   dataSource!: MatTableDataSource<any>;
   searchForm !: FormGroup;
@@ -106,5 +125,13 @@ export class DataTableComponent implements OnInit {
     }
     this.search.emit(searchTerm);
     this.data = this.dataSource.filteredData;
+  }
+
+  onViewPreview(element: any) {
+    this.viewPreview.emit(element);
+  }
+
+  trackByFn(index: number, item: any): any {
+    return item.id;
   }
 }

@@ -1,9 +1,9 @@
-<div class="container mx-auto px-4 sm:px-8 mt-40">
+<div class="container mx-auto px-4 sm:px-8 mt-40" [@tableAnimation]>
     <div class="py-8">
         <div class="flex justify-between items-center mb-4">
             <p class="text-2xl font-semibold leading-tight font-sans">{{ title }}</p>
             <div class="flex items-center justify-between">
-                <div class="search-area mr-4">
+                <div class="search-area mr-4" [@fadeIn]>
                     <app-form [form]="searchForm" [fields]="searchFields" [hideSubmitButton]="true"
                         (valueChanges)="onSearch($event)">
                     </app-form>
@@ -25,11 +25,10 @@
                         <ng-container *ngSwitchCase="'icon'">
                             <span [innerHTML]="element[column.key] | icon"></span>
                         </ng-container>
-                        <ng-container *ngSwitchCase="'seatPreview'">
-                            <app-seat-preview [rows]="element.rows" [columns]="element.columns"
-                                [driverSeatPosition]="element.driverSeatPosition"
-                                [selectedSeats]="element.selectedSeats" [previewMode]="true">
-                            </app-seat-preview>
+                        <ng-container *ngSwitchCase="'button'">
+                            <button mat-button color="primary" (click)="onViewPreview(element)">
+                                <mat-icon>pageview</mat-icon> View
+                            </button>
                         </ng-container>
                         <ng-container *ngSwitchDefault>
                             {{ element[column.key] }}
@@ -55,7 +54,7 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                class="hover:bg-gray-50 transition-colors duration-200"></tr>
+                class="hover:bg-gray-50 transition-colors duration-200" [@rowAnimation]></tr>
         </table>
 
         <div class="mt-4 flex justify-end">

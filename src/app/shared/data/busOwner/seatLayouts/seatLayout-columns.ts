@@ -5,5 +5,5 @@ export const seatLayoutsColumns = [
     { key: 'rows', label: 'ROWS' },
     { key: 'columns', label: 'COLUMNS' },
     { key: 'totalSeats', label: 'TOTAL SEATS' },
-    { key: 'preview', label: 'SEAT PREVIEW', type: 'seatPreview' }
+    { key: 'preview', label: 'SEAT PREVIEW', type: 'button' }
 ];

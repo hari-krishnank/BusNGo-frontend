@@ -9,6 +9,7 @@ import { seatLayoutsColumns } from '../../../shared/data/busOwner/seatLayouts/se
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
 import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/seat-layout.service';
+import { SeatPreviewModalComponent } from '../seat-preview-modal/seat-preview-modal.component';
 
 @Component({
   selector: 'app-seat-layouts',
@@ -93,5 +94,12 @@ export class SeatLayoutsComponent implements OnInit {
 
   onSeatsSelected(seats: string[]) {
     this.selectedSeats = seats;
+  }
+
+  onViewPreview(layout: any) {
+    this.dialog.open(SeatPreviewModalComponent, {
+      width: '500px',
+      data: layout
+    });
   }
 }

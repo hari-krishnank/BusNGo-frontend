@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
-import { ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
 import { amenitiesModalFields } from '../../../shared/configs/busOwner/amenitiesForm-config';
 import { amenitiesColumns } from '../../../shared/data/busOwner/amenities/amenities-columns';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
-import { ConfirmDialogComponent } from '../../../shared/reusableComponents/confirm-dialog/confirm-dialog.component';
+import { Subscription } from 'rxjs';
+import { AmenitiesModalService } from '../../../core/services/busOwner/amenities/amenities-modal.service';
+import { AmenitiesSearchService } from '../../../core/services/busOwner/amenities/amenities-search.service';
+import { IAmenity, ICreateAmenityDto, IUpdateAmenityDto } from '../../../core/models/busOwner/amenity.interface';
 
 @Component({
   selector: 'app-amenities',
@@ -17,15 +17,28 @@ import { ConfirmDialogComponent } from '../../../shared/reusableComponents/confi
   templateUrl: './amenities.component.html',
   styleUrl: './amenities.component.css'
 })
-export class AmenitiesComponent {
-  amenitiesData: any[] = [];
+export class AmenitiesComponent implements OnInit, OnDestroy {
+  amenitiesData: IAmenity[] = [];
+  filteredAmenitiesData: IAmenity[] = [];
   amenitiesColumns = amenitiesColumns;
-  modalFields: ModalFormField[] = amenitiesModalFields;
+  modalFields = amenitiesModalFields;
+  private searchSubscription !: Subscription;
 
-  constructor(private dialog: MatDialog, private formBuilder: FormBuilder, private amenitiesService: AmenitiesService) { }
+  constructor(
+    private amenitiesService: AmenitiesService,
+    private amenitiesModalService: AmenitiesModalService,
+    private amenitiesSearchService: AmenitiesSearchService
+  ) { }
 
   ngOnInit() {
     this.loadAmenities();
+    this.setupSearch();
+  }
+
+  ngOnDestroy() {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
 
   loadAmenities() {
@@ -35,86 +48,55 @@ export class AmenitiesComponent {
           ...amenity,
           slNo: index + 1
         }));
-        console.log('amenities Data', this.amenitiesData);
+        this.filteredAmenitiesData = [...this.amenitiesData];
       },
-      (error) => {
-        console.error('Error fetching amenities:', error);
-      }
+      (error) => console.error('Error fetching amenities:', error)
     );
   }
 
-  openModal(amenity?: any) {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '500px',
-      data: {
-        title: amenity ? 'Edit Amenity' : 'Add Amenity',
-        fields: this.modalFields,
-        submitButtonText: amenity ? 'Update Amenity' : 'Add Amenity',
-        form: this.createAmenitiesForm(amenity)
-      }
-    });
+  onSearch(searchTerm: string) {
+    console.log('Search term received in AmenitiesComponent:', searchTerm);
+    this.amenitiesSearchService.setSearchTerm(searchTerm);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
+  setupSearch() {
+    this.searchSubscription = this.amenitiesSearchService.getSearchTerms().subscribe(term => {
+      console.log('Applying search with term:', term);
+      this.filteredAmenitiesData = this.amenitiesSearchService.searchAmenities(this.amenitiesData, term);
+      console.log('Filtered data:', this.filteredAmenitiesData);
+    });
+  }
+
+  openModal(amenity?: IAmenity) {
+    this.amenitiesModalService.openModal(amenity, this.modalFields).subscribe(result => {
       if (result) {
-        if (amenity) {
-          this.updateAmenity(amenity._id, result);
-        } else {
-          this.saveAmenity(result);
-        }
+        amenity ? this.updateAmenity(amenity._id, result) : this.saveAmenity(result);
       }
     });
   }
 
-  createAmenitiesForm(amenity?: any): FormGroup {
-    return this.formBuilder.group({
-      title: [amenity ? amenity.title : '', Validators.required],
-      icon: [amenity ? amenity.icon : '', Validators.required]
-    });
-  }
-
-  updateAmenity(id: string, formData: any) {
-    this.amenitiesService.updateAmenity(id, formData).subscribe(
-      (updatedAmenity) => {
-        console.log('Amenity updated:', updatedAmenity);
-        this.loadAmenities();
-      },
-      (error) => {
-        console.error('Error updating amenity:', error);
-      }
-    );
-  }
-
-  saveAmenity(formData: any) {
+  saveAmenity(formData: ICreateAmenityDto) {
+    console.log('Form data being sent:', formData); 
     this.amenitiesService.createAmenity(formData).subscribe(
-      (newAmenity) => {
-        console.log('New amenity saved:', newAmenity);
-        this.loadAmenities();
-      },
-      (error) => {
-        console.error('Error saving amenity:', error);
-      }
+      () => this.loadAmenities(),
+      (error) => console.error('Error saving amenity:', error)
     );
   }
 
-  deleteAmenity(amenity: any) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Confirm Delete',
-        message: `Are you sure you want to delete the amenity "${amenity.title}"?`
-      }
-    });
+  updateAmenity(id: string, formData: IUpdateAmenityDto) {
+    console.log('Form data being sent for update:', formData); 
+    this.amenitiesService.updateAmenity(id, formData).subscribe(
+      () => this.loadAmenities(),
+      (error) => console.error('Error updating amenity:', error)
+    );
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
+  deleteAmenity(amenity: IAmenity) {
+    this.amenitiesModalService.openDeleteConfirmDialog(amenity).subscribe(result => {
       if (result) {
         this.amenitiesService.deleteAmenity(amenity._id).subscribe(
-          () => {
-            console.log('Amenity deleted');
-            this.loadAmenities();
-          },
-          (error) => {
-            console.error('Error deleting amenity:', error);
-          }
+          () => this.loadAmenities(),
+          (error) => console.error('Error deleting amenity:', error)
         );
       }
     });

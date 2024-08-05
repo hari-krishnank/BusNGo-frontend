@@ -26,7 +26,7 @@
 
 mat-dialog-content {
     margin-bottom: 24px;
-    max-height: 80vh; 
+    max-height: 80vh;
 }
 
 .custom-scroll {
@@ -39,4 +39,11 @@ mat-dialog-content {
     width: 0;
     height: 0;
     display: none;
+}
+
+.animated-dialog .mat-dialog-container {
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: none;
 }

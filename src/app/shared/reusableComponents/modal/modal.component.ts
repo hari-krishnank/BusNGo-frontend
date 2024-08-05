@@ -10,20 +10,39 @@ import { FormComponent } from '../form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { ResendOtpComponent } from '../../../pages/user/resend-otp/resend-otp.component';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
   imports: [CommonModule, FormComponent, ReactiveFormsModule, FormsModule, ResendOtpComponent, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogActions, MatDialogContent, MatIconModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.css'
+  styleUrl: './modal.component.css',
+  animations: [
+    trigger('modalAnimation', [
+      state('void', style({
+        transform: 'scale(0.7)',
+        opacity: 0
+      })),
+      state('*', style({
+        transform: 'scale(1)',
+        opacity: 1
+      })),
+      transition('void => *', [
+        animate('300ms ease-out')
+      ]),
+      transition('* => void', [
+        animate('200ms ease-in')
+      ])
+    ])
+  ]
 })
 export class ModalComponent {
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() resendOtp = new EventEmitter<void>();
   form !: FormGroup;
   selectedSeats: string[] = [];
-
+  
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {

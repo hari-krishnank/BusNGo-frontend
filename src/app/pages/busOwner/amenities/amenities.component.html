@@ -1,9 +1,10 @@
 <app-ownersecondnav></app-ownersecondnav>
 <app-data-table 
-    [data]="amenitiesData" 
+    [data]="filteredAmenitiesData" 
     [columns]="amenitiesColumns" 
     title="ALL AMENITIES" 
     (addNew)="openModal()"
     (edit)="openModal($event)" 
-    (delete)="deleteAmenity($event)">
-</app-data-table>
+    (delete)="deleteAmenity($event)"
+    (search)="onSearch($event)">
+</app-data-table>  
