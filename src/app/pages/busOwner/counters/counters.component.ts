@@ -8,7 +8,7 @@ import { BusOwnerfooterComponent } from '../../../shared/widgets/bus-ownerfooter
 import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
 import { CounterModalService } from '../../../core/services/busOwner/counters/counter-modal.service';
 import { CounterSearchService } from '../../../core/services/busOwner/counters/counter-search.service';
-import { countersColumns } from '../../../shared/data/busOwner/counters/counters-columns';
+import { countersColumns } from '../../../shared/data/busOwner/counters-columns';
 import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
 
 @Component({

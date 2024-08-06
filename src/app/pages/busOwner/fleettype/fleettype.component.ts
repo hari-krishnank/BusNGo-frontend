@@ -4,7 +4,7 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
-import { fleetTypesColumns } from '../../../shared/data/busOwner/fleetTypes/fleetType-columns';
+import { fleetTypesColumns } from '../../../shared/data/busOwner/fleetType-columns';
 import { fleetTypeModalFields } from '../../../shared/configs/busOwner/fleetTypeForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
@@ -54,16 +54,15 @@ export class FleettypeComponent implements OnInit {
       error => console.error('Error loading form options:', error)
     );
   }
-
+  
   updateModalFields() {
     this.modalFields = this.modalFields.map(field => {
       if (field.name === 'seatLayout') {
         field.type = 'select';
         field.options = this.seatLayouts.map(layout => ({ value: layout._id, label: layout.layoutName }));
       } else if (field.name === 'facilities') {
-        field.type = 'select';
+        field.type = 'multiselect';
         field.options = this.amenities.map(amenity => ({ value: amenity._id, label: amenity.title }));
-        console.log(field.options);
       }
       return field;
     });

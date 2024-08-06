@@ -9,8 +9,9 @@
 }
 
 .mat-mdc-header-cell {
-    color: #374151;
-    font-weight: 600;
+    color: rgb(52, 50, 50);
+    font-weight: 700;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .mat-mdc-cell,

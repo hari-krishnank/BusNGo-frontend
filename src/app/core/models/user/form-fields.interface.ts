@@ -9,7 +9,7 @@ export interface FormFieldError {
 export interface FormField {
     name: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete';
+    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete' | 'select';
     placeholder: string;
     errors: FormFieldError[];
     validators?: any[];
@@ -17,7 +17,7 @@ export interface FormField {
     conditionalDisplay?: string
 }
 
-export interface ModalFormField  {
+export interface ModalFormField {
     name: string;
     placeholder: string;
     type: string;

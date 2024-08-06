@@ -8,9 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
-import { FormComponent } from '../form/form.component';
+import { FormComponent } from '../inputForm/form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
-import { trigger, style, transition, animate } from '@angular/animations';
+import { rowAnimation, tableAnimation } from '../../animations/data-table.animation';
 
 interface Column {
   key: string;
@@ -24,23 +24,7 @@ interface Column {
   imports: [CommonModule, MatButtonModule, MatTableModule, IconPipe, SeatPreviewComponent, MatIconModule, MatPaginatorModule, MatInputModule, FormsModule, FormComponent],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.css',
-  animations: [
-    trigger('tableAnimation', [
-      transition('void => *', [
-        style({ opacity: 0, transform: 'translateY(-20px)' }),
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ]),
-      transition('* => void', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(-20px)' }))
-      ])
-    ]),
-    trigger('rowAnimation', [
-      transition('void => *', [
-        style({ opacity: 0, transform: 'translateX(-20px)' }),
-        animate('200ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
-      ])
-    ])
-  ]
+  animations: [tableAnimation, rowAnimation]
 })
 export class DataTableComponent implements OnInit {
   displayedColumns: string[] = [];

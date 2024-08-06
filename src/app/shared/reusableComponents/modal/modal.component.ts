@@ -6,43 +6,27 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { FormComponent } from '../form/form.component';
+import { FormComponent } from '../inputForm/form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { ResendOtpComponent } from '../../../pages/user/resend-otp/resend-otp.component';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { modalAnimation } from '../../animations/modal.animation';
+import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, FormComponent, ReactiveFormsModule, FormsModule, ResendOtpComponent, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogActions, MatDialogContent, MatIconModule],
+  imports: [CommonModule, FormComponent, ReactiveFormsModule, FormsModule, ResendOtpComponent, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogActions, MatDialogContent, MatIconModule, SeatPreviewComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css',
-  animations: [
-    trigger('modalAnimation', [
-      state('void', style({
-        transform: 'scale(0.7)',
-        opacity: 0
-      })),
-      state('*', style({
-        transform: 'scale(1)',
-        opacity: 1
-      })),
-      transition('void => *', [
-        animate('300ms ease-out')
-      ]),
-      transition('* => void', [
-        animate('200ms ease-in')
-      ])
-    ])
-  ]
+  animations: [modalAnimation]
 })
 export class ModalComponent {
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() resendOtp = new EventEmitter<void>();
   form !: FormGroup;
   selectedSeats: string[] = [];
-  
+
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -51,13 +35,22 @@ export class ModalComponent {
       submitButtonText: string,
       form: FormGroup,
       showResendOtp?: boolean,
-      resendCooldown?: number
+      resendCooldown?: number,
+      existingLayout?: any
     },
     private fb: FormBuilder
   ) {
     this.form = this.data.form;
     if (!this.form.get('selectedSeats')) {
-      this.form.addControl('selectedSeats', this.fb.control([]));
+      this.form.addControl('selectedSeats', this.fb.control(this.data.existingLayout?.selectedSeats || []));
+    }
+    if (this.data.existingLayout) {
+      this.form.patchValue({
+        rows: this.data.existingLayout.rows,
+        columns: this.data.existingLayout.columns,
+        driverSeatPosition: this.data.existingLayout.driverSeatPosition,
+        selectedSeats: this.data.existingLayout.selectedSeats
+      });
     }
   }
 
@@ -82,7 +75,6 @@ export class ModalComponent {
   }
 
   onSeatsSelected(seats: string[]) {
-    this.selectedSeats = seats;
-    console.log('Selected seats:', this.selectedSeats);
+    this.form.patchValue({ selectedSeats: seats });
   }
 }

@@ -5,5 +5,5 @@ export const busesColumns = [
     { key: 'chasisNo', label: 'CHASIS NUMBER' },
     { key: 'ModelNo', label: 'MODEL NUMBER' },
     { key: 'fleetTypeName', label: 'FLEET TYPE' },
-    { key: 'status', label: 'STATUS' },
+    { key: 'status', label: 'STATUS', type: 'status' }
 ];

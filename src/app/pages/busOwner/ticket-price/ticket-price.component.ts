@@ -4,7 +4,7 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
-import { ticketsColumns } from '../../../shared/data/busOwner/ticketPrice/ticketPrice-column';
+import { ticketsColumns } from '../../../shared/data/busOwner/ticketPrice-column';
 import { ticketPriceModalFields } from '../../../shared/configs/busOwner/ticketPriceForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';

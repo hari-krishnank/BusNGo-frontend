@@ -9,5 +9,11 @@ export const seatLayoutmodalFields: ModalFormField[] = [
         ]
     },
     { name: 'rows', placeholder: 'Enter Rows', type: 'text', errors: [] },
-    { name: 'columns', placeholder: 'Enter Columns', type: 'text', errors: [] }
+    { name: 'columns', placeholder: 'Enter Columns', type: 'text', errors: [] },
+    {
+        name: 'status', placeholder: 'Select Status', type: 'select', errors: [], options: [
+            { value: 'Active', label: 'Active' },
+            { value: 'Inactive', label: 'Inactive' }
+        ]
+    }
 ];

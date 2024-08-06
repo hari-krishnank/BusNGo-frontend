@@ -5,11 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { seatLayoutmodalFields } from '../../../shared/configs/busOwner/seatLayoutsForm-config';
-import { seatLayoutsColumns } from '../../../shared/data/busOwner/seatLayouts/seatLayout-columns';
+import { seatLayoutsColumns } from '../../../shared/data/busOwner/seatLayout-columns';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
 import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/seat-layout.service';
 import { SeatPreviewModalComponent } from '../seat-preview-modal/seat-preview-modal.component';
+import { ConfirmDialogComponent } from '../../../shared/reusableComponents/confirm-dialog/confirm-dialog.component';
+import { noWhitespaceValidator } from '../../../shared/validators/validators';
 
 @Component({
   selector: 'app-seat-layouts',
@@ -75,6 +77,7 @@ export class SeatLayoutsComponent implements OnInit {
       driverSeatPosition: [layout?.driverSeatPosition || '', Validators.required],
       rows: [layout?.rows || '', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       columns: [layout?.columns || '', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      status: [layout ? layout.status : '', [Validators.required, noWhitespaceValidator()]],
       upperDeck: [layout?.upperDeck || false]
     });
   }
@@ -100,6 +103,61 @@ export class SeatLayoutsComponent implements OnInit {
     this.dialog.open(SeatPreviewModalComponent, {
       width: '500px',
       data: layout
+    });
+  }
+
+  editSeatLayout(layout: any) {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '600px',
+      data: {
+        title: 'Edit Layout',
+        fields: this.modalFields,
+        form: this.createLayoutsForm(layout),
+        submitButtonText: 'Update Seat Layout',
+        existingLayout: layout
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateSeatLayout(layout._id, result);
+      }
+    });
+  }
+
+  updateSeatLayout(id: string, formData: any) {
+    this.seatLayoutService.updateSeatLayout(id, formData).subscribe(
+      (response) => {
+        console.log('Seat layout updated:', response);
+        this.loadSeatLayouts();
+      },
+      (error) => {
+        console.error('Error updating seat layout:', error);
+      }
+    );
+  }
+
+  deleteSeatLayout(layout: any) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Delete Seat Layout',
+        message: `Are you sure you want to delete the seat layout "${layout.layoutName}"?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.seatLayoutService.deleteSeatLayout(layout._id).subscribe(
+          () => {
+            console.log('Seat layout deleted successfully');
+            this.loadSeatLayouts();
+          },
+          (error) => {
+            console.error('Error deleting seat layout:', error);
+          }
+        );
+      }
     });
   }
 }

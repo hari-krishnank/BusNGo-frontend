@@ -4,5 +4,7 @@
     [columns]="seatLayoutsColumns" 
     title="ALL LAYOUTS" 
     (addNew)="openModal()"
-    (viewPreview)="onViewPreview($event)">
+    (viewPreview)="onViewPreview($event)"
+    (edit)="editSeatLayout($event)"
+    (delete)="deleteSeatLayout($event)">
 </app-data-table>

@@ -1,4 +1,4 @@
-<div class="modal-container">
+<div class="modal-container" [@modalAnimation]>
     <button class="close-button" (click)="onClose()">&#10005;</button>
     <p class="modal-title">Seat Layout Preview</p>
     <mat-dialog-content class="custom-scroll">
@@ -8,9 +8,9 @@
     </mat-dialog-content>
     <div class="preview-info">
         <p class="info-text">This preview shows your custom bus layout.</p>
-        <p class="feature-list font-serif">Layout Name: <span class="font-serif font-bold">{{data.layoutName}}</span></p>
+        <p class="feature-list font-serif">Layout Name: <span class="font-sans font-bold">{{data.layoutName}}</span></p>
         <p class="feature-list font-serif">Selected Seats: <span class="font-sans font-bold">{{selectedSeatsCount}}</span></p>
-        <p class="feature-list font-serif">Driver Seat: <span class="font-serif font-bold"> {{data.driverSeatPosition}}</span></p>
+        <p class="feature-list font-serif">Driver Seat: <span class="font-sans font-bold"> {{data.driverSeatPosition}}</span></p>
         <p class="note font-semibold">Note: <span class="text-red-500">You can adjust the layout in the edit settings.</span></p>
     </div>
 </div>

@@ -5,7 +5,7 @@ import { ModalFormField } from '../../../core/models/user/form-fields.interface'
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { addRouteModalFields } from '../../../shared/configs/busOwner/addRoutesForm-config';
-import { routesColumns } from '../../../shared/data/busOwner/addroutes/routes-columns';
+import { routesColumns } from '../../../shared/data/busOwner/routes-columns';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
 import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';

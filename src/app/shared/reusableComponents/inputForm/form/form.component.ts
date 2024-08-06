@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormField, ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { FormField, ModalFormField } from '../../../../core/models/user/form-fields.interface';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,8 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
-import { Feature, MapBoxService } from '../../services/map-box.service';
+import { SeatPreviewComponent } from '../../../../pages/busOwner/seat-preview/seat-preview.component';
+import { Feature, MapBoxService } from '../../../services/map-box.service';
+import { fadeInOut, slideInOut } from '../../../animations/form.animations';
 
 @Component({
   selector: 'app-form',
@@ -19,6 +20,7 @@ import { Feature, MapBoxService } from '../../services/map-box.service';
   imports: [CommonModule, ReactiveFormsModule, SeatPreviewComponent, MatSlideToggleModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css',
+  animations: [fadeInOut, slideInOut]
 })
 export class FormComponent<T> implements OnInit {
   @Input() form !: FormGroup
@@ -31,6 +33,8 @@ export class FormComponent<T> implements OnInit {
   locations: string[] = [];
 
   @Output() valueChanges = new EventEmitter<any>();
+  private openMultiselects: { [key: string]: boolean } = {};
+
 
   constructor(private fb: FormBuilder, private mapboxService: MapBoxService) { }
 
@@ -128,5 +132,39 @@ export class FormComponent<T> implements OnInit {
   private formatPlaceName(placeName: string): string {
     const parts = placeName.split(', ');
     return parts.slice(0, 2).join(', ');
+  }
+
+  getMultiselectDisplayValue(fieldName: string): string {
+    const selectedValues = this.form.get(fieldName)?.value || [];
+    const field = this.fields.find(f => f.name === fieldName);
+    if (!field) return '';
+    return selectedValues.map((value: string) =>
+      field.options?.find(option => option.value === value)?.label
+    ).join(', ');
+  }
+
+  openMultiselectDropdown(fieldName: string) {
+    this.openMultiselects[fieldName] = !this.openMultiselects[fieldName];
+  }
+
+  isMultiselectOpen(fieldName: string): boolean {
+    return this.openMultiselects[fieldName] || false;
+  }
+
+  isOptionSelected(fieldName: string, optionValue: string): boolean {
+    const selectedValues = this.form.get(fieldName)?.value || [];
+    return selectedValues.includes(optionValue);
+  }
+
+  toggleMultiselectOption(fieldName: string, optionValue: string) {
+    const control = this.form.get(fieldName);
+    if (!control) return;
+
+    const currentValues = control.value || [];
+    const updatedValues = currentValues.includes(optionValue)
+      ? currentValues.filter((value: string) => value !== optionValue)
+      : [...currentValues, optionValue];
+
+    control.setValue(updatedValues);
   }
 }

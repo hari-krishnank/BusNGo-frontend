@@ -4,7 +4,7 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
-import { scheduleColumns } from '../../../shared/data/busOwner/schedule/schedule-column';
+import { scheduleColumns } from '../../../shared/data/busOwner/schedule-column';
 import { scheduleModalFields } from '../../../shared/configs/busOwner/scheduleForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleService } from '../../../core/services/busOwner/schedule/schedule.service';

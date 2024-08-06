@@ -4,7 +4,7 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
-import { assignedBusColumns } from '../../../shared/data/busOwner/assignBus/assignBus-column';
+import { assignedBusColumns } from '../../../shared/data/busOwner/assignBus-column';
 import { assignedBusModalFields } from '../../../shared/configs/busOwner/assignBusForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusService } from '../../../core/services/busOwner/add-bus/add-bus.service';

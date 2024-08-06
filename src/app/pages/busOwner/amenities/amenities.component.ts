@@ -4,7 +4,7 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ReactiveFormsModule } from '@angular/forms';
 import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
 import { amenitiesModalFields } from '../../../shared/configs/busOwner/amenitiesForm-config';
-import { amenitiesColumns } from '../../../shared/data/busOwner/amenities/amenities-columns';
+import { amenitiesColumns } from '../../../shared/data/busOwner/amenities-columns';
 import { Subscription } from 'rxjs';
 import { AmenitiesModalService } from '../../../core/services/busOwner/amenities/amenities-modal.service';
 import { AmenitiesSearchService } from '../../../core/services/busOwner/amenities/amenities-search.service';

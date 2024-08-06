@@ -5,7 +5,7 @@ import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.c
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
-import { busesColumns } from '../../../shared/data/busOwner/buses/buses-columns';
+import { busesColumns } from '../../../shared/data/busOwner/buses-columns';
 import { addBusmodalFields } from '../../../shared/configs/busOwner/addBusForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusService } from '../../../core/services/busOwner/add-bus/add-bus.service';

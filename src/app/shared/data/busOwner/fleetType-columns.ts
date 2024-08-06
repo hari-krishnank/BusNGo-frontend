@@ -3,5 +3,5 @@ export const fleetTypesColumns = [
     { key: 'seatLayout', label: 'SEAT LAYOUT', type: 'custom' },
     { key: 'facilities', label: 'FACILITIES' },
     { key: 'acStatus', label: 'AC STATUS' },
-    { key: 'status', label: 'STATUS' },
+    { key: 'status', label: 'STATUS', type: 'status' },
 ];
