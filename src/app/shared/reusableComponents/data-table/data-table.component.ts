@@ -8,9 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
-import { FormComponent } from '../inputForm/form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { rowAnimation, tableAnimation } from '../../animations/data-table.animation';
+import { FormComponent } from '../form/form.component';
 
 interface Column {
   key: string;

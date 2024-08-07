@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormField, ModalFormField } from '../../../../core/models/user/form-fields.interface';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,9 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SeatPreviewComponent } from '../../../../pages/busOwner/seat-preview/seat-preview.component';
-import { Feature, MapBoxService } from '../../../services/map-box.service';
-import { fadeInOut, slideInOut } from '../../../animations/form.animations';
+import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
+import { fadeInOut, slideInOut } from '../../animations/form.animations';
+import { Feature, MapBoxService } from '../../services/map-box.service';
+import { FormField, ModalFormField } from '../../../core/models/user/form-fields.interface';
 
 @Component({
   selector: 'app-form',

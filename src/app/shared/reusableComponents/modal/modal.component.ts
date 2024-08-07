@@ -6,12 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { FormComponent } from '../inputForm/form/form.component';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { ResendOtpComponent } from '../../../pages/user/resend-otp/resend-otp.component';
 import { modalAnimation } from '../../animations/modal.animation';
 import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-preview.component';
+import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-modal',

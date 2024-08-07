@@ -42,7 +42,7 @@ export class FleettypeComponent implements OnInit {
 
   loadFormOptions() {
     forkJoin({
-      amenities: this.amenitiesService.getAllAmenities(),
+      amenities: this.amenitiesService.getAmenities(),
       seatLayouts: this.seatLayoutService.getAllSeatLayouts()
     }).subscribe(
       ({ amenities, seatLayouts }) => {

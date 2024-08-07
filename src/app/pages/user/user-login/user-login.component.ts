@@ -5,12 +5,12 @@ import { LoginService } from '../../../core/services/user/login.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ILoginFormValue, ILoginResponse } from '../../../core/models/user/login.interface';
-import { FormComponent } from '../../../shared/reusableComponents/inputForm/form/form.component';
 import { loginFields } from '../../../shared/configs/user/loginForm.config';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 import { noWhitespaceValidator, strongPasswordValidator } from '../../../shared/validators/validators';
 import { ToastrService } from 'ngx-toastr';
+import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
 
 @Component({
   selector: 'app-user-login',

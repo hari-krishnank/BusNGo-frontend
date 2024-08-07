@@ -49,6 +49,8 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
           slNo: index + 1
         }));
         this.filteredAmenitiesData = [...this.amenitiesData];
+        console.log(this.filteredAmenitiesData);
+        
       },
       (error) => console.error('Error fetching amenities:', error)
     );

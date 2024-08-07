@@ -8,13 +8,13 @@ import { IOtpVerificationResponse, IRegistrationResponse, IRegistrationFormValue
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { noWhitespaceValidator, passwordMatchValidator, phoneNumberValidator, strongPasswordValidator, usernameValidator } from '../../../shared/validators/validators';
 import { OtpComponent } from '../otp/otp.component';
-import { FormComponent } from '../../../shared/reusableComponents/inputForm/form/form.component';
 import { registrationFields } from '../../../shared/configs/user/registerForm.config';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
+import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
 
 @Component({
   selector: 'app-user-register',
