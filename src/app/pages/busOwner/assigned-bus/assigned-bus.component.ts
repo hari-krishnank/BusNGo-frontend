@@ -52,6 +52,7 @@ export class AssignedBusComponent implements OnInit {
     this.assignedBusService.getAllAssignedBuses().subscribe(
       data => {
         this.assignedBusData = data;
+        console.log('Assigned bus data:', this.assignedBusData);
       },
       error => {
         console.error('Error loading assigned buses:', error);
@@ -61,11 +62,15 @@ export class AssignedBusComponent implements OnInit {
 
   loadTrips() {
     this.tripService.getAllTrips().subscribe(
-      data => {
-        this.trips = data;
-        this.updateTripOptions();
+      (trips) => {
+        console.log(trips);
+
+        const tripsField = this.modalFields.find(field => field.name === 'trip')
+        if (tripsField) {
+          tripsField.options = trips.map(trip => ({ value: trip._id, label: `${trip.startFrom.name} to ${trip.endTo.name}` }))
+        }
       },
-      error => {
+      (error) => {
         console.error('Error loading trips:', error);
       }
     );
@@ -73,34 +78,18 @@ export class AssignedBusComponent implements OnInit {
 
   loadBuses() {
     this.busService.getAllBuses().subscribe(
-      data => {
-        this.buses = data;
-        this.updateBusOptions();
+      (buses) => {
+        console.log(buses);
+
+        const busesField = this.modalFields.find(field => field.name === 'bus')
+        if (busesField) {
+          busesField.options = buses.map(buses => ({ value: buses._id, label: buses.name }))
+        }
       },
-      error => {
+      (error) => {
         console.error('Error loading buses:', error);
       }
     );
-  }
-
-  updateTripOptions() {
-    const tripField = this.modalFields.find(field => field.name === 'trip');
-    if (tripField) {
-      tripField.options = this.trips.map(trip => ({
-        value: trip._id,
-        label: `${trip.origin} to ${trip.destination}`
-      }));
-    }
-  }
-
-  updateBusOptions() {
-    const busField = this.modalFields.find(field => field.name === 'bus');
-    if (busField) {
-      busField.options = this.buses.map(bus => ({
-        value: bus._id,
-        label: bus.registrationNumber
-      }));
-    }
   }
 
   openModal() {
@@ -125,7 +114,7 @@ export class AssignedBusComponent implements OnInit {
     this.assignedBusService.assignBusToTrip(formData.trip, formData.bus).subscribe(
       response => {
         console.log('Bus assigned successfully:', response);
-        this.loadAssignedBuses(); 
+        this.loadAssignedBuses();
       },
       error => {
         console.error('Error assigning bus:', error);

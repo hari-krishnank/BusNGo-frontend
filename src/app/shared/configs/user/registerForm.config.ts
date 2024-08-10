@@ -8,9 +8,9 @@ export const registrationFields: FormField[] = [
         placeholder: 'Enter your username',
         errors: [
             { type: 'required', message: 'Username is required.' },
-            { type: 'whitespace', message: 'Username cannot consist only of spaces.' },
-            { type: 'minlength', message: 'Username must be at least 4 characters long.' },
-            { type: 'onlyLetters', message: 'Username should contain only letters (no numbers).' }
+            { type: 'whitespace', message: 'Username cannot be blank.' },
+            { type: 'minlength', message: 'Must be at least 4 characters.' },
+            { type: 'onlyLetters', message: 'Use only letters.' }
         ]
     },
     {
@@ -20,8 +20,8 @@ export const registrationFields: FormField[] = [
         placeholder: 'Enter your email',
         errors: [
             { type: 'required', message: 'Email is required.' },
-            { type: 'email', message: 'Please enter a valid email address.' },
-            { type: 'alreadyRegistered', message: 'This email is already registered.' }
+            { type: 'email', message: 'Enter a valid email.' },
+            { type: 'alreadyRegistered', message: 'Email already registered.' }
         ]
     },
     {
@@ -31,8 +31,8 @@ export const registrationFields: FormField[] = [
         placeholder: 'Enter your phone number',
         errors: [
             { type: 'required', message: 'Phone number is required.' },
-            { type: 'invalidLength', message: 'Phone number must be exactly 10 digits long.' },
-            { type: 'invalidCharacters', message: 'Phone number should only contain digits.' }
+            { type: 'invalidLength', message: 'Must be exactly 10 digits.' },
+            { type: 'invalidCharacters', message: 'Use only digits.' }
         ]
     },
     {
@@ -42,8 +42,8 @@ export const registrationFields: FormField[] = [
         placeholder: 'Enter password',
         errors: [
             { type: 'required', message: 'Password is required.' },
-            { type: 'minlength', message: 'Password must be at least 8 characters long.' },
-            { type: 'strongPassword', message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }
+            { type: 'minlength', message: 'Must be at least 8 characters.' },
+            { type: 'strongPassword', message: 'Use uppercase, lowercase, number, and symbol.' }
         ]
     },
     {

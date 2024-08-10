@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center mb-4">
             <p class="text-2xl font-semibold leading-tight font-sans">{{ title }}</p>
             <div class="flex items-center justify-between">
-                <div class="search-area mr-4" [@fadeIn]>
+                <div class="search-area mr-4" [@fadeInOut]>
                     <app-form [form]="searchForm" [fields]="searchFields" [hideSubmitButton]="true"
                         (valueChanges)="onSearch($event)">
                     </app-form>

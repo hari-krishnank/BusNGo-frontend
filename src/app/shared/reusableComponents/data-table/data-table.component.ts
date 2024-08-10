@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { rowAnimation, tableAnimation } from '../../animations/data-table.animation';
 import { FormComponent } from '../form/form.component';
+import { fadeInOut } from '../../animations/form.animations';
 
 interface Column {
   key: string;
@@ -24,7 +25,7 @@ interface Column {
   imports: [CommonModule, MatButtonModule, MatTableModule, IconPipe, SeatPreviewComponent, MatIconModule, MatPaginatorModule, MatInputModule, FormsModule, FormComponent],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.css',
-  animations: [tableAnimation, rowAnimation]
+  animations: [tableAnimation, rowAnimation, fadeInOut]
 })
 export class DataTableComponent implements OnInit {
   displayedColumns: string[] = [];

@@ -17,35 +17,7 @@ export class AmenitiesService {
     console.log(token);
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
-
-  // getAmenities(): Observable<IAmenity[]> {
-  //   return this.http.get<IAmenity[]>(this.backendUrl);
-  // }
-
-  // getAmenities(): Observable<IAmenity[]> {
-  //   return this.http.get<IAmenity[]>(this.backendUrl, { headers: this.getHeaders() });
-  // }
-
-  // getAmenity(id: string): Observable<IAmenity> {
-  //   return this.http.get<IAmenity>(`${this.backendUrl}/${id}`);
-  // }
-
-  // getAllAmenities(): Observable<IAmenity[]> {
-  //   return this.http.get<IAmenity[]>(this.backendUrl);
-  // }
-
-  // createAmenity(amenity: ICreateAmenityDto): Observable<IAmenity> {
-  //   return this.http.post<IAmenity>(this.backendUrl, amenity);
-  // }
-
-  // updateAmenity(id: string, amenity: IUpdateAmenityDto): Observable<IAmenity> {
-  //   return this.http.patch<IAmenity>(`${this.backendUrl}/${id}`, amenity);
-  // }
-
-  // deleteAmenity(id: string): Observable<IAmenity> {
-  //   return this.http.delete<IAmenity>(`${this.backendUrl}/${id}`);
-  // }
-
+  
   getAmenities(): Observable<IAmenity[]> {
     return this.http.get<IAmenity[]>(this.backendUrl, { headers: this.getHeaders() });
   }

@@ -26,7 +26,7 @@ export class ScheduleComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private scheduleService: ScheduleService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createScheduleForm();
@@ -76,10 +76,15 @@ export class ScheduleComponent implements OnInit {
       (newSchedule) => {
         console.log('New schedule:', newSchedule);
         this.scheduleData = [...this.scheduleData, newSchedule];
+        this.resetForm();
       },
       (error) => {
         console.error('Error creating schedule:', error);
       }
     );
+  }
+
+  resetForm() {
+    this.scheduleForm.reset()
   }
 }

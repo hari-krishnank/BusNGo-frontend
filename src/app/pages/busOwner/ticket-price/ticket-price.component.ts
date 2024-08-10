@@ -109,21 +109,20 @@ export class TicketPriceComponent implements OnInit {
   }
 
   saveTicketPrice(formData: any) {
-    const ticketPriceData: any = {
-      fleetType: formData.fleetType,
-      route: formData.route,
-      price: formData.price,
-      status: 'Active'
-    };
 
-    this.ticketPriceService.addTicketPrice(ticketPriceData).subscribe(
+    this.ticketPriceService.addTicketPrice(formData).subscribe(
       (response) => {
         console.log('New ticket price added:', response);
         this.loadTicketPrices();
+        this.resetForm()
       },
       (error) => {
         console.error('Error adding ticket price:', error);
       }
     );
+  }
+
+  resetForm() {
+    this.ticketForm.reset()
   }
 }

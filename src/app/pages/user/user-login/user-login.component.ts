@@ -11,11 +11,12 @@ import { FooterComponent } from '../../../shared/widgets/footer/footer.component
 import { noWhitespaceValidator, strongPasswordValidator } from '../../../shared/validators/validators';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent, FooterComponent],
+  imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent, FooterComponent, MatButtonModule],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.css'
 })

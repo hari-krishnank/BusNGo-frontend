@@ -116,16 +116,32 @@ export class AddRoutesComponent implements OnInit {
     this.routeService.addRoute(formData).subscribe(
       (newRoute) => {
         console.log('New route added:', newRoute);
+        
+        const startingCounter = this.counters.find(c => c._id === newRoute.startingPoint);
+        const endingCounter = this.counters.find(c => c._id === newRoute.endingPoint);
+  
         const transformedRoute = {
           ...newRoute,
-          startingPoint: newRoute.startingPoint.name,
-          endingPoint: newRoute.endingPoint.name
+          startingPoint: startingCounter ? startingCounter.name : 'N/A',
+          endingPoint: endingCounter ? endingCounter.name : 'N/A'
         };
+        
         this.routesData = [...this.routesData, transformedRoute];
+        this.resetForm();
       },
       (error) => {
         console.error('Error adding route:', error);
       }
     );
+  }
+  
+  resetForm() {
+    this.routeForm.reset();
+
+    this.routeForm.patchValue({
+      hasMoreStoppage: false
+    });
+    const additionalStopsArray = this.routeForm.get('additionalStops') as FormArray;
+    additionalStopsArray.clear();
   }
 }
