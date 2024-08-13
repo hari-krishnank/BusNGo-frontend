@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
@@ -12,11 +11,12 @@ import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/s
 import { SeatPreviewModalComponent } from '../seat-preview-modal/seat-preview-modal.component';
 import { ConfirmDialogComponent } from '../../../shared/reusableComponents/confirm-dialog/confirm-dialog.component';
 import { noWhitespaceValidator } from '../../../shared/validators/validators';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-seat-layouts',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent, SeatPreviewComponent],
+  imports: [OwnernavComponent, DataTableComponent, SeatPreviewComponent],
   templateUrl: './seat-layouts.component.html',
   styleUrl: './seat-layouts.component.css'
 })

@@ -25,10 +25,10 @@ import { SeatLayoutsComponent } from './pages/busOwner/seat-layouts/seat-layouts
 import { FleettypeComponent } from './pages/busOwner/fleettype/fleettype.component';
 import { BusesComponent } from './pages/busOwner/buses/buses.component';
 import { ScheduleComponent } from './pages/busOwner/schedule/schedule.component';
-import { TicketPriceComponent } from './pages/busOwner/ticket-price/ticket-price.component';
 import { TripComponent } from './pages/busOwner/trip/trip.component';
 import { AssignedBusComponent } from './pages/busOwner/assigned-bus/assigned-bus.component';
 import { AddRoutesComponent } from './pages/busOwner/add-routes/add-routes.component';
+import { OwnerHomeComponent } from './pages/busOwner/owner-home/owner-home.component';
 
 export const routes: Routes = [
 
@@ -65,32 +65,37 @@ export const routes: Routes = [
     {
         path: 'ownerLogin',
         component: OwnerLoginComponent,
-        canActivate:[OwnerNoAuthGuard]
+        canActivate: [OwnerNoAuthGuard]
     },
     {
         path: 'ownerRegister',
         component: OwnerRegisterComponent,
-        canActivate:[OwnerNoAuthGuard]
+        canActivate: [OwnerNoAuthGuard]
     },
     {
         path: 'ownerOtp',
         component: OwnerOtpComponent,
-        canActivate:[OwnerNoAuthGuard]
+        canActivate: [OwnerNoAuthGuard]
     },
     {
         path: 'ownerDetails',
         component: OwnerDetailsComponent,
-        canActivate:[OwnerNoAuthGuard]
+        canActivate: [OwnerNoAuthGuard]
     },
     {
         path: 'agencyDetails',
         component: AgencyDetailsComponent,
-        canActivate:[OwnerNoAuthGuard]
+        canActivate: [OwnerNoAuthGuard]
     },
     {
         path: 'confirmation',
         component: ConfirmDetailsComponent,
-        canActivate:[OwnerNoAuthGuard]
+        canActivate: [OwnerNoAuthGuard]
+    },
+    {
+        path: 'ownerHome',
+        component: OwnerHomeComponent,
+        canActivate: [OwnerAuthGuard]
     },
     {
         path: 'ownerDashboard',
@@ -130,11 +135,6 @@ export const routes: Routes = [
     {
         path: 'schedule',
         component: ScheduleComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'ticketPrice',
-        component: TicketPriceComponent,
         canActivate: [OwnerAuthGuard]
     },
     {

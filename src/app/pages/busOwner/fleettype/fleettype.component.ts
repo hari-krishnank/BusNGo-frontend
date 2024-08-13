@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,11 +11,12 @@ import { AmenitiesService } from '../../../core/services/busOwner/amenities/amen
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
 import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';
 import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/seat-layout.service';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-fleettype',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent, SeatPreviewComponent],
+  imports: [OwnernavComponent, DataTableComponent, SeatPreviewComponent],
   templateUrl: './fleettype.component.html',
   styleUrl: './fleettype.component.css'
 })
@@ -54,7 +54,7 @@ export class FleettypeComponent implements OnInit {
       error => console.error('Error loading form options:', error)
     );
   }
-  
+
   updateModalFields() {
     this.modalFields = this.modalFields.map(field => {
       if (field.name === 'seatLayout') {
@@ -110,6 +110,7 @@ export class FleettypeComponent implements OnInit {
           facilities: this.mapAmenityIdsToTitles(fleetType.facilities),
           seatLayout: this.getSeatLayoutNameById(fleetType.seatLayout)
         }));
+        console.log('fleet Types Loaded:', this.fleetTypesData);
       },
       (error) => {
         console.error('Error loading fleet types:', error);
@@ -136,7 +137,7 @@ export class FleettypeComponent implements OnInit {
   saveFleetType(formData: any) {
     this.fleetTypeService.createFleetType(formData).subscribe(
       (response: any) => {
-        console.log('New fleet type:', response);
+        // console.log('New fleet type:', response);
         const newFleetType = {
           ...response,
           facilities: this.mapAmenityIdsToTitles(response.facilities),

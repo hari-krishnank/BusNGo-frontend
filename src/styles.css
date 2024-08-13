@@ -25,15 +25,7 @@ body {
 .p-menuitem-link,
 .p-menubar a,
 .p-button-label
-/* .p-menuitem-text  */
 {
     text-decoration: none !important;
 }
 
-/* Optional: Remove focus outline */
-/* .p-menuitem-link:focus,
-.p-menubar a:focus,
-.p-button:focus {
-    outline: none !important;
-    box-shadow: none !important;
-} */

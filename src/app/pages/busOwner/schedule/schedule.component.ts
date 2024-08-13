@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,11 +7,12 @@ import { scheduleColumns } from '../../../shared/data/busOwner/schedule-column';
 import { scheduleModalFields } from '../../../shared/configs/busOwner/scheduleForm-config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScheduleService } from '../../../core/services/busOwner/schedule/schedule.service';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-schedule',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent],
+  imports: [OwnernavComponent, DataTableComponent],
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.css'
 })

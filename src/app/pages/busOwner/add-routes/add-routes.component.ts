@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
@@ -9,11 +8,12 @@ import { routesColumns } from '../../../shared/data/busOwner/routes-columns';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
 import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-add-routes',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent],
+  imports: [OwnernavComponent, DataTableComponent],
   templateUrl: './add-routes.component.html',
   styleUrl: './add-routes.component.css'
 })

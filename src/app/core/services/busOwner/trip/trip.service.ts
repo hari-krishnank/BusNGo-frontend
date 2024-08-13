@@ -8,7 +8,7 @@ import { environment } from '../../../../../environments/environment.development
 })
 export class TripService {
     private apiUrl = `${environment.backendUrl}/trips`;
-
+ 
     constructor(private http: HttpClient) { }
 
     private getHeaders(): HttpHeaders {

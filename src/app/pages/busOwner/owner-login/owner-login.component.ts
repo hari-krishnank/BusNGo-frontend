@@ -43,7 +43,7 @@ export class OwnerLoginComponent implements OnInit {
 
     this.signupService.login(this.loginForm.value).subscribe(
       (response) => {
-        this.router.navigate(['/ownerDashboard']);
+        this.router.navigate(['/ownerHome']);
       },
       (error) => {
         this.errorMessage = 'Invalid email or password';

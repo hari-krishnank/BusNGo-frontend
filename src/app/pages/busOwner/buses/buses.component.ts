@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { CommonModule } from '@angular/common';
@@ -10,11 +9,12 @@ import { addBusmodalFields } from '../../../shared/configs/busOwner/addBusForm-c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusService } from '../../../core/services/busOwner/add-bus/add-bus.service';
 import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-buses',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent, ModalComponent, CommonModule, MatDialogModule],
+  imports: [OwnernavComponent, DataTableComponent, ModalComponent, CommonModule, MatDialogModule],
   templateUrl: './buses.component.html',
   styleUrl: './buses.component.css'
 })
@@ -52,6 +52,8 @@ export class BusesComponent implements OnInit {
           ...bus,
           fleetTypeName: bus.FleetType?.name || 'N/A'
         }));
+        console.log('Loaded Bus Data:', this.busesData);
+
       },
       error => console.error('Error loading buses:', error)
     );

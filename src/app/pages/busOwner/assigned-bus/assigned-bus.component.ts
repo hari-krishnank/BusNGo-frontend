@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,11 +9,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusService } from '../../../core/services/busOwner/add-bus/add-bus.service';
 import { AssignedBusService } from '../../../core/services/busOwner/assigned-bus/assigned-bus.service';
 import { TripService } from '../../../core/services/busOwner/trip/trip.service';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-assigned-bus',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent],
+  imports: [OwnernavComponent, DataTableComponent],
   templateUrl: './assigned-bus.component.html',
   styleUrl: './assigned-bus.component.css'
 })
@@ -63,7 +63,7 @@ export class AssignedBusComponent implements OnInit {
   loadTrips() {
     this.tripService.getAllTrips().subscribe(
       (trips) => {
-        console.log(trips);
+        console.log('Load Trips : ', trips);
 
         const tripsField = this.modalFields.find(field => field.name === 'trip')
         if (tripsField) {
@@ -79,7 +79,7 @@ export class AssignedBusComponent implements OnInit {
   loadBuses() {
     this.busService.getAllBuses().subscribe(
       (buses) => {
-        console.log(buses);
+        console.log('Load Buses:', buses);
 
         const busesField = this.modalFields.find(field => field.name === 'bus')
         if (busesField) {

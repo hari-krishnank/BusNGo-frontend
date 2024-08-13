@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
@@ -10,11 +9,12 @@ import { CounterModalService } from '../../../core/services/busOwner/counters/co
 import { CounterSearchService } from '../../../core/services/busOwner/counters/counter-search.service';
 import { countersColumns } from '../../../shared/data/busOwner/counters-columns';
 import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-counters',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent, CommonModule, ModalComponent, ReactiveFormsModule, BusOwnerfooterComponent],
+  imports: [OwnernavComponent, DataTableComponent, CommonModule, ModalComponent, ReactiveFormsModule, BusOwnerfooterComponent],
   templateUrl: './counters.component.html',
   styleUrl: './counters.component.css'
 })

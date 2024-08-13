@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,9 +12,13 @@ import { FaqsComponent } from '../faqs/faqs.component';
 import { BusBenefitsComponent } from '../bus-benefits/bus-benefits.component';
 import { NotificationBannerComponent } from '../notification-banner/notification-banner.component';
 import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { FormComponent } from '../../../../shared/reusableComponents/form/form.component';
+import { FormField } from '../../../../core/models/user/form-fields.interface';
+import { SearchTripService } from '../../../../core/services/user/search-trip.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-userhome',
@@ -36,11 +40,100 @@ import { RouterModule } from '@angular/router';
     NgbAlertModule,
     FormsModule,
     JsonPipe,
-    RouterModule
+    RouterModule,
+    FormComponent,
+    HttpClientModule
   ],
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',
 })
-export class UserhomeComponent {
+export class UserhomeComponent implements OnInit {
   model !: NgbDateStruct;
+  searchForm!: FormGroup;
+
+  From: FormField[] = [
+    {
+      name: 'from',
+      label: 'From',
+      type: 'autocomplete',
+      placeholder: 'From',
+      validators: [Validators.required],
+      errors: [{ type: 'required', message: 'From location is required' }]
+    }
+  ];
+
+  To: FormField[] = [
+    {
+      name: 'to',
+      label: 'From',
+      type: 'autocomplete',
+      placeholder: 'To',
+      validators: [Validators.required],
+      errors: [{ type: 'required', message: 'To location is required' }]
+    },
+  ]
+
+  Date: FormField[] = [
+    {
+      name: 'dateField',
+      type: 'date',
+      placeholder: 'Date',
+      validators: [Validators.required],
+      errors: [{ type: 'required', message: 'Date is required' }]
+    }
+  ]
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private searchTripService: SearchTripService
+  ) { }
+
+  ngOnInit() {
+    this.searchForm = this.fb.group({
+      from: ['', Validators.required],
+      to: ['', Validators.required],
+      dateField: ['', Validators.required]
+    });
+  }
+
+  onSearchSubmit() {
+    if (this.searchForm.valid) {
+      const searchData = {
+        from: this.searchForm.get('from')?.value,
+        to: this.searchForm.get('to')?.value,
+        date: this.formatDate(this.searchForm.get('dateField')?.value)
+      };
+
+      console.log('Sending search data:', searchData);
+
+      this.searchTripService.searchTrips(searchData).subscribe(
+        (results) => {
+          console.log('Received search results:', results);
+          this.router.navigate(['/searchresults'], {
+            state: {
+              searchResults: results,
+              selectedDate: searchData.date,
+              from: searchData.from,
+              to: searchData.to
+            }
+          });
+        },
+        (error) => {
+          console.error('Error searching trips:', error);
+        }
+      );
+    }
+  }
+
+  private formatDate(date: string | Date): string {
+    if (date instanceof Date) {
+      return date.toISOString().split('T')[0];
+    } else if (typeof date === 'string') {
+      return new Date(date).toISOString().split('T')[0];
+    } else {
+      console.error('Invalid date format:', date);
+      return '';
+    }
+  }
 } 

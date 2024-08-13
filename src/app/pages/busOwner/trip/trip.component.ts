@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,11 +11,12 @@ import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fle
 import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';
 import { ScheduleService } from '../../../core/services/busOwner/schedule/schedule.service';
 import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-trip',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent],
+  imports: [OwnernavComponent, DataTableComponent],
   templateUrl: './trip.component.html',
   styleUrl: './trip.component.css'
 })
@@ -55,7 +55,8 @@ export class TripComponent implements OnInit {
       schedule: ['', Validators.required],
       startFrom: ['', Validators.required],
       endTo: ['', Validators.required],
-      dayOff: [[], Validators.required]
+      dayOff: [[], Validators.required],
+      ticketPrice: ['', Validators.required]
     });
   }
 

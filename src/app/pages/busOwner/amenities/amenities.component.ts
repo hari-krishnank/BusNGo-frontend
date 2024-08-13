@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { OwnersecondnavComponent } from '../../../shared/widgets/ownersecondnav/ownersecondnav.component';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
@@ -9,11 +8,12 @@ import { Subscription } from 'rxjs';
 import { AmenitiesModalService } from '../../../core/services/busOwner/amenities/amenities-modal.service';
 import { AmenitiesSearchService } from '../../../core/services/busOwner/amenities/amenities-search.service';
 import { IAmenity, ICreateAmenityDto, IUpdateAmenityDto } from '../../../core/models/busOwner/amenity.interface';
+import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
 @Component({
   selector: 'app-amenities',
   standalone: true,
-  imports: [OwnersecondnavComponent, DataTableComponent, ReactiveFormsModule],
+  imports: [OwnernavComponent, DataTableComponent, ReactiveFormsModule],
   templateUrl: './amenities.component.html',
   styleUrl: './amenities.component.css'
 })

@@ -1,6 +1,5 @@
 <div class="container mx-auto px-4 mb-16">
     <p class="text-3xl font-bold mb-6 text-start">Exclusive Offers</p>
-
     <swiper-container init="false" [attr.breakpoints]="stringifyBreakpoints()" navigation="true" pagination="true">
         <swiper-slide *ngFor="let offer of offers; let i = index">
             <div class="offer-card rounded-lg overflow-hidden shadow-sm bg-slate-50">
@@ -8,7 +7,7 @@
                     [ngStyle]="{'background-image': 'url(' + offer.backgroundImage + ')', 'background-size': 'cover', 'background-position': 'center'}">
                 </div>
                 <div class="card-content p-4">
-                    <p class="text-xl font-bold">{{offer.title}}</p>
+                    <p class="text-xl font-bold">{{offer.title}}</p> 
                     <p class="text-lg font-semibold mb-2">{{offer.subtitle}}</p>
                     <p class="text-sm mb-2">{{offer.description}}</p>
                     <div class="flex justify-between items-center mb-2">
@@ -29,7 +28,8 @@
         </swiper-slide>
     </swiper-container>
 
-    <div class="text-center mt-8">
-        <button mat-raised-button style="background-color: rgb(5, 109, 173); color: white;" class="px-6 py-2 text-lg hover:bg-opacity-80 transition-colors duration-300">View All Offers</button>
+    <div class="text-center mt-6">
+        <button mat-raised-button color="primary"
+            class="px-6 py-2 text-lg hover:bg-opacity-80 transition-colors duration-300">View All Offers</button>
     </div>
 </div>

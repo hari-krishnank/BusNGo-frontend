@@ -1,5 +1,5 @@
-<div *ngIf="isVisible && !loginService.isLoggedIn()"
-    class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+<div *ngIf="isVisible && !loginService.isLoggedIn()" 
+    class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-1 sm:px-3.5 sm:before:flex-1">
     <div class="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
         aria-hidden="true">
         <div class="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
@@ -19,9 +19,9 @@
                 <circle cx="1" cy="1" r="1" />
             </svg>Plan your trips effortlessly. Explore our exclusive offers and book your tickets today!
         </p>
-        <button mat-raised-button style="background-color: rgb(5, 109, 173); color: white;"
-            class="px-6 py-2 text-sm hover:bg-opacity-80 transition-colors duration-300 rounded"
-            (click)="register()">Register now</button>
+        <button mat-button color="warn" style="height: 30px; font-size: 13px; margin-bottom: 3px;"
+            class="px-6 py-2 hover:bg-opacity-80 transition-colors duration-300 rounded" (click)="register()">Register
+            now</button>
     </div>
     <div class="flex flex-1 justify-end">
         <button type="button" (click)="closeBanner()" class="-m-3 p-3 focus-visible:outline-offset-[-4px]">

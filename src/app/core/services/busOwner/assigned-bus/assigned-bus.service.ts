@@ -22,8 +22,9 @@ export class AssignedBusService {
             .pipe(
                 map(assignments => assignments.map(assignment => ({
                     ...assignment,
-                    tripName: `${assignment.trip.startFrom.name} to ${assignment.trip.endTo.name}`,
-                    busName: assignment.bus.name
+                    tripName: assignment.trip.title,
+                    busName: assignment.bus.name,
+                    regNo: assignment.bus.regNo
                 })))
             );
     }

@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { IBenefit, IGridItem } from '../../../../core/models/user/home.interface';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-bus-benefits',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    MatButtonModule
   ],
   templateUrl: './bus-benefits.component.html',
   styleUrl: './bus-benefits.component.css'
@@ -25,7 +27,7 @@ export class BusBenefitsComponent {
 
   dealsDescription = `Don't miss out on these incredible offers, book your bus tickets now and travel with convenience and affordability. Hurry, grab the best bus booking deals before they're gone!`;
 
-  bookingData = {
+  bookingData = {  
     deals: 3373,
     busOperators: 1480,
     routes: 162128

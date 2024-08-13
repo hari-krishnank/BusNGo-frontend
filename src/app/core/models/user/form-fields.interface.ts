@@ -8,10 +8,10 @@ export interface FormFieldError {
 
 export interface FormField {
     name: string;
-    label: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete' | 'select';
-    placeholder: string;
-    errors: FormFieldError[];
+    label?: string;
+    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete' | 'select' | 'date';
+    placeholder?: string;
+    errors : FormFieldError[];
     validators?: any[];
     options?: { value: string; label: string, iconClass?: string }[];
     conditionalDisplay?: string
