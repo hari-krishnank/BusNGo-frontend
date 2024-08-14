@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-seat-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './seat-preview.component.html',
   styleUrl: './seat-preview.component.css'
 })
@@ -14,6 +15,7 @@ export class SeatPreviewComponent implements OnChanges {
   @Input() driverSeatPosition!: 'Left' | 'Right';
   @Input() selectedSeats: string[] = [];
   @Input() previewMode: boolean = false;
+  @Input() isOwnerView: boolean = false;
   @Output() seatsSelected = new EventEmitter<string[]>();
 
   seatLayout!: string[][];
@@ -25,7 +27,7 @@ export class SeatPreviewComponent implements OnChanges {
       rows: this.rows,
       columns: this.columns,
       driverSeatPosition: this.driverSeatPosition,
-      selectedSeats: this.selectedSeats
+      selectedSeats: this.selectedSeats,
     });
 
     if (changes['selectedSeats']) {
@@ -57,7 +59,7 @@ export class SeatPreviewComponent implements OnChanges {
   }
 
   toggleSeatSelection(seat: string) {
-    if (seat === 'D' || this.previewMode) return;
+    if (seat === 'D' || this.previewMode || this.isOwnerView) return;
     if (this.selectedSeatsSet.has(seat)) {
       this.selectedSeatsSet.delete(seat);
     } else {
@@ -68,5 +70,19 @@ export class SeatPreviewComponent implements OnChanges {
 
   isSeatSelected(seat: string): boolean {
     return this.selectedSeatsSet.has(seat);
+  }
+
+  shouldDisplaySeat(seat: string): boolean {
+    return seat === 'D' || this.selectedSeatsSet.has(seat);
+  }
+
+  getSeatIcon(seat: string): string {
+    if (seat === 'D') return 'directions_car';
+    return this.isSeatSelected(seat) ? 'event_seat' : 'chair';
+  }
+
+  getSeatTooltip(seat: string): string {
+    if (seat === 'D') return 'Driver Seat';
+    return this.isSeatSelected(seat) ? 'Selected' : 'Available';
   }
 }

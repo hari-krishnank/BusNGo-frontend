@@ -3,7 +3,7 @@
     <p class="modal-title">Seat Layout Preview</p>
     <mat-dialog-content class="custom-scroll">
         <app-seat-preview class="large-preview" [rows]="data.rows" [columns]="data.columns"
-            [driverSeatPosition]="data.driverSeatPosition" [selectedSeats]="data.selectedSeats" [previewMode]="true">
+            [driverSeatPosition]="data.driverSeatPosition" [selectedSeats]="data.selectedSeats" [isOwnerView]="true"  [previewMode]="true">
         </app-seat-preview>
     </mat-dialog-content>
     <div class="preview-info">
@@ -13,4 +13,4 @@
         <p class="feature-list font-serif">Driver Seat: <span class="font-sans font-bold"> {{data.driverSeatPosition}}</span></p>
         <p class="note font-semibold">Note: <span class="text-red-500">You can adjust the layout in the edit settings.</span></p>
     </div>
-</div>
+</div> 

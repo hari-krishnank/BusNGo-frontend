@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UpdateSearchService } from '../../../core/services/user/update-search.service';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchResultsService } from '../../../core/services/user/search-result.service';
 
 @Component({
   selector: 'app-update-search',
@@ -50,7 +51,12 @@ export class UpdateSearchComponent {
     }
   ];
 
-  constructor(private fb: FormBuilder, private updateSearchService: UpdateSearchService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private updateSearchService: UpdateSearchService,
+    private router: Router,
+    private searchResultsService: SearchResultsService
+  ) { }
 
   ngOnInit() {
     this.updateSearchForm = this.fb.group({
@@ -81,14 +87,8 @@ export class UpdateSearchComponent {
       this.updateSearchService.updateSearch(searchData).subscribe(
         (results) => {
           console.log('Received updated search results:', results);
-          this.router.navigate(['/searchresults'], {
-            state: {
-              searchResults: results,
-              selectedDate: searchData.date,
-              from: searchData.from,
-              to: searchData.to
-            }
-          });
+          this.searchResultsService.updateSearchResults(results, searchData.date, searchData);
+          this.router.navigate(['/searchresults']);
         },
         (error) => {
           console.error('Error updating search:', error);

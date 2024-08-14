@@ -1,113 +1,160 @@
 <app-update-search [searchData]="searchData"></app-update-search>
-
 <div class="container mx-auto p-4 mb-16 mt-32">
     <app-sort-buses></app-sort-buses>
     <div class="flex">
-        <app-filter-buses class="w-1/4 pr-4"></app-filter-buses>
+        <app-filter-buses class="w-1/4 pr-4 mr-2"></app-filter-buses>
         <div class="w-3/4">
-            <div class="border rounded-lg p-4">
-                <div *ngFor="let trip of searchResults" class="flex justify-between items-start mb-4">
-                    <div>
-                        <h2 class="text-xl font-bold">{{trip.bus.name}}</h2>
-                        <p class="text-gray-600">{{trip.fleetType.name}}</p>
+            <div class="space-y-8">
+                <div *ngFor="let trip of searchResults; trackBy: trackByTripId"
+                    class="border rounded-lg p-4 bg-white shadow-md">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-1/5 pr-2">
+                            <p class="text-xl font-bold truncate">{{trip.bus.name}}</p>
+                            <p class="text-gray-600">{{trip.fleetType.name}}</p>
+                        </div>
+                        <div class="w-1/4 text-right">
+                            <p class="text-2xl font-bold">{{trip.schedule.startFrom}}</p>
+                            <p class="text-gray-600 truncate">{{trip.startFrom.location}}</p>
+                        </div>
+                        <div class="w-1/4 text-center">
+                            <p class="text-gray-600">{{trip.route.time}}</p>
+                            <p class="text-gray-600">{{formatDisplayDate(selectedDate)}}</p>
+                        </div>
+                        <div class="w-1/4 text-left">
+                            <p class="text-2xl font-bold">{{trip.schedule.end}}</p>
+                            <p class="text-gray-600 truncate">{{trip.endTo.location}}</p>
+                        </div>
+                        <div class="w-1/4 text-right">
+                            <p class="text-2xl font-bold">₹ {{trip.ticketPrice}}</p>
+                            <!-- <p class="text-red-500">Total 10 seats left</p> -->
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-bold">{{trip.schedule.startFrom}}</p>
-                        <p class="text-gray-600">{{trip.startFrom.location}}</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-gray-600">{{trip.route.time}}</p>
-                        <p class="text-gray-600">{{formatDisplayDate(selectedDate)}}</p>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-2xl font-bold">{{trip.schedule.end}}</p>
-                        <p class="text-gray-600">{{trip.endTo.location}}</p>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-bold">₹ {{trip.ticketPrice}}</p>
-                        <p class="text-gray-600"></p>
-                        <p class="text-red-500">Total 10 seats left</p>
-                    </div>
-                </div>
 
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <!-- <span class="bg-emerald-500 text-white px-2 py-1 rounded">3.1 /5</span>
-                        <span class="text-gray-600">162 Ratings</span>
-                        <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Live Tracking
-                        </span> -->
+                    <div class="flex items-center justify-between">
+                        <div class="mt-4">
+                        </div>
+                        <button class="w-40" mat-raised-button color="primary" (click)="toggleTripDetails(trip._id)">
+                            {{ isTripExpanded(trip._id) ? 'HIDE SEATS' : 'SELECT SEATS' }}
+                        </button>
                     </div>
-                    <button mat-raised-button color="primary">SELECT SEATS</button>
-                </div>
 
-                <div class="mt-4">
-                    <span class="text-emerald-500 mr-2">★ People choice for</span>
-                    <span class="text-gray-600">• Friendly Staffs • On Time • Women Traveling</span>
-                </div>
+                    <div *ngIf="expandedTripIds[trip._id]" class="mt-4">
+                        <div class="bg-gray-100 py-0.5 rounded-full">
+                            <ul class="flex justify-between mt-2">
+                                <li>
+                                    <button mat-button
+                                        [color]="isSelectedSection(trip._id, 'SELECT SEATS') ? 'warn' : ''"
+                                        class="px-4 py-2" style="font-size: small;"
+                                        (click)="selectSection(trip._id, 'SELECT SEATS')">
+                                        SELECT SEATS
+                                    </button>
+                                </li>
+                                <li>
+                                    <button mat-button
+                                        [color]="isSelectedSection(trip._id, 'AMENITIES AND PHOTOS') ? 'warn' : ''"
+                                        class="px-4 py-2" style="font-size: small;"
+                                        (click)="selectSection(trip._id, 'AMENITIES AND PHOTOS')">
+                                        AMENITIES AND PHOTOS
+                                    </button>
+                                </li>
+                                <li>
+                                    <button mat-button [color]="isSelectedSection(trip._id, 'REVIEWS') ? 'warn' : ''"
+                                        class="px-4 py-2" style="font-size: small;"
+                                        (click)="selectSection(trip._id, 'REVIEWS')">
+                                        REVIEWS
+                                    </button>
+                                </li>
+                                <li>
+                                    <button mat-button
+                                        [color]="isSelectedSection(trip._id, 'BOARDING AND DROPPING') ? 'warn' : ''"
+                                        class="px-4 py-2 mr-4" style="font-size: small;"
+                                        (click)="selectSection(trip._id, 'BOARDING AND DROPPING')">
+                                        BOARDING AND DROPPING
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
 
-                <div class="mt-4 flex justify-between">
-                    <button class="text-blue-500">Boarding & Dropping Points</button>
-                    <button class="text-blue-500 flex items-center">
-                        Amenities, Policies & Bus Details
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
+                        <div [ngSwitch]="selectedSections[trip._id]" class="mt-4">
+                            <div *ngSwitchCase="'SELECT SEATS'" class="flex">
+                                <!-- Boarding and Dropping Point Selection -->
+                                <div class="w-1/3 pr-4">
+                                    <p class="font-semibold mb-4" style="font-size: medium;">• Select boarding and
+                                        dropping point</p>
+                                    <div class="mb-4">
+                                        <p class="font-medium mb-2">Boarding Point</p>
+                                        <div class="mb-2">
+                                            <label class="flex items-center">
+                                                <input type="radio" [name]="'boarding-' + trip._id"
+                                                    [value]="trip.startFrom.id" class="mr-2">
+                                                <span class="font-semibold">{{trip.schedule.startFrom}}</span>
+                                                <span class="ml-2">{{trip.startFrom.location}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium mb-2">Dropping Point</p>
+                                        <div class="mb-2">
+                                            <label class="flex items-center">
+                                                <input type="radio" [name]="'dropping-' + trip._id"
+                                                    [value]="trip.endTo.id" class="mr-2">
+                                                <span class="font-semibold">{{trip.schedule.end}}</span>
+                                                <span class="ml-2">{{trip.endTo.location}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Seat Selection -->
+                                <div class="w-2/3">
+                                    <p class="font-semibold mb-4" style="font-size: medium;">• Select your seat</p>
+                                    <!-- Seat type legend -->
+                                    <div class="flex justify-between mb-4 text-sm">
+                                        <span class="flex items-center"><span
+                                                class="w-4 h-4 bg-gray-500 inline-block mr-1"></span> Booked</span>
+                                        <span class="flex items-center"><span
+                                                class="w-4 h-4 bg-white border border-gray-300 inline-block mr-1"></span>
+                                            Available</span>
+                                        <span class="flex items-center"><span
+                                                class="w-4 h-4 bg-pink-500 inline-block mr-1"></span> Ladies</span>
+                                        <span class="flex items-center"><span
+                                                class="w-4 h-4 bg-blue-500 inline-block mr-1"></span> Men</span>
+                                    </div>
+                                    <!-- Price information -->
+                                    <div class="mb-4">
+                                        <span class="font-semibold text-xl">All</span>
+                                        <span class="ml-4 text-lg font-medium">₹ {{trip.ticketPrice}}</span>
+                                    </div>
+
+                                    <!-- Custom seat layout -->
+                                    <app-seat-preview [rows]="getSeatLayout(trip).rows"
+                                        [columns]="getSeatLayout(trip).columns"
+                                        [driverSeatPosition]="getSeatLayout(trip).driverSeatPosition"
+                                        [selectedSeats]="getSeatLayout(trip).selectedSeats" [isOwnerView]="true"
+                                        [previewMode]="true" (seatsSelected)="onSeatsSelected(trip._id, $event)">
+                                    </app-seat-preview>
+
+                                    <!-- Proceed button -->
+                                    <button mat-raised-button color="primary" class="w-full py-2">
+                                        SELECT SEATS TO PROCEED
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'AMENITIES AND PHOTOS'">
+                                <!-- Amenities and photos content -->
+                            </div>
+                            <div *ngSwitchCase="'REVIEWS'">
+                                <!-- Reviews content -->
+                            </div>
+                            <div *ngSwitchCase="'BOARDING AND DROPPING'">
+                                <!-- Boarding and dropping content -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <app-busroute-details></app-busroute-details>
         </div>
     </div>
+    <app-busroute-details></app-busroute-details>
 </div>
 <app-footer></app-footer>
-<!-- 
-<app-usernav></app-usernav>
-
-<div class="container mx-auto p-4 mb-16 mt-32">
-    <app-update-search></app-update-search>
-    <app-sort-buses></app-sort-buses>
-    <div class="flex">
-        <app-filter-buses class="w-1/4 pr-4"></app-filter-buses>
-        <div class="w-3/4">
-            <div *ngFor="let trip of searchResults" class="border rounded-lg p-4 mb-4">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h2 class="text-xl font-bold">{{trip.fleetType.name}}</h2>
-                        <p class="text-gray-600">{{trip.fleetType.type}}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-bold">{{trip.schedule.departureTime}}</p>
-                        <p class="text-gray-600">{{trip.startFrom.name}}</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-gray-600">{{trip.schedule.duration}}</p>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-2xl font-bold">{{trip.schedule.arrivalTime}}</p>
-                        <p class="text-gray-600">{{trip.endTo.name}}</p>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-bold">₹{{trip.fare}}</p>
-                        <p class="text-red-500">{{trip.availableSeats}} seats left</p>
-                    </div>
-                </div>
-                <button mat-raised-button style="background-color: rgb(5, 109, 173)"
-                    class="px-3 py-2 text-sm text-white hover:bg-opacity-80 transition-colors duration-300 rounded-md">SELECT
-                    SEATS</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<app-footer></app-footer> -->
