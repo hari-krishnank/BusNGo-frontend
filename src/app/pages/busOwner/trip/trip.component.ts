@@ -119,7 +119,7 @@ export class TripComponent implements OnInit {
   }
 
   loadStartFrom() {
-    this.counterService.getCounters().subscribe(
+    this.counterService.getAllCounters().subscribe(
       (counters) => {
         const counterField = this.modalFields.find(field => field.name === 'startFrom')
         if (counterField) {
@@ -133,7 +133,7 @@ export class TripComponent implements OnInit {
   }
 
   loadEndTo() {
-    this.counterService.getCounters().subscribe(
+    this.counterService.getAllCounters().subscribe(
       (counters) => {
         const counterField = this.modalFields.find(field => field.name === 'endTo')
         if (counterField) {

@@ -38,7 +38,6 @@ export class SeatLayoutsComponent implements OnInit {
         this.seatLayoutsData = layouts.map((layout, index) => ({
           ...layout,
           siNo: index + 1,
-          driverSeatPosition: layout.driverSeatPosition,
           selectedSeats: layout.selectedSeats || [],
           totalSeats: this.calculateTotalSeats(layout)
         }));
@@ -74,7 +73,6 @@ export class SeatLayoutsComponent implements OnInit {
   createLayoutsForm(layout?: any): FormGroup {
     return this.formBuilder.group({
       layoutName: [layout?.layoutName || '', Validators.required],
-      driverSeatPosition: [layout?.driverSeatPosition || '', Validators.required],
       rows: [layout?.rows || '', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       columns: [layout?.columns || '', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       status: [layout ? layout.status : '', [Validators.required, noWhitespaceValidator()]],

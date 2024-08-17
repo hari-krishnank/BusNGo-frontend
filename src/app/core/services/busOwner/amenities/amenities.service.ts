@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 import { IAmenity, ICreateAmenityDto, IUpdateAmenityDto } from '../../../models/busOwner/amenity.interface';
 
@@ -17,9 +17,22 @@ export class AmenitiesService {
     console.log(token);
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
-  
-  getAmenities(): Observable<IAmenity[]> {
-    return this.http.get<IAmenity[]>(this.backendUrl, { headers: this.getHeaders() });
+
+  getAllAmenities(): Observable<IAmenity[]> {
+    return this.getAmenities(1, 1000).pipe(
+      map(response => response.amenities)
+    );
+  }
+
+  getAmenities(page: number = 1, limit: number = 5): Observable<{ amenities: IAmenity[], total: number }> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    return this.http.get<{ amenities: IAmenity[], total: number }>(this.backendUrl, {
+      headers: this.getHeaders(),
+      params: params
+    });
   }
 
   getAmenity(id: string): Observable<IAmenity> {

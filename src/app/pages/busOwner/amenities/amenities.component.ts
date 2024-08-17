@@ -23,6 +23,9 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
   amenitiesColumns = amenitiesColumns;
   modalFields = amenitiesModalFields;
   private searchSubscription !: Subscription;
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(
     private amenitiesService: AmenitiesService,
@@ -42,19 +45,26 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
   }
 
   loadAmenities() {
-    this.amenitiesService.getAmenities().subscribe(
-      (data) => {
-        this.amenitiesData = data.map((amenity, index) => ({
+    this.amenitiesService.getAmenities(this.currentPage, this.itemsPerPage).subscribe(
+      data => {
+        this.amenitiesData = data.amenities.map((amenity, index) => ({
           ...amenity,
-          slNo: index + 1
+          slNo: (this.currentPage - 1) * this.itemsPerPage + index + 1
         }));
         this.filteredAmenitiesData = [...this.amenitiesData];
+        this.totalItems = data.total;
         console.log(this.filteredAmenitiesData);
-        
       },
       (error) => console.error('Error fetching amenities:', error)
     );
   }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadAmenities();
+  }
+
 
   onSearch(searchTerm: string) {
     console.log('Search term received in AmenitiesComponent:', searchTerm);
@@ -78,7 +88,7 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
   }
 
   saveAmenity(formData: ICreateAmenityDto) {
-    console.log('Form data being sent:', formData); 
+    console.log('Form data being sent:', formData);
     this.amenitiesService.createAmenity(formData).subscribe(
       () => this.loadAmenities(),
       (error) => console.error('Error saving amenity:', error)
@@ -86,7 +96,7 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
   }
 
   updateAmenity(id: string, formData: IUpdateAmenityDto) {
-    console.log('Form data being sent for update:', formData); 
+    console.log('Form data being sent for update:', formData);
     this.amenitiesService.updateAmenity(id, formData).subscribe(
       () => this.loadAmenities(),
       (error) => console.error('Error updating amenity:', error)

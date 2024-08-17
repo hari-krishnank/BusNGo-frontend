@@ -151,11 +151,11 @@
     </ng-container>
 
     <p class="text-2xl font-serif text-blue-600 mb-4 text-center"
-        *ngIf="form.get('rows')?.value && form.get('columns')?.value && form.get('driverSeatPosition')?.value">Seat
+        *ngIf="form.get('rows')?.value">Seat
         Preview</p>
     <app-seat-preview [rows]="form.get('rows')?.value" [columns]="form.get('columns')?.value"
-        [driverSeatPosition]="form.get('driverSeatPosition')?.value" [selectedSeats]="form.get('selectedSeats')?.value"
-        (seatsSelected)="onSeatsSelected($event)">
+        [selectedSeats]="form.get('selectedSeats')?.value"
+        (seatsSelected)="onSeatsSelected($event)" [viewType]="'owner'" >
     </app-seat-preview>
 
     <button *ngIf="!hideSubmitButton" mat-raised-button style="background-color: rgb(5, 109, 173); color: white;"

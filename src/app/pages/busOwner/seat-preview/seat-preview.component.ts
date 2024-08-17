@@ -12,35 +12,36 @@ import { MatIconModule } from '@angular/material/icon';
 export class SeatPreviewComponent implements OnChanges {
   @Input() rows!: number;
   @Input() columns!: number;
-  @Input() driverSeatPosition!: 'Left' | 'Right';
   @Input() selectedSeats: string[] = [];
   @Input() previewMode: boolean = false;
   @Input() isOwnerView: boolean = false;
+  @Input() allowUserSelection: boolean = false;
+  @Input() viewType: 'owner' | 'user' = 'user';
   @Output() seatsSelected = new EventEmitter<string[]>();
 
   seatLayout!: string[][];
-  selectedSeatsSet: Set<string> = new Set();
+  selectedSeatsMap: Map<string, number> = new Map();
+  userSelectedSeats: string[] = [];
+  nextSeatNumber: number = 1;
 
   ngOnChanges(changes: SimpleChanges) {
-
     console.log('SeatPreviewComponent inputs:', {
       rows: this.rows,
       columns: this.columns,
-      driverSeatPosition: this.driverSeatPosition,
       selectedSeats: this.selectedSeats,
     });
 
-    if (changes['selectedSeats']) {
-      this.selectedSeatsSet = new Set(this.selectedSeats);
-    }
-    if (changes['rows'] || changes['columns'] || changes['driverSeatPosition'] || changes['selectedSeats']) {
+    if (changes['rows'] || changes['columns']) {
       this.generateSeatLayout();
-      this.selectedSeatsSet = new Set(this.selectedSeats);
+    }
+
+    if (changes['selectedSeats']) {
+      this.updateSelectedSeats();
     }
   }
 
   generateSeatLayout() {
-    if (this.rows === undefined || this.columns === undefined || this.driverSeatPosition === undefined) {
+    if (this.rows === undefined || this.columns === undefined) {
       return;
     }
 
@@ -48,41 +49,56 @@ export class SeatPreviewComponent implements OnChanges {
     for (let i = 0; i < this.rows; i++) {
       const row = [];
       for (let j = 0; j < this.columns; j++) {
-        if (i === 0 && j === (this.driverSeatPosition === 'Left' ? 0 : this.columns - 1)) {
-          row.push('D');
-        } else {
-          row.push((i * this.columns + j + 1).toString());
-        }
+        row.push(`${i}-${j}`);
       }
       this.seatLayout.push(row);
     }
   }
 
-  toggleSeatSelection(seat: string) {
-    if (seat === 'D' || this.previewMode || this.isOwnerView) return;
-    if (this.selectedSeatsSet.has(seat)) {
-      this.selectedSeatsSet.delete(seat);
-    } else {
-      this.selectedSeatsSet.add(seat);
+  updateSelectedSeats() {
+    this.selectedSeatsMap.clear();
+    this.nextSeatNumber = 1;
+    if (this.selectedSeats && Array.isArray(this.selectedSeats)) {
+      for (const seat of this.selectedSeats) {
+        this.selectedSeatsMap.set(seat, this.nextSeatNumber++);
+      }
     }
-    this.seatsSelected.emit(Array.from(this.selectedSeatsSet));
+  }
+
+  toggleSeatSelection(seat: string) {
+    if (!this.allowUserSelection) return;
+
+    const index = this.userSelectedSeats.indexOf(seat);
+    if (index > -1) {
+      this.userSelectedSeats.splice(index, 1);
+    } else {
+      this.userSelectedSeats.push(seat);
+      console.log('user select cheytha seat',this.userSelectedSeats);
+    }
+
+    this.seatsSelected.emit(this.userSelectedSeats);
+  }
+
+  toggleSeatSelectionOwner(seat: string) {
+    if (this.previewMode || this.isOwnerView) return;
+
+    if (this.selectedSeatsMap.has(seat)) {
+      this.selectedSeatsMap.delete(seat);
+    } else {
+      this.selectedSeatsMap.set(seat, this.nextSeatNumber++);
+    }
+    this.seatsSelected.emit(Array.from(this.selectedSeatsMap.keys()));
   }
 
   isSeatSelected(seat: string): boolean {
-    return this.selectedSeatsSet.has(seat);
+    return this.selectedSeatsMap.has(seat);
   }
 
-  shouldDisplaySeat(seat: string): boolean {
-    return seat === 'D' || this.selectedSeatsSet.has(seat);
+  isUserSelected(seat: string): boolean {
+    return this.userSelectedSeats.includes(seat);
   }
 
-  getSeatIcon(seat: string): string {
-    if (seat === 'D') return 'directions_car';
-    return this.isSeatSelected(seat) ? 'event_seat' : 'chair';
-  }
-
-  getSeatTooltip(seat: string): string {
-    if (seat === 'D') return 'Driver Seat';
-    return this.isSeatSelected(seat) ? 'Selected' : 'Available';
+  getSeatNumber(seat: string): number | null {
+    return this.selectedSeatsMap.get(seat) || null;
   }
 }

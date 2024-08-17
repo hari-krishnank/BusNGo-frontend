@@ -23,6 +23,9 @@ export class CountersComponent implements OnInit {
   countersData: any[] = [];
   countersColumns = countersColumns;
   modalFields = counterModalFields;
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(
     private countersService: CounterService,
@@ -35,13 +38,20 @@ export class CountersComponent implements OnInit {
   }
 
   loadCounters(): void {
-    this.countersService.getCounters().subscribe(
+    this.countersService.getCounters(this.currentPage, this.itemsPerPage).subscribe(
       data => {
-        this.allCountersData = data;
-        this.countersData = data;
+        this.countersData = data.counters;
+        console.log(this.countersData);
+        this.totalItems = data.total;
       },
       error => console.error('Error loading counters:', error)
     );
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadCounters();
   }
 
   openModal(counter?: any): void {

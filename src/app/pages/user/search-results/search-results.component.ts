@@ -12,11 +12,12 @@ import { SearchResultsService } from '../../../core/services/user/search-result.
 import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { SeatPreviewComponent } from '../../busOwner/seat-preview/seat-preview.component';
+import { UserSeatBookingComponent } from '../user-seat-booking/user-seat-booking.component';
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [CommonModule, SeatPreviewComponent, UsernavComponent, UpdateSearchComponent, FilterBusesComponent, SortBusesComponent, BusrouteDetailsComponent, FooterComponent, MatButtonModule, MatIconModule],
+  imports: [CommonModule, SeatPreviewComponent, UserSeatBookingComponent, UsernavComponent, UpdateSearchComponent, FilterBusesComponent, SortBusesComponent, BusrouteDetailsComponent, FooterComponent, MatButtonModule, MatIconModule],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.css'
 })
@@ -127,13 +128,25 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getSeatLayout(trip: any): any {
-    console.log('Getting seat layout for trip:', trip);
+    // console.log('Getting seat layout for trip:', trip);
     const layout = trip.fleetType.seatLayout;
-    console.log('Seat layout:', layout);
+    // console.log('Seat layout:', layout);
     return layout;
   }
 
-  onSeatsSelected(tripId: string, selectedSeats: string[]) {
-    console.log(`Selected seats for trip ${tripId}:`, selectedSeats);
+  onSeatsSelected(tripName: string, selectedSeats: string[]) {
+    console.log(`Selected seats for trip ${tripName}:`, selectedSeats);
+    const trip = this.searchResults.find(t => t.bus.name === tripName);
+    if (trip) {
+      trip.selectedSeats = selectedSeats;
+    }
+  }
+
+  bookSeats(trip: any) {
+    if (trip.selectedSeats && trip.selectedSeats.length > 0) {
+      console.log(`Booking seats for trip ${trip.bus.name}:`, trip.selectedSeats);
+    } else {
+      console.log('Please select seats before booking');
+    }
   }
 }

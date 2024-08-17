@@ -1,7 +1,6 @@
 export const seatLayoutsColumns = [
     { key: 'siNo', label: 'SI NO', },
     { key: 'layoutName', label: 'LAYOUT NAME', },
-    { key: 'driverSeatPosition', label: 'DRIVER POSITION' },
     { key: 'rows', label: 'ROWS' },
     { key: 'columns', label: 'COLUMNS' },
     { key: 'totalSeats', label: 'TOTAL SEATS' },

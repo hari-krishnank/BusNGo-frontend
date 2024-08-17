@@ -1,10 +1,14 @@
 <app-ownernav></app-ownernav>
+
 <app-data-table 
     [data]="countersData" 
     [columns]="countersColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
     title="ALL BUS STATIONS" 
-    (addNew)="openModal()" 
-    (edit)="openModal($event)"
-    (delete)="deleteCounter($event)"
+    (addNew)="openModal()"
+    (edit)="openModal($event)" 
+    (delete)="deleteCounter($event)" 
     (search)="searchCounters($event)">
 </app-data-table>

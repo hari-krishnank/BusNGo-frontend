@@ -88,7 +88,7 @@ export class AddRoutesComponent implements OnInit {
   }
 
   loadCounters() {
-    this.counterService.getCounters().subscribe(
+    this.counterService.getAllCounters().subscribe(
       (counters) => {
         this.counters = counters;
         this.updateCounterOptions();

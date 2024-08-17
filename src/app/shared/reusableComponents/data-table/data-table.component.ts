@@ -38,6 +38,9 @@ export class DataTableComponent implements OnInit {
   @Output() search = new EventEmitter<string>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() viewPreview = new EventEmitter<any>();
+  @Input() totalItems: number = 0;
+  @Input() itemsPerPage: number = 10;
+  @Output() pageChange = new EventEmitter<any>();
 
   dataSource!: MatTableDataSource<any>;
   searchForm !: FormGroup;
@@ -118,5 +121,9 @@ export class DataTableComponent implements OnInit {
 
   trackByFn(index: number, item: any): any {
     return item.id;
+  }
+
+  onPageChange(event: any) {
+    this.pageChange.emit(event);
   }
 }

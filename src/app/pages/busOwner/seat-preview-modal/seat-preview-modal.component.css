@@ -25,12 +25,8 @@
 }
 
 mat-dialog-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    max-height: 70vh;
-    min-height: 50vh;
+    margin-bottom: 24px;
+    max-height: 80vh;
 }
 
 .custom-scroll {
@@ -45,10 +41,11 @@ mat-dialog-content {
     display: none;
 }
 
-.large-preview {
-    margin-top: 50px;
-    transform: scale(1.5);
-    transform-origin: center;
+.animated-dialog .mat-dialog-container {
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: none;
 }
 
 .preview-info {
@@ -59,7 +56,7 @@ mat-dialog-content {
 }
 
 .info-text {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 15px;
     font-family: sans-serif;

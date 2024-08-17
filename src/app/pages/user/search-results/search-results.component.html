@@ -111,14 +111,20 @@
                                     <!-- Seat type legend -->
                                     <div class="flex justify-between mb-4 text-sm">
                                         <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-gray-500 inline-block mr-1"></span> Booked</span>
+                                                class="w-4 h-4 bg-emerald-500 inline-block mr-1"></span> Selected By
+                                            You</span>
                                         <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-white border border-gray-300 inline-block mr-1"></span>
-                                            Available</span>
+                                                class="w-4 h-4 border border-gray-300 inline-block mr-1"
+                                                style="background-color: #e0e0e0;"></span>
+                                            Available Seats</span>
                                         <span class="flex items-center"><span
                                                 class="w-4 h-4 bg-pink-500 inline-block mr-1"></span> Ladies</span>
                                         <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-blue-500 inline-block mr-1"></span> Men</span>
+                                                class="w-4 h-4 bg-blue-500 inline-block mr-1"></span> Gents</span>
+                                        <br>
+                                        <span class="flex items-center"><span
+                                                class="w-4 h-4 bg-gray-500 inline-block mr-1"></span> Booked
+                                            Seats</span>
                                     </div>
                                     <!-- Price information -->
                                     <div class="mb-4">
@@ -127,16 +133,19 @@
                                     </div>
 
                                     <!-- Custom seat layout -->
+
                                     <app-seat-preview [rows]="getSeatLayout(trip).rows"
                                         [columns]="getSeatLayout(trip).columns"
-                                        [driverSeatPosition]="getSeatLayout(trip).driverSeatPosition"
-                                        [selectedSeats]="getSeatLayout(trip).selectedSeats" [isOwnerView]="true"
-                                        [previewMode]="true" (seatsSelected)="onSeatsSelected(trip._id, $event)">
+                                        [selectedSeats]="getSeatLayout(trip).selectedSeats" [previewMode]="true"
+                                        [isOwnerView]="true" [allowUserSelection]="true" [viewType]="'user'"
+                                        (seatsSelected)="onSeatsSelected(trip.bus.name, $event)">
                                     </app-seat-preview>
 
                                     <!-- Proceed button -->
-                                    <button mat-raised-button color="primary" class="w-full py-2">
-                                        SELECT SEATS TO PROCEED
+                                    <button mat-raised-button color="primary" class="w-full py-2 mt-4"
+                                        (click)="bookSeats(trip)">
+                                        {{ trip.selectedSeats?.length ? 'PROCEED WITH SELECTED SEATS' : 'SELECT SEATS TO
+                                        PROCEED' }}
                                     </button>
                                 </div>
                             </div>

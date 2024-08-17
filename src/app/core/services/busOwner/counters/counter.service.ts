@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment.development';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,21 @@ export class CounterService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  getCounters(): Observable<any[]> {
-    return this.http.get<any[]>(this.backendUrl, { headers: this.getHeaders() })
+  getCounters(page: number = 1, limit: number = 5): Observable<{ counters: any[], total: number }> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    return this.http.get<{ counters: any[], total: number }>(this.backendUrl, {
+      headers: this.getHeaders(),
+      params: params
+    });
+  }
+
+  getAllCounters(): Observable<any[]> {
+    return this.getCounters(1, 1000).pipe(
+      map(response => response.counters)
+    );
   }
 
   addCounter(counterData: any): Observable<any[]> {

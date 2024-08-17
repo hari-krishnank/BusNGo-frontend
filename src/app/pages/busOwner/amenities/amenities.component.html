@@ -2,6 +2,9 @@
 <app-data-table 
     [data]="filteredAmenitiesData" 
     [columns]="amenitiesColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
     title="ALL AMENITIES" 
     (addNew)="openModal()"
     (edit)="openModal($event)" 

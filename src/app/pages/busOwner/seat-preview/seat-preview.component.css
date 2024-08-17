@@ -2,48 +2,62 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+
+.driver-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.seat-spacer {
+    width: 40px;
+    height: 30px;
+    margin: 5px;
 }
 
 .row {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
+    margin-bottom: 5px;
 }
 
 .seat {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #ccc;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: 1px solid #bbbbbb;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1px;
-    font-size: 10px;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .driver-seat {
-    background-color: #ffd700;
-    color: #000;
+    width: 50px;
+    height: 30px;
+    border: none;
 }
 
 .selected {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.unselected {
-    background-color: rgba(204, 204, 204, 0.1);
-    color: rgba(0, 0, 0, 0.1);
-}
-
-.seat-layout.preview-mode {
-    transform: scale(0.7);
-    transform-origin: top left;
-}
-
-.seat-layout.preview-mode .seat {
-    pointer-events: none;
+    background-color: #f0f0f0;
+    color: #888888;
+    cursor: pointer;
 }
 
 .hidden {
     visibility: hidden;
+}
+
+.user-selected {
+    background-color: #4CAF50;
+    color: white;
 }
