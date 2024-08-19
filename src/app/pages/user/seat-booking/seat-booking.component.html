@@ -1,0 +1,48 @@
+<p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="hidden-scrollbar">
+    <div class="sidebar-content">
+        <p class="text-2xl font-bold mb-4" style="margin-left: 10px;">Traveller details</p>
+
+        <div class="bg-blue-100 p-3 rounded-md mb-4 flex items-center ml-2">
+            <mat-icon class="mr-2 text-blue-500">person</mat-icon>
+            <span class="text-sm">Login to access your saved travellers and book faster!</span>
+            <a href="#" class="ml-auto text-blue-500 hover:underline">Login</a>
+        </div>
+
+        <div class="bg-pink-100 p-3 rounded-md mb-4 text-red-700 ml-2">
+            <p class="text-sm">PLEASE NOTE: Enter name(s) as mentioned on Government approved IDs</p>
+        </div>
+
+        <p class="font-semibold mb-2" style="margin-left: 10px;">TRAVELLER 1, SEAT 28</p>
+
+        <div class="flex mb-4 space-x-4 ml-2">
+            <label class="flex items-center border rounded-md px-4 py-2 cursor-pointer">
+                <input type="radio" name="gender" value="male" class="mr-2">
+                <span>Male</span>
+            </label>
+            <label class="flex items-center border rounded-md px-4 py-2 cursor-pointer">
+                <input type="radio" name="gender" value="female" class="mr-2">
+                <span>Female</span>
+            </label>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4 ml-2">
+            <app-form [form]="passengerDetailsForm" [fields]="formFields" (formSubmit)="onSubmit($event)"
+                submitButtonText="Find now" [hideSubmitButton]="true"></app-form>
+        </div>
+
+        <p class="text-xl font-semibold mb-4" style="margin-left: 10px;">Ticket details will be sent to</p>
+
+        <div class="grid grid-cols-2 gap-4 ml-2">
+            <app-form [form]="passengerDetailsForm" [fields]="formFields" (formSubmit)="onSubmit($event)"
+                submitButtonText="Find now" [hideSubmitButton]="true"></app-form>
+        </div>
+    </div>
+    <div class="fixed-bottom">
+        <div class="flex justify-between items-center">
+            <div>
+                <span class="text-2xl font-bold">₹630</span>
+            </div>
+            <button mat-raised-button color="warn">Review itinerary</button>
+        </div>
+    </div>
+</p-sidebar>

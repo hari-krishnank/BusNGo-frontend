@@ -25,12 +25,6 @@ export class SeatPreviewComponent implements OnChanges {
   nextSeatNumber: number = 1;
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('SeatPreviewComponent inputs:', {
-      rows: this.rows,
-      columns: this.columns,
-      selectedSeats: this.selectedSeats,
-    });
-
     if (changes['rows'] || changes['columns']) {
       this.generateSeatLayout();
     }
@@ -67,7 +61,7 @@ export class SeatPreviewComponent implements OnChanges {
 
   toggleSeatSelection(seat: string) {
     if (!this.allowUserSelection) return;
-
+    
     const index = this.userSelectedSeats.indexOf(seat);
     if (index > -1) {
       this.userSelectedSeats.splice(index, 1);
@@ -75,7 +69,6 @@ export class SeatPreviewComponent implements OnChanges {
       this.userSelectedSeats.push(seat);
       console.log('user select cheytha seat',this.userSelectedSeats);
     }
-
     this.seatsSelected.emit(this.userSelectedSeats);
   }
 

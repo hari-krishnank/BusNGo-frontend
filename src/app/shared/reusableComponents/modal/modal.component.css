@@ -39,7 +39,7 @@ mat-dialog-content {
     width: 0;
     height: 0;
     display: none;
-}
+} 
 
 .animated-dialog .mat-dialog-container {
     padding: 0;

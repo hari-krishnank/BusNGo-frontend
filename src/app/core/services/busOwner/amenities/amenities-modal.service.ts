@@ -11,10 +11,7 @@ import { IAmenity } from '../../../models/busOwner/amenity.interface';
     providedIn: 'root'
 })
 export class AmenitiesModalService {
-    constructor(
-        private dialog: MatDialog,
-        private amenitiesFormService: AmenitiesFormService
-    ) { }
+    constructor(private dialog: MatDialog, private amenitiesFormService: AmenitiesFormService) { }
 
     openModal(amenity: IAmenity | undefined, modalFields: ModalFormField[]): Observable<IAmenity> {
         const dialogRef = this.dialog.open(ModalComponent, {

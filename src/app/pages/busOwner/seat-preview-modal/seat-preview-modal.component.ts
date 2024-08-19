@@ -12,10 +12,7 @@ import { modalAnimation } from '../../../shared/animations/modal.animation';
   animations: [modalAnimation]
 })
 export class SeatPreviewModalComponent {
-  constructor(
-    public dialogRef: MatDialogRef<SeatPreviewModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  constructor(public dialogRef: MatDialogRef<SeatPreviewModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onClose(): void {
     this.dialogRef.close();

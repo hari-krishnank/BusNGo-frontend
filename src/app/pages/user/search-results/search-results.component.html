@@ -18,7 +18,7 @@
                         </div>
                         <div class="w-1/4 text-center">
                             <p class="text-gray-600">{{trip.route.time}}</p>
-                            <p class="text-gray-600">{{formatDisplayDate(selectedDate)}}</p>
+                            <p class="text-gray-600">{{tripService.formatDisplayDate(selectedDate)}}</p>
                         </div>
                         <div class="w-1/4 text-left">
                             <p class="text-2xl font-bold">{{trip.schedule.end}}</p>
@@ -26,137 +26,80 @@
                         </div>
                         <div class="w-1/4 text-right">
                             <p class="text-2xl font-bold">₹ {{trip.ticketPrice}}</p>
-                            <!-- <p class="text-red-500">Total 10 seats left</p> -->
+                            <p class="text-red-500">Total 10 seats left</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between">
                         <div class="mt-4">
                         </div>
-                        <button class="w-40" mat-raised-button color="primary" (click)="toggleTripDetails(trip._id)">
-                            {{ isTripExpanded(trip._id) ? 'HIDE SEATS' : 'SELECT SEATS' }}
+                        <button class="w-40" mat-raised-button color="primary" (click)="tripService.toggleTripDetails(trip._id)">
+                            {{ tripService.isTripExpanded(trip._id) ? 'HIDE SEATS' : 'SELECT SEATS' }}
                         </button>
                     </div>
 
-                    <div *ngIf="expandedTripIds[trip._id]" class="mt-4">
-                        <div class="bg-gray-100 py-0.5 rounded-full">
-                            <ul class="flex justify-between mt-2">
+                    <div *ngIf="tripService.expandedTripIds[trip._id]" class="mt-4">
+                        <div class="bg-gray-100 rounded-full">
+                            <ul class="flex justify-between mt-2 ml-3" style="padding: 10px;">
                                 <li>
                                     <button mat-button
-                                        [color]="isSelectedSection(trip._id, 'SELECT SEATS') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip._id, 'SELECT SEATS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="selectSection(trip._id, 'SELECT SEATS')">
+                                        (click)="tripService.selectSection(trip._id, 'SELECT SEATS')">
                                         SELECT SEATS
                                     </button>
                                 </li>
                                 <li>
                                     <button mat-button
-                                        [color]="isSelectedSection(trip._id, 'AMENITIES AND PHOTOS') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip._id, 'AMENITIES AND PHOTOS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="selectSection(trip._id, 'AMENITIES AND PHOTOS')">
+                                        (click)="tripService.selectSection(trip._id, 'AMENITIES AND PHOTOS')">
                                         AMENITIES AND PHOTOS
                                     </button>
                                 </li>
                                 <li>
-                                    <button mat-button [color]="isSelectedSection(trip._id, 'REVIEWS') ? 'warn' : ''"
+                                    <button mat-button [color]="tripService.isSelectedSection(trip._id, 'REVIEWS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="selectSection(trip._id, 'REVIEWS')">
+                                        (click)="tripService.selectSection(trip._id, 'REVIEWS')">
                                         REVIEWS
                                     </button>
                                 </li>
                                 <li>
+                                    <button mat-button [color]="tripService.isSelectedSection(trip._id, 'POLICIES') ? 'warn' : ''"
+                                        class="px-4 py-2" style="font-size: small;"
+                                        (click)="tripService.selectSection(trip._id, 'POLICIES')">
+                                        POLICIES
+                                    </button>
+                                </li>
+                                <li>
                                     <button mat-button
-                                        [color]="isSelectedSection(trip._id, 'BOARDING AND DROPPING') ? 'warn' : ''"
-                                        class="px-4 py-2 mr-4" style="font-size: small;"
-                                        (click)="selectSection(trip._id, 'BOARDING AND DROPPING')">
+                                        [color]="tripService.isSelectedSection(trip._id, 'BOARDING AND DROPPING') ? 'warn' : ''"
+                                        class="px-4 py-2 mr-3" style="font-size: small;"
+                                        (click)="tripService.selectSection(trip._id, 'BOARDING AND DROPPING')">
                                         BOARDING AND DROPPING
                                     </button>
                                 </li>
                             </ul>
                         </div>
 
-                        <div [ngSwitch]="selectedSections[trip._id]" class="mt-4">
-                            <div *ngSwitchCase="'SELECT SEATS'" class="flex">
-                                <!-- Boarding and Dropping Point Selection -->
-                                <div class="w-1/3 pr-4">
-                                    <p class="font-semibold mb-4" style="font-size: medium;">• Select boarding and
-                                        dropping point</p>
-                                    <div class="mb-4">
-                                        <p class="font-medium mb-2">Boarding Point</p>
-                                        <div class="mb-2">
-                                            <label class="flex items-center">
-                                                <input type="radio" [name]="'boarding-' + trip._id"
-                                                    [value]="trip.startFrom.id" class="mr-2">
-                                                <span class="font-semibold">{{trip.schedule.startFrom}}</span>
-                                                <span class="ml-2">{{trip.startFrom.location}}</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium mb-2">Dropping Point</p>
-                                        <div class="mb-2">
-                                            <label class="flex items-center">
-                                                <input type="radio" [name]="'dropping-' + trip._id"
-                                                    [value]="trip.endTo.id" class="mr-2">
-                                                <span class="font-semibold">{{trip.schedule.end}}</span>
-                                                <span class="ml-2">{{trip.endTo.location}}</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Seat Selection -->
-                                <div class="w-2/3">
-                                    <p class="font-semibold mb-4" style="font-size: medium;">• Select your seat</p>
-                                    <!-- Seat type legend -->
-                                    <div class="flex justify-between mb-4 text-sm">
-                                        <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-emerald-500 inline-block mr-1"></span> Selected By
-                                            You</span>
-                                        <span class="flex items-center"><span
-                                                class="w-4 h-4 border border-gray-300 inline-block mr-1"
-                                                style="background-color: #e0e0e0;"></span>
-                                            Available Seats</span>
-                                        <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-pink-500 inline-block mr-1"></span> Ladies</span>
-                                        <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-blue-500 inline-block mr-1"></span> Gents</span>
-                                        <br>
-                                        <span class="flex items-center"><span
-                                                class="w-4 h-4 bg-gray-500 inline-block mr-1"></span> Booked
-                                            Seats</span>
-                                    </div>
-                                    <!-- Price information -->
-                                    <div class="mb-4">
-                                        <span class="font-semibold text-xl">All</span>
-                                        <span class="ml-4 text-lg font-medium">₹ {{trip.ticketPrice}}</span>
-                                    </div>
-
-                                    <!-- Custom seat layout -->
-
-                                    <app-seat-preview [rows]="getSeatLayout(trip).rows"
-                                        [columns]="getSeatLayout(trip).columns"
-                                        [selectedSeats]="getSeatLayout(trip).selectedSeats" [previewMode]="true"
-                                        [isOwnerView]="true" [allowUserSelection]="true" [viewType]="'user'"
-                                        (seatsSelected)="onSeatsSelected(trip.bus.name, $event)">
-                                    </app-seat-preview>
-
-                                    <!-- Proceed button -->
-                                    <button mat-raised-button color="primary" class="w-full py-2 mt-4"
-                                        (click)="bookSeats(trip)">
-                                        {{ trip.selectedSeats?.length ? 'PROCEED WITH SELECTED SEATS' : 'SELECT SEATS TO
-                                        PROCEED' }}
-                                    </button>
-                                </div>
+                        <div [ngSwitch]="tripService.selectedSections[trip._id]" class="mt-4">
+                            <div *ngSwitchCase="'SELECT SEATS'">
+                                <app-seat-selection [trip]="trip"
+                                    (seatsSelected)="onSeatsSelected(trip.bus.name, $event)"
+                                    (bookSeatsClicked)="bookSeats($event)">
+                                </app-seat-selection>
                             </div>
                             <div *ngSwitchCase="'AMENITIES AND PHOTOS'">
-                                <!-- Amenities and photos content -->
+
                             </div>
                             <div *ngSwitchCase="'REVIEWS'">
-                                <!-- Reviews content -->
+
+                            </div>
+                            <div *ngSwitchCase="'POLICIES'">
+
                             </div>
                             <div *ngSwitchCase="'BOARDING AND DROPPING'">
-                                <!-- Boarding and dropping content -->
+                                
                             </div>
                         </div>
                     </div>

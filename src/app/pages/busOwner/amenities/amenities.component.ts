@@ -27,11 +27,7 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(
-    private amenitiesService: AmenitiesService,
-    private amenitiesModalService: AmenitiesModalService,
-    private amenitiesSearchService: AmenitiesSearchService
-  ) { }
+  constructor(private amenitiesService: AmenitiesService, private amenitiesModalService: AmenitiesModalService, private amenitiesSearchService: AmenitiesSearchService) { }
 
   ngOnInit() {
     this.loadAmenities();
@@ -64,7 +60,6 @@ export class AmenitiesComponent implements OnInit, OnDestroy {
     this.itemsPerPage = event.pageSize;
     this.loadAmenities();
   }
-
 
   onSearch(searchTerm: string) {
     console.log('Search term received in AmenitiesComponent:', searchTerm);

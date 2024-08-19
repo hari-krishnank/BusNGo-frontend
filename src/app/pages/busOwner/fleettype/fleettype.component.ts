@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
-import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
-import { MatDialog } from '@angular/material/dialog';
 import { ModalFormField } from '../../../core/models/user/form-fields.interface';
 import { fleetTypesColumns } from '../../../shared/data/busOwner/fleetType-columns';
 import { fleetTypeModalFields } from '../../../shared/configs/busOwner/fleetTypeForm-config';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin } from 'rxjs';
-import { AmenitiesService } from '../../../core/services/busOwner/amenities/amenities.service';
 import { SeatPreviewComponent } from '../seat-preview/seat-preview.component';
 import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';
-import { SeatLayoutService } from '../../../core/services/busOwner/seat-layout/seat-layout.service';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
+import { FleetTypeFormService } from '../../../core/services/busOwner/fleet-type/fleet-type-form.service';
+import { FleetTypeModalService } from '../../../core/services/busOwner/fleet-type/fleet-type-modal.service';
+import { IFleetType } from '../../../core/models/busOwner/fleet-type.interface';
 
 @Component({
   selector: 'app-fleettype',
@@ -21,19 +18,11 @@ import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.com
   styleUrl: './fleettype.component.css'
 })
 export class FleettypeComponent implements OnInit {
-  fleetTypesData: any[] = [];
+  fleetTypesData: IFleetType[] = [];
   fleetTypesColumns = fleetTypesColumns;
   modalFields: ModalFormField[] = fleetTypeModalFields;
-  amenities: any[] = [];
-  seatLayouts: any[] = [];
 
-  constructor(
-    private dialog: MatDialog,
-    private formBuilder: FormBuilder,
-    private fleetTypeService: FleetTypeService,
-    private amenitiesService: AmenitiesService,
-    private seatLayoutService: SeatLayoutService
-  ) { }
+  constructor(private fleetTypeService: FleetTypeService, private fleetTypeFormService: FleetTypeFormService, private fleetTypeModalService: FleetTypeModalService) { }
 
   ngOnInit(): void {
     this.loadFleetTypes();
@@ -41,13 +30,10 @@ export class FleettypeComponent implements OnInit {
   }
 
   loadFormOptions() {
-    forkJoin({
-      amenities: this.amenitiesService.getAllAmenities(),
-      seatLayouts: this.seatLayoutService.getAllSeatLayouts()
-    }).subscribe(
+    this.fleetTypeFormService.loadFormOptions().subscribe(
       ({ amenities, seatLayouts }) => {
-        this.amenities = amenities;
-        this.seatLayouts = seatLayouts;
+        this.fleetTypeFormService.setAmenities(amenities);
+        this.fleetTypeFormService.setSeatLayouts(seatLayouts);
         this.updateModalFields();
         this.loadFleetTypes();
       },
@@ -56,50 +42,17 @@ export class FleettypeComponent implements OnInit {
   }
 
   updateModalFields() {
-    this.modalFields = this.modalFields.map(field => {
-      if (field.name === 'seatLayout') {
-        field.type = 'select';
-        field.options = this.seatLayouts.map(layout => ({ value: layout._id, label: layout.layoutName }));
-      } else if (field.name === 'facilities') {
-        field.type = 'multiselect';
-        field.options = this.amenities.map(amenity => ({ value: amenity._id, label: amenity.title }));
-      }
-      return field;
-    });
+    this.modalFields = this.fleetTypeFormService.updateModalFields(this.modalFields);
   }
 
   openModal() {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '500px',
-      data: {
-        title: 'Add Fleet Type',
-        fields: this.modalFields,
-        form: this.createFleetTypeForm(),
-        submitButtonText: 'Add Fleet Type'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.saveFleetType(result);
-      }
-    });
-  }
-
-  createFleetTypeForm(): FormGroup {
-    const form: { [key: string]: any } = {};
-
-    this.modalFields.forEach(field => {
-      if (field.type === 'toggle') {
-        form[field.name] = [false];
-      } else if (field.type === 'multiselect') {
-        form[field.name] = [[], Validators.required];
-      } else {
-        form[field.name] = ['', Validators.required];
-      }
-    });
-
-    return this.formBuilder.group(form);
+    const form = this.fleetTypeFormService.createFleetTypeForm(this.modalFields);
+    this.fleetTypeModalService.openModal('Add Fleet Type', this.modalFields, form, 'Add Fleet Type')
+      .subscribe(result => {
+        if (result) {
+          this.saveFleetType(result);
+        }
+      });
   }
 
   loadFleetTypes() {
@@ -107,8 +60,8 @@ export class FleettypeComponent implements OnInit {
       (data) => {
         this.fleetTypesData = data.map(fleetType => ({
           ...fleetType,
-          facilities: this.mapAmenityIdsToTitles(fleetType.facilities),
-          seatLayout: this.getSeatLayoutNameById(fleetType.seatLayout)
+          facilities: this.fleetTypeFormService.mapAmenityIdsToTitles(fleetType.facilities as string[]),
+          seatLayout: this.fleetTypeFormService.getSeatLayoutNameById(fleetType.seatLayout)
         }));
         console.log('fleet Types Loaded:', this.fleetTypesData);
       },
@@ -118,30 +71,13 @@ export class FleettypeComponent implements OnInit {
     );
   }
 
-  getSeatLayoutById(layoutId: string) {
-    return this.seatLayouts.find(layout => layout._id === layoutId);
-  }
-
-  getSeatLayoutNameById(layoutId: string): string {
-    const layout = this.seatLayouts.find(layout => layout._id === layoutId);
-    return layout ? layout.layoutName : 'Unknown Layout';
-  }
-
-  mapAmenityIdsToTitles(amenityIds: string[]): string {
-    return amenityIds.map(id => {
-      const amenity = this.amenities.find(a => a._id === id);
-      return amenity ? amenity.title : id;
-    }).join(', ');
-  }
-
-  saveFleetType(formData: any) {
+  saveFleetType(formData: Partial<IFleetType>) {
     this.fleetTypeService.createFleetType(formData).subscribe(
-      (response: any) => {
-        // console.log('New fleet type:', response);
+      (response: IFleetType) => {
         const newFleetType = {
           ...response,
-          facilities: this.mapAmenityIdsToTitles(response.facilities),
-          seatLayout: this.getSeatLayoutNameById(response.seatLayout)
+          facilities: this.fleetTypeFormService.mapAmenityIdsToTitles(response.facilities as string[]),
+          seatLayout: this.fleetTypeFormService.getSeatLayoutNameById(response.seatLayout)
         };
         this.fleetTypesData = [...this.fleetTypesData, newFleetType];
       },

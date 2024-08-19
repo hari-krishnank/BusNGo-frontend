@@ -22,9 +22,9 @@ export class AssignedBusService {
             .pipe(
                 map(assignments => assignments.map(assignment => ({
                     ...assignment,
-                    tripName: assignment.trip.title,
-                    busName: assignment.bus.name,
-                    regNo: assignment.bus.regNo
+                    tripName: assignment.trip?.title || 'No Trip Assigned',
+                    busName: assignment.bus?.name,
+                    regNo: assignment.bus?.regNo
                 })))
             );
     }

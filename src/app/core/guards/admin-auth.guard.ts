@@ -11,14 +11,14 @@ export class AuthGuard implements CanActivate {
   constructor(private adminLoginService: AdminLoginService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    console.log('AuthGuard: Verifying token'); // Add this log
+    console.log('AuthGuard: Verifying token');
     return this.adminLoginService.verifyToken().pipe(
       map(() => {
-        console.log('Token verified successfully'); // Add this log
+        console.log('Token verified successfully');
         return true;
       }),
       catchError((error) => {
-        console.error('Token verification failed:', error); // Add this log
+        console.error('Token verification failed:', error); 
         this.router.navigate(['/admin']);
         return of(false);
       })

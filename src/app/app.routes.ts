@@ -29,136 +29,46 @@ import { TripComponent } from './pages/busOwner/trip/trip.component';
 import { AssignedBusComponent } from './pages/busOwner/assigned-bus/assigned-bus.component';
 import { AddRoutesComponent } from './pages/busOwner/add-routes/add-routes.component';
 import { OwnerHomeComponent } from './pages/busOwner/owner-home/owner-home.component';
+import { SeatBookingComponent } from './pages/user/seat-booking/seat-booking.component';
+import { UserAuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
 
     //---USERS ROUTES
-    {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-    },
-    {
-        path: 'home',
-        component: UserhomeComponent
-    },
-    {
-        path: 'login',
-        component: LoginComponent,
-    },
-    {
-        path: 'userLogin',
-        component: UserLoginComponent,
-        canActivate: [NoAuthGuard]
-    },
-    {
-        path: 'userRegister',
-        component: UserRegisterComponent,
-        canActivate: [NoAuthGuard]
-    },
-    {
-        path: 'searchresults',
-        component: SearchResultsComponent
-    },
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'home', component: UserhomeComponent },
+    { path: 'login', component: LoginComponent, },
+    { path: 'userLogin', component: UserLoginComponent, canActivate: [NoAuthGuard] },
+    { path: 'userRegister', component: UserRegisterComponent, canActivate: [NoAuthGuard] },
+    { path: 'searchresults', component: SearchResultsComponent },
+    // { path: 'seatBooking', component: SeatBookingComponent, canActivate: [UserAuthGuard] },
 
     //---BUS OWNER ROUTES
-    {
-        path: 'ownerLogin',
-        component: OwnerLoginComponent,
-        canActivate: [OwnerNoAuthGuard]
-    },
-    {
-        path: 'ownerRegister',
-        component: OwnerRegisterComponent,
-        canActivate: [OwnerNoAuthGuard]
-    },
-    {
-        path: 'ownerOtp',
-        component: OwnerOtpComponent,
-        canActivate: [OwnerNoAuthGuard]
-    },
-    {
-        path: 'ownerDetails',
-        component: OwnerDetailsComponent,
-        canActivate: [OwnerNoAuthGuard]
-    },
-    {
-        path: 'agencyDetails',
-        component: AgencyDetailsComponent,
-        canActivate: [OwnerNoAuthGuard]
-    },
-    {
-        path: 'confirmation',
-        component: ConfirmDetailsComponent,
-        canActivate: [OwnerNoAuthGuard]
-    },
-    {
-        path: 'ownerHome',
-        component: OwnerHomeComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'ownerDashboard',
-        component: DashboardComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'counters',
-        component: CountersComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'amenities',
-        component: AmenitiesComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'seatlayout',
-        component: SeatLayoutsComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'fleet',
-        component: FleettypeComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'buses',
-        component: BusesComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'routes',
-        component: AddRoutesComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'schedule',
-        component: ScheduleComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'trip',
-        component: TripComponent,
-        canActivate: [OwnerAuthGuard]
-    },
-    {
-        path: 'assignBus',
-        component: AssignedBusComponent,
-        canActivate: [OwnerAuthGuard]
-    },
+    { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'ownerRegister', component: OwnerRegisterComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'ownerOtp', component: OwnerOtpComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'ownerDetails', component: OwnerDetailsComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'agencyDetails', component: AgencyDetailsComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'confirmation', component: ConfirmDetailsComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'ownerHome', component: OwnerHomeComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'ownerDashboard', component: DashboardComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'counters', component: CountersComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'amenities', component: AmenitiesComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'seatlayout', component: SeatLayoutsComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'fleet', component: FleettypeComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'buses', component: BusesComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'routes', component: AddRoutesComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'schedule', component: ScheduleComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'trip', component: TripComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'assignBus', component: AssignedBusComponent, canActivate: [OwnerAuthGuard] },
 
     //---ADMIN ROUTES
+    { path: 'admin', component: AdminLoginComponent, canActivate: [AdminNoAuthGuard] },
     {
-        path: 'admin',
-        component: AdminLoginComponent,
-        canActivate: [AdminNoAuthGuard]
-    },
-    {
-        path: 'admin',
-        children: [
-            { path: 'listUsers', component: UsersListComponent, canActivate: [AuthGuard] },
-            { path: 'listOwners', component: BusOwnersListComponent, canActivate: [AuthGuard] },
-        ]
+        path: 'admin', children:
+            [
+                { path: 'listUsers', component: UsersListComponent, canActivate: [AuthGuard] },
+                { path: 'listOwners', component: BusOwnersListComponent, canActivate: [AuthGuard] },
+            ]
     }
 ];

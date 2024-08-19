@@ -10,6 +10,7 @@ import { CounterSearchService } from '../../../core/services/busOwner/counters/c
 import { countersColumns } from '../../../shared/data/busOwner/counters-columns';
 import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
+import { CountersResponse, ICounter } from '../../../core/models/busOwner/counter.interface';
 
 @Component({
   selector: 'app-counters',
@@ -19,19 +20,15 @@ import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.com
   styleUrl: './counters.component.css'
 })
 export class CountersComponent implements OnInit {
-  allCountersData: any[] = [];
-  countersData: any[] = [];
+  allCountersData: ICounter[] = [];
+  countersData: ICounter[] = [];
   countersColumns = countersColumns;
   modalFields = counterModalFields;
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(
-    private countersService: CounterService,
-    private counterModalService: CounterModalService,
-    private counterSearchService: CounterSearchService
-  ) { }
+  constructor(private countersService: CounterService, private counterModalService: CounterModalService, private counterSearchService: CounterSearchService) { }
 
   ngOnInit(): void {
     this.loadCounters();
@@ -39,7 +36,7 @@ export class CountersComponent implements OnInit {
 
   loadCounters(): void {
     this.countersService.getCounters(this.currentPage, this.itemsPerPage).subscribe(
-      data => {
+      (data: CountersResponse) => {
         this.countersData = data.counters;
         console.log(this.countersData);
         this.totalItems = data.total;
@@ -54,7 +51,7 @@ export class CountersComponent implements OnInit {
     this.loadCounters();
   }
 
-  openModal(counter?: any): void {
+  openModal(counter?: ICounter): void {
     this.counterModalService.openCounterModal(counter, this.modalFields)
       .subscribe(result => {
         if (result) {
@@ -63,21 +60,21 @@ export class CountersComponent implements OnInit {
       });
   }
 
-  updateCounter(id: string, formData: any): void {
+  updateCounter(id: string, formData: Partial<ICounter>): void {
     this.countersService.updateCounter(id, formData).subscribe(
       () => this.loadCounters(),
       error => console.error('Error updating counter:', error)
     );
   }
 
-  saveCounter(formData: any): void {
+  saveCounter(formData: Omit<ICounter, '_id'>): void {
     this.countersService.addCounter(formData).subscribe(
       () => this.loadCounters(),
       error => console.error('Error adding counter:', error)
     );
   }
 
-  deleteCounter(counter: any): void {
+  deleteCounter(counter: ICounter): void {
     this.counterModalService.confirmDelete(counter.name).subscribe(result => {
       if (result) {
         this.countersService.deleteCounter(counter._id).subscribe(

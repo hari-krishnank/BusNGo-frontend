@@ -4,17 +4,16 @@ import { Observable } from 'rxjs';
 import { CounterFormService } from './counter-form.service';
 import { ModalComponent } from '../../../../shared/reusableComponents/modal/modal.component';
 import { ConfirmDialogComponent } from '../../../../shared/reusableComponents/confirm-dialog/confirm-dialog.component';
+import { ICounter } from '../../../models/busOwner/counter.interface';
+import { ModalFormField } from '../../../models/user/form-fields.interface';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CounterModalService {
-    constructor(
-        private dialog: MatDialog,
-        private counterFormService: CounterFormService
-    ) { }
+    constructor(private dialog: MatDialog, private counterFormService: CounterFormService) { }
 
-    openCounterModal(counter: any, modalFields: any[]): Observable<any> {
+    openCounterModal(counter: ICounter | undefined, modalFields: ModalFormField[]): Observable<ICounter | undefined> {
         const title = counter ? 'Edit Bus Station' : 'Add Bus Station';
         const submitButtonText = counter ? 'Update Bus Station' : 'Add Bus Station';
         const form = this.counterFormService.createCounterForm(counter);

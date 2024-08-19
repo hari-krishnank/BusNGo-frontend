@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { noWhitespaceValidator, phoneNumberValidator } from '../../../../shared/validators/validators';
+import { ICounter } from '../../../models/busOwner/counter.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +9,7 @@ import { noWhitespaceValidator, phoneNumberValidator } from '../../../../shared/
 export class CounterFormService {
     constructor(private formBuilder: FormBuilder) { }
 
-    createCounterForm(counter?: any): FormGroup {
+    createCounterForm(counter?: Partial<ICounter>): FormGroup {
         return this.formBuilder.group({
             name: [counter ? counter.name : '', [Validators.required, Validators.minLength(3), noWhitespaceValidator()]],
             city: [counter ? counter.city : '', [Validators.required, Validators.minLength(3), noWhitespaceValidator()]],

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ICounter } from '../../../models/busOwner/counter.interface';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CounterSearchService {
-    searchCounters(countersData: any[], searchTerm: string): any[] {
+    searchCounters(countersData: ICounter[], searchTerm: string): ICounter[] {
         if (!searchTerm.trim()) {
             return countersData;
         }

@@ -13,4 +13,4 @@ export const addBusmodalFields: ModalFormField[] = [
             { value: 'Inactive', label: 'Inactive' }
         ]
     }
-];
+]; 

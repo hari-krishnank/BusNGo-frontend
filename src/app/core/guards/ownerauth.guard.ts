@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import { signupService } from '../services/busOwner/signup/signup.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class OwnerAuthGuard implements CanActivate {
   constructor(private signupService: signupService, private router: Router) {}

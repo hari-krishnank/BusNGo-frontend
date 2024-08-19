@@ -8,6 +8,7 @@ import { UpdateSearchService } from '../../../core/services/user/update-search.s
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchResultsService } from '../../../core/services/user/search-result.service';
+import { Date, From, To } from '../../../shared/configs/user/updateSearchForm.config';
 
 @Component({
   selector: 'app-update-search',
@@ -18,45 +19,12 @@ import { SearchResultsService } from '../../../core/services/user/search-result.
 })
 export class UpdateSearchComponent {
   @Input() searchData: any;
-
   updateSearchForm!: FormGroup;
+  From: FormField[] = From
+  To: FormField[] = To
+  Date: FormField[] = Date
 
-  From: FormField[] = [
-    {
-      name: 'from',
-      type: 'autocomplete',
-      placeholder: 'From',
-      validators: [Validators.required],
-      errors: [{ type: 'required', message: 'From location is required' }]
-    }
-  ];
-
-  To: FormField[] = [
-    {
-      name: 'to',
-      type: 'autocomplete',
-      placeholder: 'To',
-      validators: [Validators.required],
-      errors: [{ type: 'required', message: 'To location is required' }]
-    },
-  ];
-
-  Date: FormField[] = [
-    {
-      name: 'dateField',
-      type: 'date',
-      placeholder: 'Date',
-      validators: [Validators.required],
-      errors: [{ type: 'required', message: 'Date is required' }]
-    }
-  ];
-
-  constructor(
-    private fb: FormBuilder,
-    private updateSearchService: UpdateSearchService,
-    private router: Router,
-    private searchResultsService: SearchResultsService
-  ) { }
+  constructor(private fb: FormBuilder, private updateSearchService: UpdateSearchService, private router: Router, private searchResultsService: SearchResultsService) { }
 
   ngOnInit() {
     this.updateSearchForm = this.fb.group({

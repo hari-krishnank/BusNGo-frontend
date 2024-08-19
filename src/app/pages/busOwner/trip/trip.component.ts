@@ -81,7 +81,7 @@ export class TripComponent implements OnInit {
       (fleetTypes) => {
         const fleetTypeField = this.modalFields.find(field => field.name === 'fleetType');
         if (fleetTypeField) {
-          fleetTypeField.options = fleetTypes.map(ft => ({ value: ft._id, label: ft.name }));
+          fleetTypeField.options = fleetTypes.map(ft => ({ value: ft._id, label: ft.fleetTypeName }));
         }
       },
       (error) => {

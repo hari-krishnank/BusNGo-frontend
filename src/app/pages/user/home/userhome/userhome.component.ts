@@ -19,30 +19,14 @@ import { FormComponent } from '../../../../shared/reusableComponents/form/form.c
 import { FormField } from '../../../../core/models/user/form-fields.interface';
 import { SearchTripService } from '../../../../core/services/user/search-trip.service';
 import { HttpClientModule } from '@angular/common/http';
+import { From } from '../../../../shared/configs/user/busSearchForm.config';
 
 @Component({
   selector: 'app-userhome',
   standalone: true,
   imports: [
-    MatButtonModule,
-    MatDatepickerModule,
-    MatIconModule,
-    MatInputModule,
-    MatNativeDateModule,
-    CommonModule,
-    UsernavComponent,
-    OffersComponent,
-    BusBenefitsComponent,
-    FaqsComponent,
-    FooterComponent,
-    NotificationBannerComponent,
-    NgbDatepickerModule,
-    NgbAlertModule,
-    FormsModule,
-    JsonPipe,
-    RouterModule,
-    FormComponent,
-    HttpClientModule
+    CommonModule, MatButtonModule, MatDatepickerModule, MatIconModule, MatInputModule, MatNativeDateModule, NgbDatepickerModule, NgbAlertModule,
+    UsernavComponent, NotificationBannerComponent, OffersComponent, BusBenefitsComponent, FaqsComponent, FooterComponent, FormsModule, JsonPipe, RouterModule, FormComponent, HttpClientModule
   ],
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',
@@ -50,17 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class UserhomeComponent implements OnInit {
   model !: NgbDateStruct;
   searchForm!: FormGroup;
-
-  From: FormField[] = [
-    {
-      name: 'from',
-      label: 'From',
-      type: 'autocomplete',
-      placeholder: 'From',
-      validators: [Validators.required],
-      errors: [{ type: 'required', message: 'From location is required' }]
-    }
-  ];
+  From: FormField[] = From
 
   To: FormField[] = [
     {
@@ -83,11 +57,7 @@ export class UserhomeComponent implements OnInit {
     }
   ]
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private searchTripService: SearchTripService
-  ) { }
+  constructor(private fb: FormBuilder, private router: Router, private searchTripService: SearchTripService) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
