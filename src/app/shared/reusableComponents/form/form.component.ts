@@ -111,6 +111,18 @@ export class FormComponent<T> implements OnInit {
     this.additionalStops.removeAt(index);
   }
 
+  get additionalStopsTime() {
+    return this.form.get('additionalStopsTime') as FormArray;
+  }
+
+  addAdditionalStopTime() {
+    this.additionalStopsTime.push(this.fb.control('', Validators.required));
+  }
+
+  removeAdditionalStopTime(index: number) {
+    this.additionalStopsTime.removeAt(index);
+  }
+
   search(event: Event, field: FormField) {
     if (field.type === 'autocomplete') {
       const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();

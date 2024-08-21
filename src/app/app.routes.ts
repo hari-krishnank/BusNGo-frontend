@@ -31,6 +31,7 @@ import { AddRoutesComponent } from './pages/busOwner/add-routes/add-routes.compo
 import { OwnerHomeComponent } from './pages/busOwner/owner-home/owner-home.component';
 import { SeatBookingComponent } from './pages/user/seat-booking/seat-booking.component';
 import { UserAuthGuard } from './core/guards/auth.guard';
+import { BusTicketsComponent } from './pages/user/bus-tickets/bus-tickets.component';
 
 export const routes: Routes = [
 
@@ -41,7 +42,7 @@ export const routes: Routes = [
     { path: 'userLogin', component: UserLoginComponent, canActivate: [NoAuthGuard] },
     { path: 'userRegister', component: UserRegisterComponent, canActivate: [NoAuthGuard] },
     { path: 'searchresults', component: SearchResultsComponent },
-    // { path: 'seatBooking', component: SeatBookingComponent, canActivate: [UserAuthGuard] },
+    { path: 'busTickets', component: BusTicketsComponent },
 
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },

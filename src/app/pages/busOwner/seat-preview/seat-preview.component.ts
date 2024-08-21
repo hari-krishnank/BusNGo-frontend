@@ -23,6 +23,7 @@ export class SeatPreviewComponent implements OnChanges {
   selectedSeatsMap: Map<string, number> = new Map();
   userSelectedSeats: string[] = [];
   nextSeatNumber: number = 1;
+  maxSeatsSelectionLimit = 6;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['rows'] || changes['columns']) {
@@ -59,15 +60,32 @@ export class SeatPreviewComponent implements OnChanges {
     }
   }
 
+  // toggleSeatSelection(seat: string) {
+  //   if (!this.allowUserSelection) return;
+
+  //   const index = this.userSelectedSeats.indexOf(seat);
+  //   if (index > -1) {
+  //     this.userSelectedSeats.splice(index, 1);
+  //   } else {
+  //     this.userSelectedSeats.push(seat);
+  //     console.log('user select cheytha seat',this.userSelectedSeats);
+  //   }
+  //   this.seatsSelected.emit(this.userSelectedSeats);
+  // }
+
   toggleSeatSelection(seat: string) {
     if (!this.allowUserSelection) return;
-    
+
+    if (this.userSelectedSeats.length >= this.maxSeatsSelectionLimit && !this.isUserSelected(seat)) {
+      alert('Maximum 6 seats allowed per booking')
+      return;
+    }
+
     const index = this.userSelectedSeats.indexOf(seat);
     if (index > -1) {
       this.userSelectedSeats.splice(index, 1);
     } else {
       this.userSelectedSeats.push(seat);
-      console.log('user select cheytha seat',this.userSelectedSeats);
     }
     this.seatsSelected.emit(this.userSelectedSeats);
   }

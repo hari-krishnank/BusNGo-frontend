@@ -60,6 +60,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       this.searchResultsService.searchResults$.subscribe(results => {
         if (results?.length > 0) {
           this.searchResults = results;
+          console.log('sdfasdfasdfa', this.searchResults);
         }
       })
     );
@@ -104,4 +105,4 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       console.log('Please select seats before booking');
     }
   }
-} 
+}  

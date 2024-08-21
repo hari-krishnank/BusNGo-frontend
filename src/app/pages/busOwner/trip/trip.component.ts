@@ -41,7 +41,6 @@ export class TripComponent implements OnInit {
     this.loadTrips()
     this.loadFleetTypes()
     this.loadRoutes()
-    this.loadSchedules()
     this.loadStartFrom()
     this.loadEndTo()
     this.loadDayOff()
@@ -52,7 +51,6 @@ export class TripComponent implements OnInit {
       title: ['', [Validators.required, Validators.minLength(3)]],
       fleetType: ['', Validators.required],
       route: ['', Validators.required],
-      schedule: ['', Validators.required],
       startFrom: ['', Validators.required],
       endTo: ['', Validators.required],
       dayOff: [[], Validators.required],
@@ -79,9 +77,12 @@ export class TripComponent implements OnInit {
   loadFleetTypes() {
     this.fleetTypeService.getAllFleetTypes().subscribe(
       (fleetTypes) => {
+        console.log('fsdfasfaafa',fleetTypes);
         const fleetTypeField = this.modalFields.find(field => field.name === 'fleetType');
+        
         if (fleetTypeField) {
-          fleetTypeField.options = fleetTypes.map(ft => ({ value: ft._id, label: ft.fleetTypeName }));
+          fleetTypeField.options = fleetTypes.map(ft => ({ value: ft._id, label: ft.name }));
+          console.log(fleetTypeField.options)
         }
       },
       (error) => {
@@ -102,20 +103,6 @@ export class TripComponent implements OnInit {
         console.error('Error loading routes:', error);
       }
     );
-  }
-
-  loadSchedules() {
-    this.scheduleService.getSchedules().subscribe(
-      (schedules) => {
-        const scheduleField = this.modalFields.find(field => field.name === 'schedule')
-        if (scheduleField) {
-          scheduleField.options = schedules.map(sche => ({ value: sche._id, label: `${sche.startFrom} - ${sche.end}` }))
-        }
-      },
-      (error) => {
-        console.error('Error handling Schedules:', error);
-      }
-    )
   }
 
   loadStartFrom() {

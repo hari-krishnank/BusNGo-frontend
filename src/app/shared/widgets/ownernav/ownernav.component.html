@@ -53,13 +53,13 @@
                     </button>
                     <mat-icon style="margin-left: -17px; color: black; margin-top: 2px;">arrow_drop_down</mat-icon>
                     <mat-menu #TripMenu="matMenu">
-                        <button mat-menu-item [routerLink]="'/routes'">
-                            <mat-icon>navigation</mat-icon>
-                            <span>Route</span>
-                        </button>
                         <button mat-menu-item [routerLink]="'/schedule'">
                             <mat-icon>schedule</mat-icon>
                             <span>Schedule</span>
+                        </button>
+                        <button mat-menu-item [routerLink]="'/routes'">
+                            <mat-icon>navigation</mat-icon>
+                            <span>Route</span>
                         </button>
                         <button mat-menu-item [routerLink]="'/trip'">
                             <mat-icon>card_travel</mat-icon>

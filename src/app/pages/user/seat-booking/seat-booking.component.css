@@ -1,5 +1,5 @@
 :host ::ng-deep .p-sidebar {
-    width: 600px;
+    width: 650px;
     display: flex;
     flex-direction: column;
 }

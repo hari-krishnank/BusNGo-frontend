@@ -1,6 +1,6 @@
 export interface IFleetType {
     _id: string;
-    fleetTypeName: string;
+    name: string;
     seatLayout: string;
     facilities: string[] | string;
     isAC: boolean;

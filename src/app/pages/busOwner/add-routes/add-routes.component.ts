@@ -9,6 +9,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
 import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
+import { ScheduleService } from '../../../core/services/busOwner/schedule/schedule.service';
 
 @Component({
   selector: 'app-add-routes',
@@ -24,21 +25,24 @@ export class AddRoutesComponent implements OnInit {
   routeForm!: FormGroup;
   counters: any[] = [];
 
-  constructor(private dialog: MatDialog, private fb: FormBuilder, private routeService: RouteService, private counterService: CounterService) { }
+  constructor(private dialog: MatDialog, private fb: FormBuilder, private routeService: RouteService, private counterService: CounterService, private scheduleService: ScheduleService) { }
 
   ngOnInit() {
     this.createRouteForm();
     this.loadRoutes();
     this.loadCounters();
+    this.loadSchedules()
   }
 
   createRouteForm() {
     this.routeForm = this.fb.group({
       name: ['', Validators.required],
+      schedule: ['', Validators.required],
       startingPoint: ['', Validators.required],
       endingPoint: ['', Validators.required],
       hasMoreStoppage: [false],
       additionalStops: this.fb.array([]),
+      additionalStopsTime: this.fb.array([]),
       distance: ['', [Validators.required, Validators.min(0)]],
       time: ['', Validators.required],
       status: ['', Validators.required]
@@ -46,10 +50,13 @@ export class AddRoutesComponent implements OnInit {
 
     this.routeForm.get('hasMoreStoppage')?.valueChanges.subscribe(hasMore => {
       const additionalStopsArray = this.routeForm.get('additionalStops') as FormArray;
+      const additionalStopsTimeArray = this.routeForm.get('additionalStopsTime') as FormArray;
       if (hasMore) {
         additionalStopsArray.push(this.fb.control('', Validators.required));
+        additionalStopsTimeArray.push(this.fb.control('', Validators.required));
       } else {
         additionalStopsArray.clear();
+        additionalStopsTimeArray.clear()
       }
     });
   }
@@ -99,6 +106,20 @@ export class AddRoutesComponent implements OnInit {
     );
   }
 
+  loadSchedules() {
+    this.scheduleService.getSchedules().subscribe(
+      (schedules) => {
+        const scheduleField = this.modalFields.find(field => field.name === 'schedule')
+        if (scheduleField) {
+          scheduleField.options = schedules.map(sche => ({ value: sche._id, label: `${sche.startFrom} - ${sche.end}` }))
+        }
+      },
+      (error) => {
+        console.error('Error handling Schedules:', error);
+      }
+    )
+  }
+
   updateCounterOptions() {
     const counterOptions = this.counters.map(counter => ({
       value: counter._id,
@@ -113,20 +134,18 @@ export class AddRoutesComponent implements OnInit {
   }
 
   saveRoute(formData: any) {
-    this.routeService.addRoute(formData).subscribe(
+    const transformedFormData = {
+      ...formData,
+      additionalStops: formData.additionalStops.map((stop: any) => ({
+        stop: stop,
+        reachingTime: formData.additionalStopsTime[formData.additionalStops.indexOf(stop)]
+      }))
+    };
+
+    this.routeService.addRoute(transformedFormData).subscribe(
       (newRoute) => {
         console.log('New route added:', newRoute);
-        
-        const startingCounter = this.counters.find(c => c._id === newRoute.startingPoint);
-        const endingCounter = this.counters.find(c => c._id === newRoute.endingPoint);
-  
-        const transformedRoute = {
-          ...newRoute,
-          startingPoint: startingCounter ? startingCounter.name : 'N/A',
-          endingPoint: endingCounter ? endingCounter.name : 'N/A'
-        };
-        
-        this.routesData = [...this.routesData, transformedRoute];
+        this.routesData = [...this.routesData, newRoute];
         this.resetForm();
       },
       (error) => {
@@ -134,7 +153,7 @@ export class AddRoutesComponent implements OnInit {
       }
     );
   }
-  
+
   resetForm() {
     this.routeForm.reset();
 

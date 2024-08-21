@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { SidebarModule } from 'primeng/sidebar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,25 +9,68 @@ import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms'
 import { MatIconModule } from '@angular/material/icon';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
+import { Router } from '@angular/router';
+import { ageField, emailField, firstNameField, lastNameField, phoneField } from '../../../shared/configs/user/passengerDetailsForm.config';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-seat-booking',
   standalone: true,
-  imports: [SidebarModule, MatSidenavModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRadioModule, FormsModule, MatIconModule, FormComponent],
+  imports: [CommonModule, SidebarModule, MatSidenavModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatRadioModule, FormsModule, MatIconModule, FormComponent],
   templateUrl: './seat-booking.component.html',
   styleUrl: './seat-booking.component.css'
 })
-export class SeatBookingComponent {
+export class SeatBookingComponent implements OnInit, OnChanges {
   sidebarVisible2: boolean = false;
   passengerDetailsForm !: FormGroup;
-  formFields !: FormField[];
+  firstName!: FormField[];
+  lastName!: FormField[];
+  age!: FormField[];
+  phone!: FormField[];
+  email!: FormField[];
+  @Input() trip: any;
+  @Input() boardingPoint: any;
+  @Input() droppingPoint: any;
+  travellersDetails: FormGroup[] = [];
+  @Input() selectedSeats: string[] = [];
+  totalTicketPrice: number = 0;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    this.initializeFormFields()
+  }
+
+  ngOnChanges() {
+    this.updateTotalTicketPrice();
+  }
+
+  initializeFormFields() {
     this.initForm();
     this.initFormFields();
+    console.log('Trip:', this.trip);
+    console.log('Boarding Point:', this.boardingPoint);
+    console.log('Dropping Point:', this.droppingPoint);
+
+    if (this.trip && this.trip.selectedSeats) {
+      this.travellersDetails = [];
+      for (let i = 0; i < this.trip.selectedSeats.length; i++) {
+        this.travellersDetails.push(this.createTravellerForm());
+      }
+    } else {
+      console.error('Trip object is undefined or selectedSeats is undefined');
+    }
   }
+
+  createTravellerForm(): FormGroup {
+    return this.fb.group({
+      gender: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      age: ['', [Validators.required, Validators.min(1)]]
+    });
+  }
+
 
   initForm() {
     this.passengerDetailsForm = this.fb.group({
@@ -41,68 +84,18 @@ export class SeatBookingComponent {
   }
 
   initFormFields() {
-    this.formFields = [
-      // {
-      //   name: 'gender',
-      //   label: 'Gender',
-      //   type: 'select',
-      //   options: [
-      //     { label: 'Male', value: 'male' },
-      //     { label: 'Female', value: 'female' }
-      //   ],
-      //   validators: [Validators.required],
-      //   errors: [{ type: 'required', message: 'Gender is required' }]
-      // },
-      {
-        name: 'firstName',
-        label: 'First Name',
-        type: 'text',
-        placeholder: 'Enter first name',
-        validators: [Validators.required],
-        errors: [{ type: 'required', message: 'First name is required' }]
-      },
-      // {
-      //   name: 'lastName',
-      //   label: 'Last Name',
-      //   type: 'text',
-      //   placeholder: 'Enter last name',
-      //   validators: [Validators.required],
-      //   errors: [{ type: 'required', message: 'Last name is required' }]
-      // },
-      // {
-      //   name: 'age',
-      //   label: 'Age',
-      //   type: 'number',
-      //   placeholder: 'Enter age',
-      //   validators: [Validators.required, Validators.min(1)],
-      //   errors: [
-      //     { type: 'required', message: 'Age is required' },
-      //     { type: 'min', message: 'Age must be greater than 0' }
-      //   ]
-      // },
-      // {
-      //   name: 'mobileNumber',
-      //   label: 'Mobile Number',
-      //   type: 'tel',
-      //   placeholder: 'Enter mobile number',
-      //   validators: [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
-      //   errors: [
-      //     { type: 'required', message: 'Mobile number is required' },
-      //     { type: 'pattern', message: 'Enter a valid 10-digit mobile number' }
-      //   ]
-      // },
-      // {
-      //   name: 'email',
-      //   label: 'Email',
-      //   type: 'email',
-      //   placeholder: 'Enter email',
-      //   validators: [Validators.required, Validators.email],
-      //   errors: [
-      //     { type: 'required', message: 'Email is required' },
-      //     { type: 'email', message: 'Enter a valid email address' }
-      //   ]
-      // }
-    ];
+    this.firstName = firstNameField;
+    this.lastName = lastNameField;
+    this.age = ageField;
+    this.phone = phoneField;
+    this.email = emailField;
+  }
+
+  updateTotalTicketPrice() {
+    if (this.trip && this.trip.selectedSeats) {
+      this.totalTicketPrice = this.trip.selectedSeats.length * this.trip.ticketPrice;
+      console.log('paisa', this.totalTicketPrice);
+    }
   }
 
   onSubmit(formValue: any) {
@@ -111,5 +104,12 @@ export class SeatBookingComponent {
 
   toggleSidebar() {
     this.sidebarVisible2 = !this.sidebarVisible2;
+    if (this.sidebarVisible2) {
+      this.initializeFormFields();
+    }
+  }
+
+  seatBooking() {
+    this.router.navigate(['/busTickets'])
   }
 }

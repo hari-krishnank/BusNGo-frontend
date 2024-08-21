@@ -27,6 +27,24 @@
                                     </button>
                                 </div>
                             </div>
+                            <div formArrayName="additionalStopsTime">
+                                <div *ngFor="let stopTime of additionalStopsTime.controls; let i = index"
+                                    class="flex items-center mb-4 relative">
+                                    <div class="flex-grow">
+                                        <input type="text" [formControlName]="i"
+                                            class="block w-full px-4 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors peer"
+                                            placeholder=" ">
+                                        <label [for]="'additionalStopsTime-' + i"
+                                            class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:bg-white peer-focus:px-1 peer-focus:text-sm peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                                            Reaching Time
+                                        </label>
+                                    </div>
+                                    <button mat-icon-button type="button" (click)="removeAdditionalStopTime(i)"
+                                        class="ml-2">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
                             <button mat-button color="warn" type="button" (click)="addAdditionalStop()" class="mt-2">
                                 Add more stops
                             </button>
@@ -150,12 +168,11 @@
         </ng-container>
     </ng-container>
 
-    <p class="text-2xl font-serif text-blue-600 mb-4 text-center"
-        *ngIf="form.get('rows')?.value">Seat
+    <p class="text-2xl font-serif text-blue-600 mb-4 text-center" *ngIf="form.get('rows')?.value">Seat
         Preview</p>
     <app-seat-preview [rows]="form.get('rows')?.value" [columns]="form.get('columns')?.value"
-        [selectedSeats]="form.get('selectedSeats')?.value"
-        (seatsSelected)="onSeatsSelected($event)" [viewType]="'owner'" >
+        [selectedSeats]="form.get('selectedSeats')?.value" (seatsSelected)="onSeatsSelected($event)"
+        [viewType]="'owner'">
     </app-seat-preview>
 
     <button *ngIf="!hideSubmitButton" mat-raised-button style="background-color: rgb(5, 109, 173); color: white;"

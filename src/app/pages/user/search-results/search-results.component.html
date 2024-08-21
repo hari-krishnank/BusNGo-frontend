@@ -13,15 +13,15 @@
                             <p class="text-gray-600">{{trip.fleetType.name}}</p>
                         </div>
                         <div class="w-1/4 text-right">
-                            <p class="text-2xl font-bold">{{trip.schedule.startFrom}}</p>
+                            <p class="text-2xl font-bold">{{trip?.route?.schedule?.startFrom}}</p>
                             <p class="text-gray-600 truncate">{{trip.startFrom.location}}</p>
                         </div>
                         <div class="w-1/4 text-center">
-                            <p class="text-gray-600">{{trip.route.time}}</p>
+                            <p class="text-gray-600">{{trip?.route?.time}}</p>
                             <p class="text-gray-600">{{tripService.formatDisplayDate(selectedDate)}}</p>
                         </div>
                         <div class="w-1/4 text-left">
-                            <p class="text-2xl font-bold">{{trip.schedule.end}}</p>
+                            <p class="text-2xl font-bold">{{trip?.route?.schedule?.end}}</p>
                             <p class="text-gray-600 truncate">{{trip.endTo.location}}</p>
                         </div>
                         <div class="w-1/4 text-right">
@@ -33,7 +33,8 @@
                     <div class="flex items-center justify-between">
                         <div class="mt-4">
                         </div>
-                        <button class="w-40" mat-raised-button color="primary" (click)="tripService.toggleTripDetails(trip._id)">
+                        <button class="w-40" mat-raised-button color="primary"
+                            (click)="tripService.toggleTripDetails(trip._id)">
                             {{ tripService.isTripExpanded(trip._id) ? 'HIDE SEATS' : 'SELECT SEATS' }}
                         </button>
                     </div>
@@ -58,14 +59,16 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <button mat-button [color]="tripService.isSelectedSection(trip._id, 'REVIEWS') ? 'warn' : ''"
+                                    <button mat-button
+                                        [color]="tripService.isSelectedSection(trip._id, 'REVIEWS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
                                         (click)="tripService.selectSection(trip._id, 'REVIEWS')">
                                         REVIEWS
                                     </button>
                                 </li>
                                 <li>
-                                    <button mat-button [color]="tripService.isSelectedSection(trip._id, 'POLICIES') ? 'warn' : ''"
+                                    <button mat-button
+                                        [color]="tripService.isSelectedSection(trip._id, 'POLICIES') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
                                         (click)="tripService.selectSection(trip._id, 'POLICIES')">
                                         POLICIES
@@ -86,7 +89,7 @@
                             <div *ngSwitchCase="'SELECT SEATS'">
                                 <app-seat-selection [trip]="trip"
                                     (seatsSelected)="onSeatsSelected(trip.bus.name, $event)"
-                                    (bookSeatsClicked)="bookSeats($event)">
+                                     (bookSeatsClicked)="bookSeats($event)">
                                 </app-seat-selection>
                             </div>
                             <div *ngSwitchCase="'AMENITIES AND PHOTOS'">
@@ -99,7 +102,7 @@
 
                             </div>
                             <div *ngSwitchCase="'BOARDING AND DROPPING'">
-                                
+
                             </div>
                         </div>
                     </div>

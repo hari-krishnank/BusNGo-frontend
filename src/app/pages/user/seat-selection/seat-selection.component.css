@@ -1,0 +1,44 @@
+.seat-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.square {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.selectedByYou {
+    background-color: green;
+    border: 1px solid #ccc;
+}
+
+.seater {
+    background-color: #F0F0F0;
+    border: 1px solid #ccc;
+}
+
+.booked {
+    background-color: gray;
+    border: 1px solid #ccc;
+}
+
+.error-container {
+    height: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

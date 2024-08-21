@@ -6,7 +6,6 @@ export const tripModalFields: ModalFormField[] = [
     { name: 'ticketPrice', placeholder: 'Enter Ticket Price', type: 'text', errors: [], options: [] },
     { name: 'fleetType', placeholder: 'Select Fleet Type', type: 'select', errors: [], options: [] },
     { name: 'route', placeholder: 'Select Route', type: 'select', errors: [], options: [] },
-    { name: 'schedule', placeholder: 'Select Schedule', type: 'select', errors: [], options: [] },
     { name: 'startFrom', placeholder: 'Select Start From', type: 'select', errors: [], options: [] },
     { name: 'endTo', placeholder: 'Select End To', type: 'select', errors: [], options: [] },
 ];
