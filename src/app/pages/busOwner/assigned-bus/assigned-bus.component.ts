@@ -25,14 +25,11 @@ export class AssignedBusComponent implements OnInit {
   assignBusForm!: FormGroup;
   trips: any[] = [];
   buses: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
-  constructor(
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private assignedBusService: AssignedBusService,
-    private tripService: TripService,
-    private busService: BusService
-  ) { }
+  constructor(private dialog: MatDialog, private fb: FormBuilder, private assignedBusService: AssignedBusService, private tripService: TripService, private busService: BusService) { }
 
   ngOnInit(): void {
     this.createAssignBusForm();
@@ -49,15 +46,29 @@ export class AssignedBusComponent implements OnInit {
   }
 
   loadAssignedBuses() {
-    this.assignedBusService.getAllAssignedBuses().subscribe(
-      data => {
-        this.assignedBusData = data;
+    this.assignedBusService.getAssignedBuses(this.currentPage, this.itemsPerPage).subscribe(
+      (data) => {
+        this.assignedBusData = data.assignedBuses.map(item => ({
+          tripName: item.trip.title,
+          busName: item.bus.name,
+          regNo: item.bus.regNo,
+          ticketPrice: item.trip.ticketPrice,
+          status: item.status
+        }));
         console.log('Assigned bus data:', this.assignedBusData);
+        this.totalItems = data.total;
+        console.log(this.totalItems);
       },
       error => {
         console.error('Error loading assigned buses:', error);
       }
     );
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadAssignedBuses();
   }
 
   loadTrips() {

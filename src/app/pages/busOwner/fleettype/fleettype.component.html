@@ -1,2 +1,10 @@
 <app-ownernav></app-ownernav>
-<app-data-table [data]="fleetTypesData" [columns]="fleetTypesColumns" title="ALL FLEET TYPES" (addNew)="openModal()"></app-data-table>
+<app-data-table 
+    [data]="fleetTypesData" 
+    [columns]="fleetTypesColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
+    title="ALL FLEET TYPES" 
+    (addNew)="openModal()">
+</app-data-table>

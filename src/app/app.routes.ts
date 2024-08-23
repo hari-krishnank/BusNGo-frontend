@@ -42,7 +42,7 @@ export const routes: Routes = [
     { path: 'userLogin', component: UserLoginComponent, canActivate: [NoAuthGuard] },
     { path: 'userRegister', component: UserRegisterComponent, canActivate: [NoAuthGuard] },
     { path: 'searchresults', component: SearchResultsComponent },
-    { path: 'busTickets', component: BusTicketsComponent },
+    { path: 'busTickets/:bookingId', component: BusTicketsComponent },
 
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },

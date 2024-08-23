@@ -86,6 +86,7 @@ export class SeatPreviewComponent implements OnChanges {
       this.userSelectedSeats.splice(index, 1);
     } else {
       this.userSelectedSeats.push(seat);
+      console.log('user select cheytha seat',this.userSelectedSeats);
     }
     this.seatsSelected.emit(this.userSelectedSeats);
   }

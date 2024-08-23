@@ -1,44 +1,92 @@
 <app-usernav></app-usernav>
-<div class="container mx-auto p-4 mb-16 mt-24">
+<div class="container mx-auto p-4 mb-10 mt-24" *ngIf="pendingBooking">
     <div class="flex">
         <div class="w-3/4">
             <div class="space-y-8">
-                <p class="text-3xl font-semibold">Review Selected Bus</p>
-                <div class="border rounded-lg p-4 bg-white shadow-md">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-1/5 pr-2">
-                            <p class="text-xl font-bold truncate"></p>
-                            <p class="text-gray-600"></p>
+                <p class="text-2xl font-semibold">Review selected bus</p>
+                <div class="border rounded-lg bg-white shadow-md overflow-hidden">
+                    <div class="text-black p-4" style="background-color: #F0F0F0;">
+                        <div class="flex items-center">
+                            <mat-icon>directions_bus</mat-icon>
+                            <span class="ml-2 text-lg font-semibold">{{ pendingBooking.tripDetails.bus.name }}</span>
                         </div>
-                        <div class="w-1/4 text-right">
-                            <p class="text-2xl font-bold"></p>
-                            <p class="text-gray-600 truncate"></p>
-                        </div>
-                        <div class="w-1/4 text-center">
-                            <p class="text-gray-600"></p>
-                            <p class="text-gray-600"></p>
-                        </div>
-                        <div class="w-1/4 text-left">
-                            <p class="text-2xl font-bold"></p>
-                            <p class="text-gray-600 truncate"></p>
-                        </div>
-                        <div class="w-1/4 text-right">
-                            <p class="text-2xl font-bold">₹ </p>
-                            <p class="text-red-500">Total 10 seats left</p>
+                        <p class="text-sm ml-8 mt-2">{{ pendingBooking.tripDetails.fleetType.name }}</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-1/3">
+                                <p class="text-xl font-bold">{{ pendingBooking.tripDetails.startFrom.name }}</p>
+                                <p class="text-gray-600">{{ pendingBooking.tripDetails.startFrom.location }}</p>
+                                <p class="text-gray-600">{{ pendingBooking.tripDetails?.route?.schedule?.startFrom }}
+                                </p>
+                            </div>
+                            <div class="w-1/3 text-center">
+                                <p class="text-sm text-gray-600">Journey duration</p>
+                                <p class="text-gray-600">{{ pendingBooking.tripDetails?.route?.schedule?.duration }}</p>
+                            </div>
+                            <div class="w-1/3 text-right">
+                                <p class="text-xl font-bold">{{ pendingBooking.tripDetails.endTo.name }}</p>
+                                <p class="text-gray-600">{{ pendingBooking.tripDetails.endTo.location }}</p>
+                                <p class="text-gray-600">{{ pendingBooking.tripDetails?.route?.schedule?.end }}</p>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="flex items-center justify-between">
-                        <div class="mt-4">
-                        </div>
-                        <button class="w-40" mat-raised-button color="primary">
-                            CONTINUE
-                        </button>
+                </div>
+            </div>
+        </div>
+        <div class="w-1/4 ml-8 mt-16">
+            <div class="border rounded-lg p-4 bg-white shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Price breakup</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span>Base fare ({{ pendingBooking?.travellersDetails.length }} travellers)</span>
+                        <span>₹{{ priceBreakdown.baseFare }}</span>
                     </div>
-
-
+                    <div class="flex justify-between">
+                        <span>Tax</span>
+                        <span>₹{{ priceBreakdown.tax }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Convenience fee</span>
+                        <span>₹{{ priceBreakdown.convenienceFee }}</span>
+                    </div>
+                    <div class="flex justify-between font-semibold mt-4 pt-2 border-t">
+                        <span>Total amount payable</span>
+                        <span>₹{{ priceBreakdown.totalAmount }}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="container mx-auto p-4 mb-32">
+    <div class="flex items-center mb-2">
+        <p class="text-2xl font-semibold">Review traveller details</p>
+    </div>
+
+    <div class="mb-16">
+        <div *ngFor="let traveller of pendingBooking?.travellersDetails; let i = index"
+            class="flex items-center mb-2 text-sm">
+            <mat-icon class="ml-2">airline_seat_recline_extra</mat-icon>
+            <span class="mt-1 ml-2 ">{{ traveller.firstName }} {{ traveller.lastName }}, {{ traveller.age }}({{
+                traveller.gender.charAt(0).toUpperCase() }})</span>
+            <span class="ml-2 mt-1">Seat :</span><span class="font-semibold mr-2 mt-1 ml-2">{{ pendingBooking.tripDetails.selectedSeatNumbers[i] }}</span>
+        </div>
+    </div>
+
+    <p class="text-gray-600 text-xl font-semibold">Ticket details will be sent to</p>
+
+    <div class="flex items-center mb-2 mt-4">
+        <mat-icon>mail</mat-icon>
+        <span class="ml-2">{{ pendingBooking?.email }}</span>
+    </div>
+
+    <div class="flex items-center">
+        <mat-icon>phone</mat-icon>
+        <span class="ml-2">{{ pendingBooking?.phone }}</span>
+    </div>
+
+    <button class="mt-14" mat-raised-button color="warn">Continue Payment</button>
+</div>
+
+<app-footer></app-footer>

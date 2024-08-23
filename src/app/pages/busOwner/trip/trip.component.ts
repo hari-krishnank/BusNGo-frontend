@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TripService } from '../../../core/services/busOwner/trip/trip.service';
 import { FleetTypeService } from '../../../core/services/busOwner/fleet-type/fleet-type.service';
 import { RouteService } from '../../../core/services/busOwner/add-routes/add-route.service';
-import { ScheduleService } from '../../../core/services/busOwner/schedule/schedule.service';
 import { CounterService } from '../../../core/services/busOwner/counters/counter.service';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 
@@ -25,16 +24,11 @@ export class TripComponent implements OnInit {
   tripColumns = tripColumns
   modalFields: ModalFormField[] = tripModalFields
   tripForm !: FormGroup
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
-  constructor(
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private tripService: TripService,
-    private fleetTypeService: FleetTypeService,
-    private routeService: RouteService,
-    private scheduleService: ScheduleService,
-    private counterService: CounterService
-  ) { }
+  constructor(private dialog: MatDialog, private fb: FormBuilder, private tripService: TripService, private fleetTypeService: FleetTypeService, private routeService: RouteService, private counterService: CounterService) { }
 
   ngOnInit(): void {
     this.createTripForm()
@@ -59,14 +53,15 @@ export class TripComponent implements OnInit {
   }
 
   loadTrips() {
-    this.tripService.getAllTrips().subscribe(
-      (data: any[]) => {
-        this.tripData = data.map(trip => ({
+    this.tripService.getTrips(this.currentPage, this.itemsPerPage).subscribe(
+      (data) => {
+        this.tripData = data.trips.map((trip: { fleetType: { name: any; }; route: { name: any; }; dayOff: any[]; }) => ({
           ...trip,
           AcOrNonAc: trip.fleetType && trip.fleetType.name ? trip.fleetType.name : 'N/A',
           route: trip.route && trip.route.name ? trip.route.name : 'N/A',
           dayOff: Array.isArray(trip.dayOff) ? trip.dayOff.join(', ') : trip.dayOff,
         }));
+        this.totalItems = data.total
       },
       (error) => {
         console.error('Error loading ticket prices:', error);
@@ -74,12 +69,18 @@ export class TripComponent implements OnInit {
     );
   }
 
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadTrips();
+  }
+
   loadFleetTypes() {
     this.fleetTypeService.getAllFleetTypes().subscribe(
       (fleetTypes) => {
-        console.log('fsdfasfaafa',fleetTypes);
+        console.log('fsdfasfaafa', fleetTypes);
         const fleetTypeField = this.modalFields.find(field => field.name === 'fleetType');
-        
+
         if (fleetTypeField) {
           fleetTypeField.options = fleetTypes.map(ft => ({ value: ft._id, label: ft.name }));
           console.log(fleetTypeField.options)
@@ -92,7 +93,7 @@ export class TripComponent implements OnInit {
   }
 
   loadRoutes() {
-    this.routeService.getRoutes().subscribe(
+    this.routeService.getAllRoutes().subscribe(
       (routes) => {
         const routeField = this.modalFields.find(field => field.name === 'route');
         if (routeField) {

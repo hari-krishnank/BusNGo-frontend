@@ -2,6 +2,9 @@
 <app-data-table 
     [data]="tripData" 
     [columns]="tripColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
     title="ALL TRIPS" 
     (addNew)="openModal()">
 </app-data-table>

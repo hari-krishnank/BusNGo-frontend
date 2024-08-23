@@ -24,6 +24,9 @@ export class AddRoutesComponent implements OnInit {
   modalFields: ModalFormField[] = addRouteModalFields
   routeForm!: FormGroup;
   counters: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(private dialog: MatDialog, private fb: FormBuilder, private routeService: RouteService, private counterService: CounterService, private scheduleService: ScheduleService) { }
 
@@ -80,18 +83,25 @@ export class AddRoutesComponent implements OnInit {
   }
 
   loadRoutes() {
-    this.routeService.getRoutes().subscribe(
+    this.routeService.getRoutes(this.currentPage, this.itemsPerPage).subscribe(
       (routes) => {
-        this.routesData = routes.map(route => ({
+        this.routesData = routes.routes.map(route => ({
           ...route,
           startingPoint: route.startingPoint && route.startingPoint.name ? route.startingPoint.name : 'N/A',
           endingPoint: route.endingPoint && route.endingPoint.name ? route.endingPoint.name : 'N/A'
         }));
+        this.totalItems = routes.total
       },
       (error) => {
         console.error('Error loading routes:', error);
       }
     );
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadRoutes();
   }
 
   loadCounters() {
@@ -107,7 +117,7 @@ export class AddRoutesComponent implements OnInit {
   }
 
   loadSchedules() {
-    this.scheduleService.getSchedules().subscribe(
+    this.scheduleService.getAllSchedules().subscribe(
       (schedules) => {
         const scheduleField = this.modalFields.find(field => field.name === 'schedule')
         if (scheduleField) {

@@ -2,9 +2,12 @@
 <app-data-table 
     [data]="seatLayoutsData" 
     [columns]="seatLayoutsColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
     title="ALL LAYOUTS" 
-    (addNew)="openModal()"
     (viewPreview)="onViewPreview($event)"
+    (addNew)="openModal()"
     (edit)="editSeatLayout($event)"
     (delete)="deleteSeatLayout($event)">
 </app-data-table>

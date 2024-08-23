@@ -19,27 +19,37 @@ export class SeatLayoutsComponent implements OnInit {
   seatLayoutsData: SeatLayoutDisplay[] = [];
   seatLayoutsColumns = seatLayoutsColumns;
   selectedSeats: string[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(private seatLayoutService: SeatLayoutService, private seatLayoutFormService: SeatLayoutFormService, private seatLayoutModalService: SeatLayoutModalService) { }
 
   ngOnInit() {
     this.loadSeatLayouts();
   }
-
+ 
   loadSeatLayouts() {
-    this.seatLayoutService.getAllSeatLayouts().subscribe(
+    this.seatLayoutService.getSeatLayouts(this.currentPage, this.itemsPerPage).subscribe(
       (layouts) => {
-        this.seatLayoutsData = layouts.map((layout, index) => ({
+        this.seatLayoutsData = layouts.seatLayouts.map((layout, index) => ({
           ...layout,
-          siNo: index + 1,
+          siNo: (this.currentPage - 1) * this.itemsPerPage + index + 1,
           selectedSeats: layout.selectedSeats || [],
           totalSeats: this.seatLayoutFormService.calculateTotalSeats(layout)
         }));
+        this.totalItems = layouts.total
       },
       (error) => {
         console.error('Error loading seat layouts:', error);
       }
     );
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadSeatLayouts();
   }
 
   openModal() {

@@ -13,16 +13,15 @@
         </div>
 
         <div *ngFor="let travellerForm of travellersDetails; let i = index">
-            <p class="font-semibold mb-2" style="margin-left: 10px;">TRAVELLER {{ i + 1 }}, SEAT {{
-                this.trip.selectedSeats[i] }}</p>
+            <p class="font-semibold mb-2" style="margin-left: 10px;">TRAVELLER {{ i + 1 }}, SEAT {{ seatNumbers[i] }}</p>
 
-            <div class="flex mb-4 space-x-4 ml-2">
+            <div class="flex mb-4 space-x-4 ml-2" [formGroup]="travellerForm">
                 <label class="flex items-center border rounded-md px-4 py-2 cursor-pointer">
-                    <input type="radio" name="gender-{{ i }}" value="male" class="mr-2">
+                    <input type="radio" formControlName="gender" value="male" class="mr-2">
                     <span>Male</span>
                 </label>
                 <label class="flex items-center border rounded-md px-4 py-2 cursor-pointer">
-                    <input type="radio" name="gender-{{ i }}" value="female" class="mr-2">
+                    <input type="radio" formControlName="gender" value="female" class="mr-2">
                     <span>Female</span>
                 </label>
             </div>

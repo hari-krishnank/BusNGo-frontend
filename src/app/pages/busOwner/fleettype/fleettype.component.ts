@@ -21,6 +21,9 @@ export class FleettypeComponent implements OnInit {
   fleetTypesData: IFleetType[] = [];
   fleetTypesColumns = fleetTypesColumns;
   modalFields: ModalFormField[] = fleetTypeModalFields;
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(private fleetTypeService: FleetTypeService, private fleetTypeFormService: FleetTypeFormService, private fleetTypeModalService: FleetTypeModalService) { }
 
@@ -56,13 +59,14 @@ export class FleettypeComponent implements OnInit {
   }
 
   loadFleetTypes() {
-    this.fleetTypeService.getAllFleetTypes().subscribe(
+    this.fleetTypeService.getFleetTypes(this.currentPage, this.itemsPerPage).subscribe(
       (data) => {
-        this.fleetTypesData = data.map(fleetType => ({
+        this.fleetTypesData = data.fleetTypes.map(fleetType => ({
           ...fleetType,
           facilities: this.fleetTypeFormService.mapAmenityIdsToTitles(fleetType.facilities as string[]),
           seatLayout: this.fleetTypeFormService.getSeatLayoutNameById(fleetType.seatLayout)
         }));
+        this.totalItems = data.total
         console.log('fleet Types Loaded:', this.fleetTypesData);
       },
       (error) => {
@@ -70,6 +74,13 @@ export class FleettypeComponent implements OnInit {
       }
     );
   }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadFleetTypes();
+  }
+
 
   saveFleetType(formData: Partial<IFleetType>) {
     this.fleetTypeService.createFleetType(formData).subscribe(

@@ -23,6 +23,9 @@ export class BusesComponent implements OnInit {
   busesColumns = busesColumns
   busForm!: FormGroup;
   fleetTypes: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   modalFields: ModalFormField[] = addBusmodalFields
 
@@ -46,12 +49,13 @@ export class BusesComponent implements OnInit {
   }
 
   loadBuses() {
-    this.busService.getAllBuses().subscribe(
+    this.busService.getBuses(this.currentPage, this.itemsPerPage).subscribe(
       data => {
-        this.busesData = data.map(bus => ({
+        this.busesData = data.buses.map(bus => ({
           ...bus,
           fleetTypeName: bus.FleetType?.name || 'N/A'
         }));
+        this.totalItems = data.total
         console.log('Loaded Bus Data:', this.busesData);
 
       },
@@ -74,6 +78,12 @@ export class BusesComponent implements OnInit {
     if (fleetTypeField) {
       fleetTypeField.options = this.fleetTypes.map(ft => ({ value: ft._id, label: ft.name }));
     }
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadBuses();
   }
 
 

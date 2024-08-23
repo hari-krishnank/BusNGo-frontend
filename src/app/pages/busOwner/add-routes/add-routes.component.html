@@ -2,6 +2,9 @@
 <app-data-table 
     [data]="routesData" 
     [columns]="routesColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
     title="ALL ROUTES" 
     (addNew)="openModal()">
 </app-data-table>

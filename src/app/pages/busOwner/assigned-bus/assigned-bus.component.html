@@ -1,2 +1,10 @@
 <app-ownernav></app-ownernav>
-<app-data-table [data]="assignedBusData" [columns]="assignedBusColumns" title="ALL ASSIGNED BUSES" (addNew)="openModal()"></app-data-table>
+<app-data-table 
+    [data]="assignedBusData" 
+    [columns]="assignedBusColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
+    title="ALL ASSIGNED BUSES" 
+    (addNew)="openModal()">
+</app-data-table>

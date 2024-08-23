@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 
 @Injectable({
@@ -17,11 +17,30 @@ export class RouteService {
         return new HttpHeaders().set('Authorization', `Bearer ${token}`);
     }
 
-    getRoutes(): Observable<any[]> {
-        return this.http.get<any[]>(this.backendUrl, { headers: this.getHeaders() })
-            .pipe(
-                tap(routes => console.log('getRoutes response:', JSON.stringify(routes, null, 2)))
-            );
+
+    getRoutes(page: number = 1, limit: number = 5): Observable<{ routes: any[], total: number }> {
+        const params = new HttpParams()
+            .set('page', page.toString())
+            .set('limit', limit.toString());
+
+        return this.http.get<{ routes: any[], total: number }>(this.backendUrl, {
+            headers: this.getHeaders(),
+            params: params
+        });
+    }
+
+    // getAllRoutes(): Observable<any[]> {
+    //     return this.http.get<any[]>(this.backendUrl, { headers: this.getHeaders() })
+    //         .pipe(
+    //             tap(routes => console.log('getRoutes response:', JSON.stringify(routes, null, 2)))
+    //         );
+    // }
+
+    getAllRoutes(): Observable<any[]> {
+        return this.getRoutes(1, 1000).pipe(
+            map(response => response.routes),
+            tap(routes => console.log('getRoutes response:', JSON.stringify(routes, null, 2)))
+        );
     }
 
     addRoute(route: any): Observable<any> {

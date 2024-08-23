@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 
@@ -21,9 +21,20 @@ export class BusService {
         return this.http.post(this.backendUrl, busData, { headers: this.getHeaders() });
     }
 
+    getBuses(page: number = 1, limit: number = 5): Observable<{ buses: any[], total: number }> {
+        const params = new HttpParams()
+            .set('page', page.toString())
+            .set('limit', limit.toString());
+
+        return this.http.get<{ buses: any[], total: number }>(this.backendUrl, {
+            headers: this.getHeaders(),
+            params: params
+        });
+    }
+
     getAllBuses(): Observable<any[]> {
-        return this.http.get<any[]>(
-            this.backendUrl, { headers: this.getHeaders() }).pipe(map(buses => buses.map(bus => ({ ...bus, fleetTypeName: bus.FleetType.name })))
-            );
+        return this.getBuses(1, 1000).pipe(
+            map(respone => respone.buses)
+        )
     }
 }

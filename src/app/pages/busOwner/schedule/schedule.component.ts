@@ -21,12 +21,11 @@ export class ScheduleComponent implements OnInit {
   scheduleColumns = scheduleColumns;
   modalFields: ModalFormField[] = scheduleModalFields;
   scheduleForm!: FormGroup;
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
-  constructor(
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private scheduleService: ScheduleService
-  ) { }
+  constructor(private dialog: MatDialog, private fb: FormBuilder, private scheduleService: ScheduleService) { }
 
   ngOnInit(): void {
     this.createScheduleForm();
@@ -43,14 +42,22 @@ export class ScheduleComponent implements OnInit {
   }
 
   loadSchedules() {
-    this.scheduleService.getSchedules().subscribe(
-      (schedules) => {
-        this.scheduleData = schedules;
+    this.scheduleService.getSchedules(this.currentPage, this.itemsPerPage).subscribe(
+      (response) => {
+        console.log('Response from server:', response);
+        this.scheduleData = response.schedules; 
+        this.totalItems = response.total;
       },
       (error) => {
         console.error('Error loading schedules:', error);
       }
     );
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadSchedules();
   }
 
   openModal() {

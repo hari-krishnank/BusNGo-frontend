@@ -1,2 +1,10 @@
 <app-ownernav></app-ownernav>
-<app-data-table [data]="scheduleData" [columns]="scheduleColumns" title="ALL SCHEDULES" (addNew)="openModal()"></app-data-table>
+<app-data-table 
+    [data]="scheduleData" 
+    [columns]="scheduleColumns" 
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage" 
+    (pageChange)="onPageChange($event)" 
+    title="ALL SCHEDULES"
+    (addNew)="openModal()">
+</app-data-table>

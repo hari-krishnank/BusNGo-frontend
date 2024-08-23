@@ -38,7 +38,7 @@ export class SeatSelectionComponent implements OnInit {
     });
     this.droppingForm = this.formBuilder.group({
       droppingPoint: ['', Validators.required]
-    })
+    });
   }
 
   ngOnInit() {
@@ -87,6 +87,14 @@ export class SeatSelectionComponent implements OnInit {
     this.seatsSelected.emit(selectedSeats);
     console.log('seat emited:', this.seatsSelected.emit(selectedSeats));
     this.totalTicketPrice = selectedSeats.length * this.trip.ticketPrice;
+  }
+
+  getSeatNumber(seat: string): string | number {
+    return this.seatPreviewComponent?.getSeatNumber(seat) || '';
+  }
+
+  getSelectedSeatNumbers(): (string | number)[] {
+    return this.trip.selectedSeats?.map((seat: any) => this.getSeatNumber(seat));
   }
 
   bookSeats() {

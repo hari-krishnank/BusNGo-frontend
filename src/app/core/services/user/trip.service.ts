@@ -30,7 +30,7 @@ export class TripService {
   isSelectedSection(tripId: string, section: string): boolean {
     return this.selectedSections[tripId] === section;
   }
-  
+
   formatDisplayDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
