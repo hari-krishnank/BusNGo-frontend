@@ -58,44 +58,20 @@ export class UserLoginComponent implements AfterViewInit {
   onSubmit(formValue: ILoginFormValue) {
     this.loginService.login(formValue.email, formValue.password).subscribe({
       next: (response: ILoginResponse) => {
+        console.log('login cheyyumbo ulla response:', response);
+
         this.loginService.setToken(response.access_token);
-        this.checkUserBlockStatus();
+        this.handleSuccessfulLogin()
       },
       error: (error) => {
         console.error('Login failed', error);
-        if (error.message === 'ACCOUNT_BLOCKED') {
-          this.toastr.error('Your account has been blocked. Please contact support.', 'Access Denied');
-        } else if (error.message === 'INVALID_CREDENTIALS') {
+        if (error.message === 'INVALID_CREDENTIALS') {
           this.toastr.error('Invalid email or password. Please try again.', 'Login Failed');
         } else {
           this.toastr.error('An unexpected error occurred. Please try again later.', 'Error');
         }
       }
     });
-  }
-
-  private checkUserBlockStatus() {
-    this.loginService.checkUserBlockStatus().subscribe({
-      next: (isBlocked: boolean) => {
-        if (isBlocked) {
-          this.handleBlockedUser();
-        } else {
-          this.handleSuccessfulLogin();
-        }
-      },
-      error: (error) => {
-        console.error('Error checking block status', error);
-        // this.toastr.warning('Unable to verify account status. Proceeding with caution.', 'Warning');
-        // this.router.navigate(['/home']);
-        this.handleSuccessfulLogin();
-      }
-    });
-  }
-
-  private handleBlockedUser() {
-    this.loginService.logout();
-    this.toastr.error('Your account has been blocked. Please contact support.', 'Access Denied');
-    this.router.navigate(['/userLogin']);
   }
 
   private handleSuccessfulLogin() {

@@ -36,7 +36,8 @@ export class ModalComponent {
       form: FormGroup,
       showResendOtp?: boolean,
       resendCooldown?: number,
-      existingLayout?: any
+      existingLayout?: any,
+      preventCloseOnSubmit?: boolean
     },
     private fb: FormBuilder
   ) {
@@ -62,7 +63,9 @@ export class ModalComponent {
     if (this.form.valid) {
       console.log('Form data to save:', formData);
       this.formSubmitted.emit(formData);
-      this.dialogRef.close(formData);
+      if (!this.data.preventCloseOnSubmit) {
+        this.dialogRef.close(formData);
+      }
     } else {
       Object.values(this.form.controls).forEach(control => {
         control.markAsTouched();

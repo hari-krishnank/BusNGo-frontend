@@ -138,11 +138,12 @@
                     <ng-container *ngSwitchCase="'password'">
                         <div class="relative">
                             <input [type]="field.showPassword ? 'text' : 'password'" [id]="field.name" [ngClass]="{
-                                    'border-blue-500 focus:border-blue-500 focus:ring-blue-400': !shouldShowError(field.name),
-                                    'border-red-500 focus:border-red-500 focus:ring-red-400': shouldShowError(field.name)
+                                    'border-blue-500 focus:border-blue-400 focus:ring-blue-400': !shouldShowError(field.name),
+                                    'border-red-500 focus:border-transparent focus:ring-transparent': shouldShowError(field.name)
                                 }" [formControlName]="field.name"
-                                class="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-colors peer"
-                                placeholder=" ">
+                                class="block w-full px-3 py-3 text-gray-700 bg-white rounded-lg focus:outline-none focus:ring-1 transition-colors peer"
+                                placeholder=" "
+                                [style.border]="shouldShowError(field.name) ? '1px solid red' : '1px solid gainsboro'">
                             <label [for]="field.name"
                                 class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-focus:text-xs peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
                                 {{ field.placeholder }}
@@ -156,16 +157,18 @@
 
                     <ng-container *ngSwitchDefault>
                         <input [type]="field.type" [id]="field.name" [formControlName]="field.name" [ngClass]="{
-                                'border-blue-500 focus:border-blue-500 focus:ring-blue-400': !shouldShowError(field.name),
-                                'border-red-500 focus:border-red-500 focus:ring-red-400': shouldShowError(field.name)
+                                'border-blue-500 focus:border-blue-400 focus:ring-blue-400': !shouldShowError(field.name),
+                                'border-red-500 focus:border-transparent focus:ring-transparent': shouldShowError(field.name)
                             }"
-                            class="block w-full px-3 py-3 text-gray-700 bg-white border rounded-lg focus:outline-none focus:ring-1 transition-colors peer"
-                            placeholder=" ">
+                            class="block w-full px-3 py-3 text-gray-700 bg-white rounded-lg focus:outline-none focus:ring-1 transition-colors peer"
+                            placeholder=" "
+                            [style.border]="shouldShowError(field.name) ? '1px solid red' : '1px solid gainsboro'">
                         <label [for]="field.name"
                             class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-focus:text-xs peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
                             {{ field.placeholder }}
                         </label>
                     </ng-container>
+
                 </ng-container>
 
                 <div class="h-1.5 ml-2">

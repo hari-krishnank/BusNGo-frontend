@@ -12,7 +12,7 @@ import { registrationFields } from '../../../shared/configs/user/registerForm.co
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
 import { gsap } from 'gsap';
@@ -34,6 +34,8 @@ export class UserRegisterComponent implements AfterViewInit {
 
   @ViewChild('imageDiv') imageDiv!: ElementRef;
   @ViewChild('formDiv') formDiv!: ElementRef;
+
+  private otpDialogRef: MatDialogRef<ModalComponent> | null = null;
 
   constructor(private signupService: SignupService, private router: Router, private fb: FormBuilder, private toastr: ToastrService, private dialog: MatDialog) {
     this.registrationForm = this.fb.group({
@@ -91,48 +93,38 @@ export class UserRegisterComponent implements AfterViewInit {
     const otpComponent = new OtpComponent(this.fb, this.signupService);
     otpComponent.email = email;
 
-    const dialogRef = this.dialog.open(ModalComponent, {
+    this.otpDialogRef = this.dialog.open(ModalComponent, {
       data: {
         title: 'Enter OTP',
         fields: otpComponent.otpFields,
         submitButtonText: 'Verify OTP',
         form: otpComponent.otpForm,
         showResendOtp: true,
-        resendCooldown: 60
+        resendCooldown: 60,
+        preventCloseOnSubmit: true  
       },
-      width: '400px'
+      width: '400px',
+      disableClose: true
     });
 
-    dialogRef.componentInstance.formSubmitted.subscribe((result) => {
+    this.otpDialogRef.componentInstance.formSubmitted.subscribe((result) => {
       if (result) {
-        this.onVerifyOtp({ email: email, otp: parseInt(result.otp, 10) });
+        this.verifyOtpAndHandleDialog(email, parseInt(result.otp, 10));
       }
     });
 
-    dialogRef.componentInstance.resendOtp.subscribe(() => {
+    this.otpDialogRef.componentInstance.resendOtp.subscribe(() => {
       this.onResendOtp(email);
     });
   }
 
-  onResendOtp(email: string) {
-    this.signupService.resendOtp(email).subscribe({
-      next: (response) => {
-        this.toastr.success('OTP resent successfully', 'Success');
-      },
-      error: (error) => {
-        this.toastr.error('Failed to resend OTP. Please try again.', 'Error');
-      }
-    });
-  }
-
-  onVerifyOtp(event: { email: string, otp: number }) {
-    console.log('Verifying OTP:', event);
-    this.signupService.verifyOtp(event.email, event.otp).subscribe({
+  private verifyOtpAndHandleDialog(email: string, otp: number) {
+    this.signupService.verifyOtp(email, otp).subscribe({
       next: (response: IOtpVerificationResponse) => {
         if (response.success) {
           console.log('OTP verified:', response);
           this.showOtpModal = false;
-          this.dialog.closeAll();
+          this.otpDialogRef?.close();
           this.toastr.success('OTP verified successfully', 'Success');
           this.router.navigate(['/userLogin']);
         } else {
@@ -147,7 +139,19 @@ export class UserRegisterComponent implements AfterViewInit {
     });
   }
 
+  onResendOtp(email: string) {
+    this.signupService.resendOtp(email).subscribe({
+      next: (response) => {
+        this.toastr.success('OTP resent successfully', 'Success');
+      },
+      error: (error) => {
+        this.toastr.error('Failed to resend OTP. Please try again.', 'Error');
+      }
+    });
+  }
+
   closeOtpModal() {
+    this.dialog.closeAll();
     this.showOtpModal = false;
     this.isSignUpDisabled = false;
   }

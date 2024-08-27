@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { ILoginResponse } from '../../models/user/login.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,10 @@ export class LoginService {
   login(email: string, password: string): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.backendURL}/auth/login`, { email, password })
       .pipe(
+        tap(response => {
+          this.setToken(response.access_token);
+          this.setUserInfo(response.user);
+        }),
         catchError(error => {
           console.error('Login error:', error);
           if (error.status === 401) {
@@ -29,30 +33,31 @@ export class LoginService {
       );
   }
 
+
   setToken(token: string): void {
-    localStorage.setItem('token', token);
+    localStorage.setItem('userToken', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem('userToken');
+  }
+
+  setUserInfo(user: any): void {
+    localStorage.setItem('userInfo', JSON.stringify(user));
+  }
+
+  getUserInfo(): any {
+    const userInfo = localStorage.getItem('userInfo');
+    return userInfo ? JSON.parse(userInfo) : null;
   }
 
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  checkUserBlockStatus(): Observable<boolean> {
-    return this.http.get<boolean>(`${this.backendURL}/auth/check-block-status`)
-      .pipe(
-        catchError(error => {
-          console.error('Error checking user block status:', error);
-          return throwError(() => new Error('Failed to check user block status'));
-        })
-      );
-  }
-
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userInfo');
     this.toastr.info('You have been logged out successfully', 'Logged Out');
   }
 }

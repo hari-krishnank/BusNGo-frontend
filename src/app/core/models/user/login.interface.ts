@@ -5,7 +5,13 @@ export interface ILoginOption {
 }
 
 export interface ILoginResponse {
-    access_token: string
+    access_token: string;
+    user: {
+        userId: string;
+        email: string;
+        username: string;
+        phone: string;
+    };
 }
 
 export interface ILoginFormValue {

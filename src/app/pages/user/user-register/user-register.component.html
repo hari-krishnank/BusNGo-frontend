@@ -13,16 +13,29 @@
 
                 <div class="flex mb-6 border-b">
                     <button class="flex-1 px-4 py-2 text-gray-500" [routerLink]="'/userLogin'">Log in</button>
-                    <button class="flex-1 px-4 py-2 border-b-2 border-blue-500 text-blue-500 font-medium">Register</button>
+                    <button
+                        class="flex-1 px-4 py-2 border-b-2 border-blue-500 text-blue-500 font-medium">Register</button>
                 </div>
-                
+
                 <app-form [form]="registrationForm" [fields]="registrationFields" submitButtonText="Sign Up"
                     (formSubmit)="onSignUp($event)" [disabled]="isSignUpDisabled || registrationForm.invalid">
                 </app-form>
+
+                <div class="mt-10 flex items-center justify-center mb-8">
+                    <div class="w-full border-b border-gray-300"></div>
+                    <span class="px-4 bg-gray-50 text-gray-500 font-medium">OR</span>
+                    <div class="w-full border-b border-gray-300"></div>
+                </div>
+
+                <div class="mt-8 flex justify-center">
+                    <button
+                        class="w-full bg-white hover:bg-gray-100 text-gray-800 font-medium py-2 px-4 border border-gray-400 rounded-md flex items-center justify-center">
+                        <img src="assets/User/icons8-google-48.png" class="h-6 w-6 mr-2" alt="Google">
+                        <span class="ml-2">Sign up with Google</span>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-<app-otp *ngIf="showOtpModal" [email]="registrationForm.get('email')?.value || ''" (verifyOtp)="onVerifyOtp($event)"
-    (closeModal)="closeOtpModal()">
-</app-otp>  

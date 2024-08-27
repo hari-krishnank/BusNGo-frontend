@@ -9,7 +9,8 @@
             <div class="flex items-center space-x-4">
                 <button mat-button [matMenuTriggerFor]="accountMenu" class="text-sm text-black">
                     <mat-icon style="color: black;">account_circle</mat-icon>
-                    Account
+                    <span *ngIf="!loginService.isLoggedIn()">Account</span>
+                    <span *ngIf="loginService.isLoggedIn()">{{ username }}</span>
                 </button>
                 <mat-icon style="margin-left: -2px;">arrow_drop_down</mat-icon>
                 <mat-menu #accountMenu="matMenu">
@@ -24,8 +25,6 @@
                             <mat-icon>logout</mat-icon>
                             <span>Logout</span>
                         </button>
-                    </ng-template>
-                    <ng-template #loggedInMenu>
                         <button mat-menu-item>
                             <mat-icon style="color: black;">person</mat-icon>
                             Profile
