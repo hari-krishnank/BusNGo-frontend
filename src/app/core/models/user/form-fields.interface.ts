@@ -13,6 +13,7 @@ export interface FormField {
     placeholder?: string;
     errors: FormFieldError[];
     validators?: any[];
+    showPassword ?: boolean;
     options?: { value: string; label: string, iconClass?: string }[];
     conditionalDisplay?: string
 }

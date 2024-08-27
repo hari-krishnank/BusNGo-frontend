@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../../core/services/user/login.service';
@@ -12,6 +12,7 @@ import { noWhitespaceValidator, strongPasswordValidator } from '../../../shared/
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
 import { MatButtonModule } from '@angular/material/button';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-user-login',
@@ -21,15 +22,36 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './user-login.component.css'
 })
 
-export class UserLoginComponent {
+export class UserLoginComponent implements AfterViewInit {
   loginForm: FormGroup;
   loginFields: FormField[] = loginFields;
   timestamp = new Date().getTime();
+
+  @ViewChild('imageDiv') imageDiv!: ElementRef;
+  @ViewChild('formDiv') formDiv!: ElementRef;
 
   constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder, private toastr: ToastrService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, noWhitespaceValidator()]],
       password: ['', [Validators.required, Validators.minLength(8), noWhitespaceValidator(), strongPasswordValidator()]],
+    });
+  }
+
+  ngAfterViewInit() {
+    this.animateElements();
+  }
+
+  animateElements() {
+    gsap.from(this.imageDiv.nativeElement, {
+      duration: 1,
+      x: '-100%',
+      ease: 'power3.out'
+    });
+
+    gsap.from(this.formDiv.nativeElement, {
+      duration: 1,
+      x: '100%',
+      ease: 'power3.out'
     });
   }
 

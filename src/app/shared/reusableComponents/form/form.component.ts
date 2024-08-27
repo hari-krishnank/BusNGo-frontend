@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -49,6 +49,10 @@ export class FormComponent<T> implements OnInit {
     });
   }
 
+  togglePasswordVisibility(field: FormField) {
+    field.showPassword = !field.showPassword;
+  }
+
   onSeatsSelected(seats: string[]) {
     this.selectedSeats = seats;
     this.form.patchValue({ selectedSeats: this.selectedSeats });
@@ -66,10 +70,11 @@ export class FormComponent<T> implements OnInit {
   getAllErrorMessages(field: FormField): string {
     const control = this.form.get(field.name);
     if (control?.errors) {
-      return field.errors
-        .filter(error => control.hasError(error.type))
-        .map(error => error.message)
-        .join('\n');
+      for (let error of field.errors) {
+        if (control.hasError(error.type)) {
+          return error.message;
+        }
+      }
     }
     return '';
   }
@@ -78,16 +83,6 @@ export class FormComponent<T> implements OnInit {
     if (fieldName === 'additionalStops') return false;
     const control = this.form.get(fieldName);
     return control ? (control.invalid && (control.dirty || control.touched)) : false;
-  }
-
-  showTooltipIfInvalid(fieldName: string, tooltip: MatTooltip) {
-    if (fieldName === 'additionalStops') return;
-    const control = this.form.get(fieldName);
-    if (control && control.invalid && (control.dirty || control.touched)) {
-      tooltip.show();
-    } else {
-      tooltip.hide();
-    }
   }
 
   isIconSelectField(field: FormField): boolean {
@@ -179,4 +174,4 @@ export class FormComponent<T> implements OnInit {
 
     control.setValue(updatedValues);
   }
-}
+} 

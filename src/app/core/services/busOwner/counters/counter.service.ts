@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment.development';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { CountersResponse, ICounter } from '../../../models/busOwner/counter.interface';
 
 @Injectable({
@@ -38,10 +38,26 @@ export class CounterService {
   addCounter(counterData: Omit<ICounter, '_id'>): Observable<ICounter> {
     console.log('Sending counter data:', counterData);
     return this.http.post<ICounter>(this.backendUrl, counterData, { headers: this.getHeaders() })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.error && error.error.message) {
+            return throwError(error.error.message);
+          }
+          return throwError('An error occurred while processing your request');
+        })
+      );
   }
 
   updateCounter(id: string, counterData: Partial<ICounter>): Observable<ICounter> {
-    return this.http.put<ICounter>(`${this.backendUrl}/${id}`, counterData, { headers: this.getHeaders() });
+    return this.http.put<ICounter>(`${this.backendUrl}/${id}`, counterData, { headers: this.getHeaders() })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.error && error.error.message) {
+            return throwError(error.error.message)
+          }
+          return throwError('An error occurred while processing your request');
+        })
+      )
   }
 
   deleteCounter(id: string): Observable<void> {

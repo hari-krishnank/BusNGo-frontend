@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-user-register',
@@ -24,12 +25,15 @@ import { FormComponent } from '../../../shared/reusableComponents/form/form.comp
   styleUrl: './user-register.component.css'
 })
 
-export class UserRegisterComponent {
+export class UserRegisterComponent implements AfterViewInit {
   showOtpModal: boolean = false;
   isSignUpDisabled: boolean = false;
   registrationForm: FormGroup;
   registrationFields: FormField[] = registrationFields
   timestamp = new Date().getTime();
+
+  @ViewChild('imageDiv') imageDiv!: ElementRef;
+  @ViewChild('formDiv') formDiv!: ElementRef;
 
   constructor(private signupService: SignupService, private router: Router, private fb: FormBuilder, private toastr: ToastrService, private dialog: MatDialog) {
     this.registrationForm = this.fb.group({
@@ -41,6 +45,24 @@ export class UserRegisterComponent {
     }, {
       validators: passwordMatchValidator('password', 'confirmpassword')
     })
+  }
+
+  ngAfterViewInit() {
+    this.animateElements();
+  }
+
+  animateElements() {
+    gsap.from(this.imageDiv.nativeElement, {
+      duration: 1,
+      x: '-100%',
+      ease: 'power3.out'
+    });
+
+    gsap.from(this.formDiv.nativeElement, {
+      duration: 1,
+      x: '100%',
+      ease: 'power3.out'
+    });
   }
 
   onSignUp(formValue: IRegistrationFormValue) {
