@@ -19,21 +19,25 @@
                             <mat-icon>login</mat-icon>
                             <span>Login / SignUp</span>
                         </button>
-                    </ng-container>
-                    <ng-template #loggedInMenu>
-                        <button mat-menu-item (click)="logout()" style="width: 180px;">
-                            <mat-icon>logout</mat-icon>
-                            <span>Logout</span>
+                        <button mat-menu-item>
+                            <mat-icon style="color: black;">help</mat-icon>
+                            Help
                         </button>
+                    </ng-container> 
+                    <ng-template #loggedInMenu>
                         <button mat-menu-item>
                             <mat-icon style="color: black;">person</mat-icon>
                             Profile
                         </button>
+                        <button mat-menu-item>
+                            <mat-icon style="color: black;">help</mat-icon>
+                            Help
+                        </button>
+                        <button mat-menu-item (click)="logout()" style="width: 180px;">
+                            <mat-icon>logout</mat-icon>
+                            <span>Logout</span>
+                        </button>
                     </ng-template>
-                    <button mat-menu-item>
-                        <mat-icon style="color: black;">help</mat-icon>
-                        Help
-                    </button>
                 </mat-menu>
             </div>
         </div>

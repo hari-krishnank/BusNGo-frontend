@@ -7,7 +7,7 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { LoginService } from './core/services/user/login.service';
 import { provideToastr } from 'ngx-toastr'
 import { provideAnimations } from '@angular/platform-browser/animations'
-import { MessageService } from 'primeng/api';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptors([JwtInterceptor])),
     LoginService,
-    MessageService,
-    provideToastr()
+    NzMessageService,
+    provideToastr() 
   ]
 };

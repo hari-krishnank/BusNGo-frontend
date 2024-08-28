@@ -4,6 +4,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { ILoginResponse } from '../../models/user/login.interface';
 import { ToastrService } from 'ngx-toastr';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,13 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginService {
   private backendURL = environment.backendUrl
 
-  constructor(private http: HttpClient, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private toastr: ToastrService, private message: NzMessageService) { }
 
   login(email: string, password: string): Observable<ILoginResponse> {
-    return this.http.post<ILoginResponse>(`${this.backendURL}/auth/login`, { email, password })
+    return this.http.post<ILoginResponse>(`${this.backendURL}/auth/user/login`, { email, password })
       .pipe(
         tap(response => {
+          console.log('normal login response', response);
           this.setToken(response.access_token);
           this.setUserInfo(response.user);
         }),
@@ -33,6 +35,20 @@ export class LoginService {
       );
   }
 
+  googleLogin(credential: string): Observable<ILoginResponse> {
+    return this.http.post<ILoginResponse>(`${this.backendURL}/auth/user/google-login`, { credential })
+      .pipe(
+        tap(response => {
+          console.log('response kitti', response);
+          this.setToken(response.access_token);
+          this.setUserInfo(response.user);
+        }),
+        catchError(error => {
+          console.error('Google login error:', error);
+          return throwError(() => new Error('GOOGLE_LOGIN_ERROR'));
+        })
+      );
+  }
 
   setToken(token: string): void {
     localStorage.setItem('userToken', token);
@@ -58,6 +74,6 @@ export class LoginService {
   logout(): void {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userInfo');
-    this.toastr.info('You have been logged out successfully', 'Logged Out');
+    this.message.success('You have been logged out successfully..!');
   }
 }

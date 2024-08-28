@@ -11,13 +11,12 @@ import { countersColumns } from '../../../shared/data/busOwner/counters-columns'
 import { counterModalFields } from '../../../shared/configs/busOwner/counterForm-config';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 import { CountersResponse, ICounter } from '../../../core/models/busOwner/counter.interface';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-counters',
   standalone: true,
-  imports: [OwnernavComponent, DataTableComponent, CommonModule, ModalComponent, ReactiveFormsModule, BusOwnerfooterComponent, ToastModule],
+  imports: [OwnernavComponent, DataTableComponent, CommonModule, ModalComponent, ReactiveFormsModule, BusOwnerfooterComponent],
   templateUrl: './counters.component.html',
   styleUrl: './counters.component.css'
 })
@@ -30,7 +29,7 @@ export class CountersComponent implements OnInit {
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(private countersService: CounterService, private counterModalService: CounterModalService, private counterSearchService: CounterSearchService, private toastr: MessageService) { }
+  constructor(private countersService: CounterService, private counterModalService: CounterModalService, private counterSearchService: CounterSearchService, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
     this.loadCounters();
@@ -66,7 +65,7 @@ export class CountersComponent implements OnInit {
     this.countersService.updateCounter(id, formData).subscribe(
       () => {
         this.loadCounters(),
-          this.toastr.add({ key: 'tst', severity: 'success', summary: 'Counter updated successfully', life: 3000, closable: true, icon: 'pi pi-check-circle' })
+          this.toastr.success('Counter updated successfully', { nzDuration: 4000 })
       },
       error => {
         console.error('Error updating counter:', error)
@@ -79,7 +78,7 @@ export class CountersComponent implements OnInit {
     this.countersService.addCounter(formData).subscribe(
       () => {
         this.loadCounters(),
-          this.toastr.add({ key: 'tst', severity: 'success', summary: 'Counter added successfully', life: 3000, closable: true, icon: 'pi pi-check-circle' })
+          this.toastr.success('Counter added successfully', { nzDuration: 4000 })
       },
       error => {
         console.error('Error adding counter:', error)
@@ -94,7 +93,7 @@ export class CountersComponent implements OnInit {
         this.countersService.deleteCounter(counter._id).subscribe(
           () => {
             this.loadCounters(),
-              this.toastr.add({ key: 'tst', severity: 'success', summary: 'Counter deleted successfully', life: 3000, closable: true, icon: 'pi pi-check-circle' })
+              this.toastr.success('Counter deleted successfully', { nzDuration: 4000 })
           },
           error => {
             console.error('Error deleting Bus Station:', error)
@@ -108,20 +107,20 @@ export class CountersComponent implements OnInit {
   searchCounters(searchTerm: string): void {
     this.countersData = this.counterSearchService.searchCounters(this.allCountersData, searchTerm);
   }
-  
+
   private handleErrorMessage(error: any): void {
     if (typeof error === 'string') {
       if (error.includes('counter with the name')) {
-        this.toastr.add({ key: 'tst', severity: 'error', summary: error, life: 2000, closable: true, icon: 'pi pi-times-circle' });
+        this.toastr.error('A counter with the name already exists', { nzDuration: 4000 })
       } else if (error.includes('counter in the city')) {
-        this.toastr.add({ key: 'tst', severity: 'error', summary: error, life: 2000, closable: true, icon: 'pi pi-times-circle' });
+        this.toastr.error('A counter with the city already exists', { nzDuration: 4000 })
       } else if (error.includes('counter at the location')) {
-        this.toastr.add({ key: 'tst', severity: 'error', summary: error, life: 2000, closable: true, icon: 'pi pi-times-circle' });
+        this.toastr.error('A counter with the location already exists', { nzDuration: 4000 })
       } else {
-        this.toastr.add({ key: 'tst', severity: 'error', summary: error, life: 2000, closable: true, icon: 'pi pi-times-circle' });
+        this.toastr.error('An error occurred while processing your request', { nzDuration: 4000 })
       }
     } else {
-      this.toastr.add({ key: 'tst', severity: 'error', summary: 'An error occurred while processing your request', life: 3000, closable: true, icon: 'pi pi-times-circle' });
+      this.toastr.error('An error occurred while processing your request', { nzDuration: 4000 })
     }
   }
 }

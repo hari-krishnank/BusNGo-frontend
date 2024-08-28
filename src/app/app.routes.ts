@@ -29,8 +29,6 @@ import { TripComponent } from './pages/busOwner/trip/trip.component';
 import { AssignedBusComponent } from './pages/busOwner/assigned-bus/assigned-bus.component';
 import { AddRoutesComponent } from './pages/busOwner/add-routes/add-routes.component';
 import { OwnerHomeComponent } from './pages/busOwner/owner-home/owner-home.component';
-import { SeatBookingComponent } from './pages/user/seat-booking/seat-booking.component';
-import { UserAuthGuard } from './core/guards/auth.guard';
 import { BusTicketsComponent } from './pages/user/bus-tickets/bus-tickets.component';
 
 export const routes: Routes = [
