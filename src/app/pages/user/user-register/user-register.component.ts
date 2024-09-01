@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+declare var google: any;
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,16 +17,17 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../../../shared/reusableComponents/modal/modal.component';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
 import { gsap } from 'gsap';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule, UsernavComponent, FormComponent, OtpComponent, FooterComponent, ToastrModule],
+  imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule, UsernavComponent, FormComponent, OtpComponent, FooterComponent, ToastrModule, MatIconModule],
   templateUrl: './user-register.component.html',
   styleUrl: './user-register.component.css'
 })
 
-export class UserRegisterComponent implements AfterViewInit {
+export class UserRegisterComponent implements AfterViewInit, OnInit {
   showOtpModal: boolean = false;
   isSignUpDisabled: boolean = false;
   registrationForm: FormGroup;
@@ -49,8 +51,27 @@ export class UserRegisterComponent implements AfterViewInit {
     })
   }
 
+  ngOnInit(): void {
+    google.accounts.id.initialize({
+      client_id: '513831466496-3gdp5pno3ioji925p24r3f0a4kn4uso7.apps.googleusercontent.com',
+      callback: this.handleGoogleSignUp.bind(this)
+    })
+    google.accounts.id.renderButton(document.getElementById("GoogleSignUp"), {
+      theme: 'outline',
+      size: 'extra large',
+      type: 'standard',
+      text: 'signup_with',
+      shape: 'rectangular',
+      width: 600
+    })
+  }
+
   ngAfterViewInit() {
     this.animateElements();
+  }
+
+  handleGoogleSignUp(response: any) {
+    console.log("Google sign-up response:", response);
   }
 
   animateElements() {
@@ -101,7 +122,7 @@ export class UserRegisterComponent implements AfterViewInit {
         form: otpComponent.otpForm,
         showResendOtp: true,
         resendCooldown: 60,
-        preventCloseOnSubmit: true  
+        preventCloseOnSubmit: true
       },
       width: '400px',
       disableClose: true

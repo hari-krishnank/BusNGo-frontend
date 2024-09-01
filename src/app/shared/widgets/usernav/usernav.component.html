@@ -7,29 +7,37 @@
                 </span>
             </div>
             <div class="flex items-center space-x-4">
-                <button mat-button [matMenuTriggerFor]="accountMenu" class="text-sm text-black">
+                <button mat-button [matMenuTriggerFor]="accountMenu" class="text-sm text-black" *ngIf="!loginService.isLoggedIn()">
                     <mat-icon style="color: black;">account_circle</mat-icon>
                     <span *ngIf="!loginService.isLoggedIn()">Account</span>
-                    <span *ngIf="loginService.isLoggedIn()">{{ username }}</span>
+                    <span *ngIf="loginService.isLoggedIn()">Hi, {{ firstName }}</span> 
                 </button>
-                <mat-icon style="margin-left: -2px;">arrow_drop_down</mat-icon>
+                <mat-icon style="margin-left: -2px;" *ngIf="!loginService.isLoggedIn()">arrow_drop_down</mat-icon>
+                <button [matMenuTriggerFor]="accountMenu" *ngIf="loginService.isLoggedIn()" class="flex items-center space-x-2 px-3 py-2 text-sm text-black rounded-md border hover:bg-gray-100">
+                    <mat-icon style="color: black;">account_circle</mat-icon>
+                    <span *ngIf="!loginService.isLoggedIn()">Account</span>
+                    <span *ngIf="loginService.isLoggedIn()">Hi, {{ firstName }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-black" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
                 <mat-menu #accountMenu="matMenu">
                     <ng-container *ngIf="!loginService.isLoggedIn(); else loggedInMenu">
                         <button mat-menu-item [routerLink]="'/login'">
                             <mat-icon>login</mat-icon>
                             <span>Login / SignUp</span>
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item [routerLink]="'/help'">
                             <mat-icon style="color: black;">help</mat-icon>
                             Help
                         </button>
-                    </ng-container> 
+                    </ng-container>
                     <ng-template #loggedInMenu>
-                        <button mat-menu-item>
+                        <button mat-menu-item [routerLink]="'/userProfile'">
                             <mat-icon style="color: black;">person</mat-icon>
                             Profile
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item [routerLink]="'/help'">
                             <mat-icon style="color: black;">help</mat-icon>
                             Help
                         </button>

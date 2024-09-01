@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../../core/services/user/login.service';
 import { MatButtonModule } from '@angular/material/button';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notification-banner',
@@ -14,13 +15,24 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './notification-banner.component.html',
   styleUrl: './notification-banner.component.css'
 })
-export class NotificationBannerComponent implements OnInit {
+export class NotificationBannerComponent implements OnInit, OnDestroy {
   isVisible = true;
+  private loginStatusSubscription!: Subscription;
 
   constructor(private router: Router, public loginService: LoginService) { }
-  
+
   ngOnInit(): void {
-    this.isVisible = !this.loginService.isLoggedIn();
+    this.loginStatusSubscription = this.loginService.loginStatus$.subscribe(
+      isLoggedIn => {
+        this.isVisible = !isLoggedIn;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.loginStatusSubscription) {
+      this.loginStatusSubscription.unsubscribe();
+    }
   }
 
   closeBanner() {

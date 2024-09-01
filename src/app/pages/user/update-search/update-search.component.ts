@@ -26,7 +26,7 @@ export class UpdateSearchComponent {
 
   constructor(private fb: FormBuilder, private updateSearchService: UpdateSearchService, private router: Router, private searchResultsService: SearchResultsService) { }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.updateSearchForm = this.fb.group({
       from: [this.searchData?.from || '', Validators.required],
       to: [this.searchData?.to || '', Validators.required],

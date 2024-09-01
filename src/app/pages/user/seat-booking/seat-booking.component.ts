@@ -52,8 +52,6 @@ export class SeatBookingComponent implements OnInit, OnChanges {
     this.initForm();
     this.initFormFields();
     console.log('Trip:', this.trip);
-    console.log('Boarding Point:', this.boardingPoint);
-    console.log('Dropping Point:', this.droppingPoint);
 
     if (this.trip && this.trip.selectedSeats) {
       this.travellersDetails = [];
@@ -114,57 +112,6 @@ export class SeatBookingComponent implements OnInit, OnChanges {
 
   seatBooking() {
     const sanitizedTripDetails = {
-      title: this.trip.title,
-      fleetType: {
-        name: this.trip.fleetType.name,
-        createdAt: this.trip.fleetType.createdAt,
-        updatedAt: this.trip.fleetType.updatedAt,
-        facilities: this.trip.fleetType.facilities.map((facility: { title: any; icon: any; }) => ({
-          title: facility.title,
-          icon: facility.icon
-        })),
-        acStatus: this.trip.fleetType.acStatus
-      },
-      route: {
-        name: this.trip.route.name,
-        schedule: {
-          startFrom: this.trip.route.schedule.startFrom,
-          end: this.trip.route.schedule.end,
-          duration: this.trip.route.schedule.duration
-        },
-        startingPoint: this.trip.route.startingPoint,
-        endingPoint: this.trip.route.endingPoint,
-        hasMoreStoppage: this.trip.route.hasMoreStoppage,
-        additionalStops: this.trip.route.additionalStops.map((stop: { stop: { name: any; city: any; location: any; }; reachingTime: any; distance: any; time: any; }) => ({
-          stop: {
-            name: stop.stop.name,
-            city: stop.stop.city,
-            location: stop.stop.location
-          },
-          reachingTime: stop.reachingTime,
-          distance: stop.distance,
-          time: stop.time
-        }))
-      },
-      ticketPrice: this.trip.ticketPrice,
-      startFrom: {
-        name: this.trip.startFrom.name,
-        city: this.trip.startFrom.city,
-        location: this.trip.startFrom.location
-      },
-      endTo: {
-        name: this.trip.endTo.name,
-        city: this.trip.endTo.city,
-        location: this.trip.endTo.location
-      },
-      bus: {
-        name: this.trip.bus.name,
-        regNo: this.trip.bus.regNo,
-        engineNo: this.trip.bus.engineNo,
-        chasisNo: this.trip.bus.chasisNo,
-        ModelNo: this.trip.bus.ModelNo
-      },
-      selectedSeats: this.trip.selectedSeats,
       selectedSeatNumbers: this.seatNumbers
     };
 
@@ -172,6 +119,8 @@ export class SeatBookingComponent implements OnInit, OnChanges {
       userId: 'user-id',
       tripId: this.trip._id,
       tripDetails: sanitizedTripDetails,
+      selectedSeats: this.trip.selectedSeats,
+      selectedSeatNumbers: this.seatNumbers,
       boardingPoint: this.boardingPoint,
       droppingPoint: this.droppingPoint,
       travellersDetails: this.travellersDetails.map(form => form.value),

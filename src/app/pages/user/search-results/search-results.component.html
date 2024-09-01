@@ -2,7 +2,7 @@
 <div class="container mx-auto p-4 mb-16 mt-32">
     <app-sort-buses></app-sort-buses>
     <div class="flex">
-        <app-filter-buses class="w-1/4 pr-4 mr-2"></app-filter-buses>
+        <app-filter-buses class="w-1/4 pr-4 mr-2"></app-filter-buses> 
         <div class="w-3/4">
             <div class="space-y-8">
                 <div *ngFor="let trip of searchResults; trackBy: trackByTripId"
@@ -89,7 +89,7 @@
                             <div *ngSwitchCase="'SELECT SEATS'">
                                 <app-seat-selection [trip]="trip"
                                     (seatsSelected)="onSeatsSelected(trip.bus.name, $event)"
-                                     (bookSeatsClicked)="bookSeats($event)">
+                                    (bookSeatsClicked)="bookSeats($event)">
                                 </app-seat-selection>
                             </div>
                             <div *ngSwitchCase="'AMENITIES AND PHOTOS'">
@@ -106,6 +106,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="noResultsFound" class="text-center py-8">
+                    <p class="text-xl">No results found for your search criteria.</p>
                 </div>
             </div>
         </div>

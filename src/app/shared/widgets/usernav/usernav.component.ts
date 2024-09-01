@@ -14,22 +14,30 @@ import { CommonModule } from '@angular/common';
   styleUrl: './usernav.component.css'
 })
 export class UsernavComponent implements OnInit {
-  username: string = '';
+  firstName: string = '';
+  profileImage: string | null = null;
 
   constructor(public loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
-    this.updateUsername();
+    this.updateUserInfo();
   }
   
-  updateUsername() {
+  updateUserInfo() {
     const userInfo = this.loginService.getUserInfo();
-    this.username = userInfo ? userInfo.username || userInfo.email : '';
+    if (userInfo) {
+      this.firstName = userInfo.username || userInfo.email;
+      this.profileImage = userInfo.profileImage || null;
+    } else {
+      this.firstName = '';
+      this.profileImage = null;
+    }
   }
 
   logout() {
     this.loginService.logout();
-    this.username = '';
+    this.firstName = '';
+    this.profileImage = null;
     this.router.navigate(['/home']);
   }
 }

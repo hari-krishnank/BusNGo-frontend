@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between h-16">
             <div [routerLink]="" class="flex-shrink-0 flex items-center hover:cursor-pointer">
-                <span class="text-xl font-bold">
+                <span class="text-xl font-bold" [routerLink]="'/'">
                     <span class="text-red-500">B</span>usNGo
                 </span>
             </div>
@@ -19,8 +19,8 @@
                             <span>Login / SignUp</span>
                         </button>
                     </ng-container>
-                    <button mat-menu-item>
-                        <mat-icon style="color: black;">help</mat-icon>
+                    <button mat-menu-item [routerLink]="'/help'">
+                        <mat-icon style="color: black;" >help</mat-icon>
                         Help
                     </button>
                 </mat-menu>

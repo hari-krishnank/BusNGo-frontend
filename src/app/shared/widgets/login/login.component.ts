@@ -3,15 +3,12 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
 import { ILoginOption } from '../../../core/models/user/login.interface';
 import { MainnavComponent } from '../mainnav/mainnav.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    FooterComponent,
-    RouterModule,
-    MainnavComponent
-  ],
+  imports: [FooterComponent, RouterModule, MainnavComponent, MatButtonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

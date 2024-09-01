@@ -1,0 +1,48 @@
+<app-usernav></app-usernav>
+
+<div class="relative min-h-screen flex bg-gray-100">
+    <div class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-neutral-200 to-neutral-100 rounded-bl-[70%] rounded-br-[40%]">
+    </div>
+
+    <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
+        <div class="w-full">
+            <div class="mt-28">
+                <p class="text-3xl font-sans text-black mb-4 font-semibold">Account Information</p>
+            </div>
+            <div class="flex">
+                <!-- Sidebar -->
+                <app-profile-side-bar></app-profile-side-bar>
+
+                <!-- Main content -->
+                <div class="flex-1 ml-8">
+                    <div class="bg-white rounded-md p-8 shadow-sm mb-8">
+                        <div class="flex items-center mb-8">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mr-8 border-4 border-neutral-300 relative">
+                                <img *ngIf="profileImage" [src]="profileImage" [alt]="userInitial"
+                                    class="w-full h-full object-cover">
+                                <div *ngIf="!profileImage"
+                                    class="w-full h-full bg-neutral-100 flex items-center justify-center">
+                                    <span class="text-7xl text-violet-700" style="font-weight: 500;">{{ userInitial }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-3xl font-sans font-semibold">{{ user }}</p>
+                                <p class="text-black my-2">{{ phone }}</p>
+                                <p class="text-black mb-2">{{ email }}</p>
+                                <button mat-stroked-button color="primary" class="mb-2 mt-2">Edit Profile Photo</button>
+                            </div>
+                        </div>
+
+                        <app-user-personal-info></app-user-personal-info>
+                        <div class="mt-8 flex justify-start space-x-4">
+                            <button mat-raised-button color="primary" class="w-28">Save</button>
+                            <button mat-stroked-button color="primary" class="w-28">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

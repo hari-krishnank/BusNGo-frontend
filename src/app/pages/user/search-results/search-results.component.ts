@@ -15,7 +15,7 @@ import { SeatPreviewComponent } from '../../busOwner/seat-preview/seat-preview.c
 import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
 import { TripService } from '../../../core/services/user/trip.service';
 
-@Component({
+@Component({ 
   selector: 'app-search-results',
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, UsernavComponent, UpdateSearchComponent, SortBusesComponent, FilterBusesComponent, SeatPreviewComponent, SeatSelectionComponent, BusrouteDetailsComponent, FooterComponent],
@@ -26,9 +26,14 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   searchResults: any[] = [];
   selectedDate: string = '';
   searchData: any;
+  noResultsFound: boolean = false;
   private subscription: Subscription = new Subscription();
 
-  constructor(private router: Router, private searchResultsService: SearchResultsService, public tripService: TripService) {
+  constructor(
+    private router: Router,
+    private searchResultsService: SearchResultsService,
+    public tripService: TripService
+  ) {
     this.handleRouterNavigation();
   }
 
@@ -58,26 +63,21 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   private subscribeToSearchUpdates() {
     this.subscription.add(
       this.searchResultsService.searchResults$.subscribe(results => {
-        if (results?.length > 0) {
-          this.searchResults = results;
-          console.log('sdfasdfasdfa', this.searchResults);
-        }
+        this.searchResults = results || [];
+        this.noResultsFound = this.searchResults.length === 0;
+        console.log('Updated search results:', this.searchResults);
       })
     );
 
     this.subscription.add(
       this.searchResultsService.selectedDate$.subscribe(date => {
-        if (date) {
-          this.selectedDate = date;
-        }
+        this.selectedDate = date || '';
       })
     );
 
     this.subscription.add(
       this.searchResultsService.searchData$.subscribe(data => {
-        if (data) {
-          this.searchData = data;
-        }
+        this.searchData = data || null;
       })
     );
   }

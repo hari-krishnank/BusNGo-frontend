@@ -30,6 +30,9 @@ import { AssignedBusComponent } from './pages/busOwner/assigned-bus/assigned-bus
 import { AddRoutesComponent } from './pages/busOwner/add-routes/add-routes.component';
 import { OwnerHomeComponent } from './pages/busOwner/owner-home/owner-home.component';
 import { BusTicketsComponent } from './pages/user/bus-tickets/bus-tickets.component';
+import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
+import { HelpUsersComponent } from './pages/user/help-users/help-users.component';
+import { UserAuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
 
@@ -41,6 +44,8 @@ export const routes: Routes = [
     { path: 'userRegister', component: UserRegisterComponent, canActivate: [NoAuthGuard] },
     { path: 'searchresults', component: SearchResultsComponent },
     { path: 'busTickets/:bookingId', component: BusTicketsComponent },
+    { path: 'userProfile', component: UserProfileComponent, canActivate: [UserAuthGuard] },
+    { path: 'help', component: HelpUsersComponent },
 
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },

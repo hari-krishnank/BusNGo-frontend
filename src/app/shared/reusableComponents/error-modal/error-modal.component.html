@@ -1,0 +1,8 @@
+<p mat-dialog-title>Login Required</p>
+<mat-dialog-content>
+    <p>{{ data.message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button color="primary" (click)="onCancel()">Cancel</button>
+    <button mat-stroked-button color="warn" (click)="onLogin()">Login</button>
+</mat-dialog-actions>

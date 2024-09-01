@@ -6,6 +6,10 @@ import { SeatBookingComponent } from '../seat-booking/seat-booking.component';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
 import { boardingFields, droppingFields } from '../../../shared/configs/user/boadingAndDropping.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoginService } from '../../../core/services/user/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorModalComponent } from '../../../shared/reusableComponents/error-modal/error-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-seat-selection',
@@ -32,7 +36,7 @@ export class SeatSelectionComponent implements OnInit {
   boardingPoint!: any;
   droppingPoint!: any;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private dialog: MatDialog, private router: Router) {
     this.boardingForm = this.formBuilder.group({
       boardingPoint: ['', Validators.required]
     });
@@ -98,6 +102,11 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   bookSeats() {
+    if (!this.loginService.isLoggedIn()) {
+      this.openErrorModal();
+      return;
+    }
+
     if (this.boardingForm.valid && this.droppingForm.valid) {
       this.boardingPoint = this.boardingForm.get('boardingPoint')?.value;
       console.log('Selected boarding point:', this.boardingPoint);
@@ -113,5 +122,18 @@ export class SeatSelectionComponent implements OnInit {
     } else {
       this.showErrorMessage = true;
     }
+  }
+
+  openErrorModal() {
+    const dialogRef = this.dialog.open(ErrorModalComponent, {
+      width: '300px',
+      data: { message: 'Please log in to your account to proceed with booking seats.' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'login') {
+        this.router.navigate(['/userLogin']);
+      }
+    });
   }
 } 

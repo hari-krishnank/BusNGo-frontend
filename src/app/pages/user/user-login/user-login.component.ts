@@ -1,5 +1,5 @@
 declare var google: any;
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../../core/services/user/login.service';
@@ -14,41 +14,76 @@ import { FormComponent } from '../../../shared/reusableComponents/form/form.comp
 import { MatButtonModule } from '@angular/material/button';
 import { gsap } from 'gsap';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
+import { forgotPasswordField } from '../../../shared/configs/user/forgotPassword.config';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent, FooterComponent, MatButtonModule, NzMessageModule],
+  imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent, FooterComponent, MatButtonModule, NzMessageModule, MatIconModule],
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.css'
 })
 
-export class UserLoginComponent implements AfterViewInit, OnInit {
+export class UserLoginComponent implements AfterViewInit {
   loginForm: FormGroup;
+  forgotPasswordForm: FormGroup;
   loginFields: FormField[] = loginFields;
+  forgotPasswordFields: FormField[] = forgotPasswordField
   timestamp = new Date().getTime();
+  showForgotPassword = false;
 
   @ViewChild('imageDiv') imageDiv!: ElementRef;
   @ViewChild('formDiv') formDiv!: ElementRef;
 
-  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService) {
+  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, noWhitespaceValidator()]],
       password: ['', [Validators.required, Validators.minLength(8), noWhitespaceValidator(), strongPasswordValidator()]],
     });
+    this.forgotPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email, noWhitespaceValidator()]]
+    });
   }
 
-  ngOnInit(): void {
-    google.accounts.id.initialize({
-      client_id: '513831466496-3gdp5pno3ioji925p24r3f0a4kn4uso7.apps.googleusercontent.com',
-      callback: this.handleGoogleSignIn.bind(this)
-    })
-    google.accounts.id.renderButton(document.getElementById("google-btn"), {
-      theme: 'failed_blue',
-      size: 'extra large',
-      shape: 'rectangle',
-      width: 600
-    })
+  ngAfterViewInit() {
+    this.animateElements();
+    if (!this.showForgotPassword) {
+      this.initializeGoogleSignIn();
+    }
+  }
+
+  animateElements() {
+    gsap.from(this.imageDiv.nativeElement, {
+      duration: 1,
+      x: '-100%',
+      ease: 'power3.out'
+    });
+
+    gsap.from(this.formDiv.nativeElement, {
+      duration: 1,
+      x: '100%',
+      ease: 'power3.out'
+    });
+  }
+
+  initializeGoogleSignIn(): void {
+    if (!this.showForgotPassword && document.getElementById("google-btn")) {
+      google.accounts.id.initialize({
+        client_id: '513831466496-3gdp5pno3ioji925p24r3f0a4kn4uso7.apps.googleusercontent.com',
+        callback: this.handleGoogleSignIn.bind(this),
+      });
+
+      google.accounts.id.renderButton(document.getElementById("google-btn"), {
+        theme: 'outline',
+        size: 'extra large',
+        type: 'standard',
+        text: 'signin_with',
+        shape: 'rectangular',
+        width: 600,
+      });
+      this.cdr.detectChanges();
+    }
   }
 
   handleGoogleSignIn(response: any) {
@@ -63,24 +98,6 @@ export class UserLoginComponent implements AfterViewInit, OnInit {
         console.error('Google login failed', error);
         this.toastr.error('Google login failed. Please try again.');
       }
-    });
-  }
-
-  ngAfterViewInit() {
-    this.animateElements();
-  }
-
-  animateElements() {
-    gsap.from(this.imageDiv.nativeElement, {
-      duration: 1,
-      x: '-100%',
-      ease: 'power3.out'
-    });
-
-    gsap.from(this.formDiv.nativeElement, {
-      duration: 1,
-      x: '100%',
-      ease: 'power3.out'
     });
   }
 
@@ -101,6 +118,25 @@ export class UserLoginComponent implements AfterViewInit, OnInit {
         }
       }
     });
+  }
+
+  onForgotPasswordSubmit(formValue: { email: string }) {
+    console.log('Forgot password submitted for email:', formValue.email);
+    this.toastr.info('Password reset instructions have been sent to your email.');
+    this.toggleForgotPassword();
+  }
+
+
+  toggleForgotPassword() {
+    this.showForgotPassword = !this.showForgotPassword;
+    if (this.showForgotPassword) {
+      this.forgotPasswordForm.reset();
+    } else {
+      this.loginForm.reset();
+      setTimeout(() => {
+        this.initializeGoogleSignIn();
+      });
+    }
   }
 
   private handleSuccessfulLogin() {

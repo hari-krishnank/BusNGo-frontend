@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { ILoginResponse } from '../../models/user/login.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class LoginService {
   private backendURL = environment.backendUrl
+  private loginStatusSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  public loginStatus$ = this.loginStatusSubject.asObservable();
 
   constructor(private http: HttpClient, private toastr: ToastrService, private message: NzMessageService) { }
 
@@ -52,6 +54,7 @@ export class LoginService {
 
   setToken(token: string): void {
     localStorage.setItem('userToken', token);
+    this.loginStatusSubject.next(true);
   }
 
   getToken(): string | null {
@@ -74,6 +77,7 @@ export class LoginService {
   logout(): void {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userInfo');
+    this.loginStatusSubject.next(false);
     this.message.success('You have been logged out successfully..!');
   }
 }
