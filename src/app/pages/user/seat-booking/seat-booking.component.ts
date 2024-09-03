@@ -45,6 +45,10 @@ export class SeatBookingComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    console.log('Received trip data:', this.trip);
+    console.log('Received boardingPoint:', this.boardingPoint);
+    console.log('Received droppingPoint:', this.droppingPoint);
+
     this.updateTotalTicketPrice();
   }
 
@@ -111,14 +115,10 @@ export class SeatBookingComponent implements OnInit, OnChanges {
   }
 
   seatBooking() {
-    const sanitizedTripDetails = {
-      selectedSeatNumbers: this.seatNumbers
-    };
-
     const pendingBookingData = {
-      userId: 'user-id',
       tripId: this.trip._id,
-      tripDetails: sanitizedTripDetails,
+      busId: this.trip.bus._id,
+      routeId: this.trip.route._id,
       selectedSeats: this.trip.selectedSeats,
       selectedSeatNumbers: this.seatNumbers,
       boardingPoint: this.boardingPoint,
@@ -126,8 +126,10 @@ export class SeatBookingComponent implements OnInit, OnChanges {
       travellersDetails: this.travellersDetails.map(form => form.value),
       totalTicketPrice: this.totalTicketPrice,
       email: this.passengerDetailsForm.get('email')?.value,
-      phone: this.passengerDetailsForm.get('mobileNumber')?.value
+      phone: this.passengerDetailsForm.get('mobileNumber')?.value,
     };
+
+    console.log('Pending booking data:', pendingBookingData);
 
     this.pendingBookingService.createPendingBooking(pendingBookingData).subscribe(
       response => {

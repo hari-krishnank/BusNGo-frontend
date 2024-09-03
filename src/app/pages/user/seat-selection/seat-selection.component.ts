@@ -24,7 +24,7 @@ export class SeatSelectionComponent implements OnInit {
   @Output() bookSeatsClicked = new EventEmitter<any>();
   @Output() toggleSidebar = new EventEmitter<void>();
   @ViewChild(SeatBookingComponent) seatBookingComponent!: SeatBookingComponent;
-  @Output() bookTrip = new EventEmitter<{ trip: any; boardingPoint: any; droppingPoint: any }>();
+  @Output() bookTrip = new EventEmitter<{ trip: any; boardingPoint: any; droppingPoint: any, bus_id: string }>();
   @ViewChild(SeatPreviewComponent) seatPreviewComponent!: SeatPreviewComponent;
   boardingFields!: any[]
   droppingFields!: any[]
@@ -101,6 +101,29 @@ export class SeatSelectionComponent implements OnInit {
     return this.trip.selectedSeats?.map((seat: any) => this.getSeatNumber(seat));
   }
 
+  // bookSeats() {
+  //   if (!this.loginService.isLoggedIn()) {
+  //     this.openErrorModal();
+  //     return;
+  //   }
+
+  //   if (this.boardingForm.valid && this.droppingForm.valid) {
+  //     this.boardingPoint = this.boardingForm.get('boardingPoint')?.value;
+  //     console.log('Selected boarding point:', this.boardingPoint);
+  //     this.droppingPoint = this.droppingForm.get('droppingPoint')?.value;
+  //     console.log('Selected dropping point:', this.droppingPoint);
+
+  //     this.bookTrip.emit({ trip: this.trip, boardingPoint: this.boardingPoint, droppingPoint: this.droppingPoint, bus_id: this.trip.bus_id });
+
+  //     if (this.seatBookingComponent) {
+  //       this.seatBookingComponent.toggleSidebar();
+  //     }
+  //     this.showErrorMessage = false;
+  //   } else {
+  //     this.showErrorMessage = true;
+  //   }
+  // }
+
   bookSeats() {
     if (!this.loginService.isLoggedIn()) {
       this.openErrorModal();
@@ -109,11 +132,17 @@ export class SeatSelectionComponent implements OnInit {
 
     if (this.boardingForm.valid && this.droppingForm.valid) {
       this.boardingPoint = this.boardingForm.get('boardingPoint')?.value;
-      console.log('Selected boarding point:', this.boardingPoint);
       this.droppingPoint = this.droppingForm.get('droppingPoint')?.value;
-      console.log('Selected dropping point:', this.droppingPoint);
+      
+      const emittedData = {
+        trip: this.trip,
+        boardingPoint: this.boardingPoint,
+        droppingPoint: this.droppingPoint,
+        bus_id: this.trip.bus._id 
+      };
 
-      this.bookTrip.emit({ trip: this.trip, boardingPoint: this.boardingPoint, droppingPoint: this.droppingPoint });
+      console.log('Emitting booking data:', emittedData);
+      this.bookTrip.emit(emittedData);
 
       if (this.seatBookingComponent) {
         this.seatBookingComponent.toggleSidebar();
@@ -123,6 +152,7 @@ export class SeatSelectionComponent implements OnInit {
       this.showErrorMessage = true;
     }
   }
+
 
   openErrorModal() {
     const dialogRef = this.dialog.open(ErrorModalComponent, {

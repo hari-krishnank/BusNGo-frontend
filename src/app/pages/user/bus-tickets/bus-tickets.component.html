@@ -2,32 +2,36 @@
 <div class="container mx-auto p-4 mb-10 mt-24" *ngIf="pendingBooking">
     <div class="flex">
         <div class="w-3/4">
+
             <div class="space-y-8">
                 <p class="text-2xl font-semibold">Review selected bus</p>
                 <div class="border rounded-lg bg-white shadow-md overflow-hidden" style="height: 33vh;">
                     <div class="text-black p-4" style="background-color: #F0F0F0;">
                         <div class="flex items-center">
                             <mat-icon>directions_bus</mat-icon>
-                            <span class="ml-2 text-lg font-semibold">{{ pendingBooking?.tripDetails?.bus?.name }}</span>
+                            <span class="ml-2 text-lg font-semibold">{{ pendingBooking?.busId?.name }}</span>
                         </div>
-                        <p class="text-sm ml-8 mt-2">{{ pendingBooking?.tripDetails?.fleetType?.name }}</p>
+                        <p class="text-sm ml-8 mt-2">{{ pendingBooking?.tripId?.fleetType?.name }}</p>
                     </div>
                     <div class="p-4">
                         <div class="flex justify-between items-start mb-4">
                             <div class="w-1/3">
-                                <p class="text-xl font-bold">{{ pendingBooking.tripDetails?.startFrom?.name }}</p>
-                                <p class="text-gray-600">{{ pendingBooking.tripDetails.startFrom?.location }}</p>
-                                <p class="text-gray-600">{{ pendingBooking.tripDetails?.route?.schedule?.startFrom }}
+                                <p class="text-xl font-bold">
+                                    {{ pendingBooking?.tripId?.startFrom?.city }}
+                                    <span class="text-gray-600 text-lg ml-2">{{ pendingBooking?.routeId?.schedule?.startFrom }}</span>
                                 </p>
+                                <p class="text-gray-600">{{ pendingBooking?.tripId?.startFrom?.location }}</p>
                             </div>
                             <div class="w-1/3 text-center">
                                 <p class="text-sm text-gray-600">Journey duration</p>
-                                <p class="text-gray-600">{{ pendingBooking.tripDetails?.route?.schedule?.duration }}</p>
+                                <p class="text-gray-600">{{ pendingBooking?.routeId?.schedule?.duration }}</p>
                             </div>
                             <div class="w-1/3 text-right">
-                                <p class="text-xl font-bold">{{ pendingBooking?.tripDetails?.endTo?.name }}</p>
-                                <p class="text-gray-600">{{ pendingBooking?.tripDetails?.endTo?.location }}</p>
-                                <p class="text-gray-600">{{ pendingBooking.tripDetails?.route?.schedule?.end }}</p>
+                                <p class="text-xl font-bold">
+                                    <span class="text-gray-600 text-lg mr-2">{{ pendingBooking?.routeId?.schedule?.end }}</span>
+                                    {{ pendingBooking?.tripId?.endTo?.city }}
+                                </p>
+                                <p class="text-gray-600">{{ pendingBooking?.tripId?.endTo?.location }}</p>
                             </div>
                         </div>
                     </div>
@@ -71,7 +75,7 @@
             <span class="mt-1 ml-2 ">{{ traveller.firstName }} {{ traveller.lastName }}, {{ traveller.age }}({{
                 traveller.gender.charAt(0).toUpperCase() }})</span>
             <span class="ml-2 mt-1">Seat :</span><span class="font-semibold mr-2 mt-1 ml-2">{{
-                pendingBooking.tripDetails.selectedSeatNumbers[i] }}</span>
+                pendingBooking?.selectedSeatNumbers[i] }}</span>
         </div>
     </div>
 
@@ -82,12 +86,20 @@
         <span class="ml-2">{{ pendingBooking?.email }}</span>
     </div>
 
-    <div class="flex items-center">
+    <div class="flex items-center mb-16">
         <mat-icon>phone</mat-icon>
         <span class="ml-2">{{ pendingBooking?.phone }}</span>
     </div>
 
-    <button class="mt-14" mat-raised-button color="warn">Continue Payment</button>
+    
+    <div class="w-3/4">
+        <div class="flex justify-center mt-4 ">
+            <button mat-stroked-button color="warn" (click)="pay()" class="w-full" style="height: 50px; font-size: 16px;">
+                CONTINUE PAYMENT
+            </button>
+        </div>
+    </div> 
+
 </div>
 
 <app-footer></app-footer>

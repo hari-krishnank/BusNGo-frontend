@@ -15,7 +15,7 @@ import { SeatPreviewComponent } from '../../busOwner/seat-preview/seat-preview.c
 import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
 import { TripService } from '../../../core/services/user/trip.service';
 
-@Component({ 
+@Component({
   selector: 'app-search-results',
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, UsernavComponent, UpdateSearchComponent, SortBusesComponent, FilterBusesComponent, SeatPreviewComponent, SeatSelectionComponent, BusrouteDetailsComponent, FooterComponent],
