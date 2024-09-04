@@ -33,6 +33,7 @@ import { BusTicketsComponent } from './pages/user/bus-tickets/bus-tickets.compon
 import { UserProfileComponent } from './pages/user/user-profile/user-profile.component';
 import { HelpUsersComponent } from './pages/user/help-users/help-users.component';
 import { UserAuthGuard } from './core/guards/auth.guard';
+import { BookingSuccessComponent } from './pages/user/booking-success/booking-success.component';
 
 export const routes: Routes = [
 
@@ -46,6 +47,7 @@ export const routes: Routes = [
     { path: 'busTickets/:bookingId', component: BusTicketsComponent },
     { path: 'userProfile', component: UserProfileComponent, canActivate: [UserAuthGuard] },
     { path: 'help', component: HelpUsersComponent },
+    { path: 'booking-success', component: BookingSuccessComponent },
 
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },

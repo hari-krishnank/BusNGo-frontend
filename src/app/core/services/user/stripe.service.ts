@@ -11,12 +11,12 @@ export class StripeService {
 
     constructor(private http: HttpClient) { }
 
-    // createPaymentIntent(amount: number): Observable<any> {
-    //     console.log(amount);
-    //     return this.http.post<any>(`${this.apiUrl}/create-payment-intent`, { amount });
-    // }
+    createCheckoutSession(bookingDetails: any): Observable<any> {
+        console.log(bookingDetails);
+        return this.http.post<any>(`${this.apiUrl}/create-checkout-session`, bookingDetails);
+    }
 
-    createCheckoutSession(amount: number): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/create-checkout-session`, { amount });
+    verifySession(sessionId: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/verify-session/${sessionId}`);
     }
 }

@@ -32,8 +32,10 @@ export class UserProfileComponent implements OnInit {
 
   updateUserInfo() {
     const userInfo = this.loginService.getUserInfo();
+    console.log(userInfo);
+    
     if (userInfo) {
-      this.profileImage = userInfo.profileImage || null;
+      this.profileImage = userInfo?.profileImage || null;
       this.user = userInfo.username || null;
       this.email = userInfo.email || null;
       this.phone = userInfo.phone || 'Mobile number not provided';

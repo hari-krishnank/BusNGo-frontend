@@ -115,6 +115,13 @@ export class SeatBookingComponent implements OnInit, OnChanges {
   }
 
   seatBooking() {
+    const storedSearchData = localStorage.getItem('searchData');
+    let selectedDate = '';
+    if (storedSearchData) {
+      const parsedSearchData = JSON.parse(storedSearchData);
+      selectedDate = parsedSearchData.date || '';
+    }
+    
     const pendingBookingData = {
       tripId: this.trip._id,
       busId: this.trip.bus._id,
@@ -127,6 +134,7 @@ export class SeatBookingComponent implements OnInit, OnChanges {
       totalTicketPrice: this.totalTicketPrice,
       email: this.passengerDetailsForm.get('email')?.value,
       phone: this.passengerDetailsForm.get('mobileNumber')?.value,
+      travelDate: selectedDate
     };
 
     console.log('Pending booking data:', pendingBookingData);

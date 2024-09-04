@@ -80,6 +80,8 @@ export class UserhomeComponent implements OnInit {
       this.searchTripService.searchTrips(searchData).subscribe(
         (results) => {
           console.log('Received search results:', results);
+          const searchDataToStore = { ...searchData, results };
+          localStorage.setItem('searchData', JSON.stringify(searchDataToStore));
           this.router.navigate(['/searchresults'], {
             state: {
               searchResults: results,

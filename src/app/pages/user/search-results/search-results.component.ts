@@ -38,6 +38,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loadSearchDataFromLocalStorage();
     this.subscribeToSearchUpdates();
   }
 
@@ -56,6 +57,18 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
           to: navigation.extras.state['to'],
           date: navigation.extras.state['selectedDate']
         }
+      );
+    }
+  }
+
+  private loadSearchDataFromLocalStorage() {
+    const storedSearchData = localStorage.getItem('searchData');
+    if (storedSearchData) {
+      const parsedSearchData = JSON.parse(storedSearchData);
+      this.updateComponentData(
+        parsedSearchData.results || [],
+        parsedSearchData.date || '',
+        parsedSearchData
       );
     }
   }
@@ -105,4 +118,4 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       console.log('Please select seats before booking');
     }
   }
-}  
+}

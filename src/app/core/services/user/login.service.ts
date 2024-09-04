@@ -77,6 +77,7 @@ export class LoginService {
   logout(): void {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('searchData');
     this.loginStatusSubject.next(false);
     this.message.success('You have been logged out successfully..!');
   }

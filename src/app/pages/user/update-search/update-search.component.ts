@@ -26,7 +26,7 @@ export class UpdateSearchComponent {
 
   constructor(private fb: FormBuilder, private updateSearchService: UpdateSearchService, private router: Router, private searchResultsService: SearchResultsService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.updateSearchForm = this.fb.group({
       from: [this.searchData?.from || '', Validators.required],
       to: [this.searchData?.to || '', Validators.required],
@@ -55,6 +55,8 @@ export class UpdateSearchComponent {
       this.updateSearchService.updateSearch(searchData).subscribe(
         (results) => {
           console.log('Received updated search results:', results);
+          const searchDataToStore = { ...searchData, results };
+          localStorage.setItem('searchData', JSON.stringify(searchDataToStore));
           this.searchResultsService.updateSearchResults(results, searchData.date, searchData);
           this.router.navigate(['/searchresults']);
         },

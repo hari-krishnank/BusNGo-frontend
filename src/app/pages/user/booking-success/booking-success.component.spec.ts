@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StripePaymentComponent } from './stripe-payment.component';
+import { BookingSuccessComponent } from './booking-success.component';
 
-describe('StripePaymentComponent', () => {
-  let component: StripePaymentComponent;
-  let fixture: ComponentFixture<StripePaymentComponent>;
+describe('BookingSuccessComponent', () => {
+  let component: BookingSuccessComponent;
+  let fixture: ComponentFixture<BookingSuccessComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StripePaymentComponent]
+      imports: [BookingSuccessComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(StripePaymentComponent);
+    fixture = TestBed.createComponent(BookingSuccessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
