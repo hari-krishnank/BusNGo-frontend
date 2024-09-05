@@ -34,6 +34,8 @@ import { UserProfileComponent } from './pages/user/user-profile/user-profile.com
 import { HelpUsersComponent } from './pages/user/help-users/help-users.component';
 import { UserAuthGuard } from './core/guards/auth.guard';
 import { BookingSuccessComponent } from './pages/user/booking-success/booking-success.component';
+import { CompletedBookingsComponent } from './pages/user/completed-bookings/completed-bookings.component';
+import { CancelledBookingsComponent } from './pages/user/cancelled-bookings/cancelled-bookings.component';
 
 export const routes: Routes = [
 
@@ -48,6 +50,8 @@ export const routes: Routes = [
     { path: 'userProfile', component: UserProfileComponent, canActivate: [UserAuthGuard] },
     { path: 'help', component: HelpUsersComponent },
     { path: 'booking-success', component: BookingSuccessComponent },
+    { path: 'completed-bookings', component: CompletedBookingsComponent, canActivate: [UserAuthGuard] },
+    { path: 'cancelled-bookings', component: CancelledBookingsComponent, canActivate: [UserAuthGuard] },
 
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },

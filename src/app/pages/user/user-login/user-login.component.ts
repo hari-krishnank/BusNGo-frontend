@@ -111,7 +111,9 @@ export class UserLoginComponent implements AfterViewInit {
       },
       error: (error) => {
         console.error('Login failed', error);
-        if (error.message === 'INVALID_CREDENTIALS') {
+         if (error.message === 'ACCOUNT_BLOCKED') {
+          this.toastr.error('Your account has been blocked. Please contact support.');
+        } else if (error.message === 'INVALID_CREDENTIALS') {
           this.toastr.error('Invalid email or password.');
         } else {
           this.toastr.error('An unexpected error occurred. Please try again later.');

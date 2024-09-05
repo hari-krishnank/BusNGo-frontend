@@ -50,16 +50,11 @@ export class AdminLoginService {
     });
   }
 
-  updateOwnerBlockStatus(ownerId: string, isBlocked: boolean): Observable<any> {
-    return this.http.put(`${this.apiUrl}/admin/owner/${ownerId}/block`, { isBlocked }, {
+  toggleUserBlock(userId: string, isBlocked: boolean): Observable<any> {
+    return this.http.put(`${this.apiUrl}/admin/toggle-user-block/${userId}`, { isBlocked }, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`,
       },
     });
   }
-
-  updateUserBlockStatus(userId: string, isBlocked: boolean) {
-    return this.http.put(`${this.apiUrl}/admin/user/${userId}/block`, { isBlocked });
-  }
-
 }

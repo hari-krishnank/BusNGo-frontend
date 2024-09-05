@@ -7,8 +7,9 @@
         </div>
 
         <app-seat-preview [rows]="getSeatLayout(trip).rows" [columns]="getSeatLayout(trip).columns"
-            [selectedSeats]="getSeatLayout(trip).selectedSeats" [previewMode]="true" [isOwnerView]="true"
-            [allowUserSelection]="true" [viewType]="'user'" (seatsSelected)="onSeatsSelected(trip.bus.name, $event)">
+            [selectedSeats]="getSeatLayout(trip).selectedSeats" [bookedSeats]="trip.bookedSeats" [previewMode]="true"
+            [isOwnerView]="true" [allowUserSelection]="true" [viewType]="'user'"
+            (seatsSelected)="onSeatsSelected(trip.bus.name, $event)">
         </app-seat-preview>
 
         <div class="seat-legend mt-4" style="margin-left: 100px;">
@@ -16,7 +17,7 @@
                 <div class="square seater"></div>
                 <span>Available</span>
             </div>
-            <div class="legend-item"> 
+            <div class="legend-item">
                 <div class="square selectedByYou"></div>
                 <span>Selected By You</span>
             </div>
@@ -25,8 +26,8 @@
                 <span>Booked</span>
             </div>
         </div>
-        <app-seat-booking [trip]="trip" [boardingPoint]="boardingPoint"
-            [droppingPoint]="droppingPoint" [seatNumbers]="getSelectedSeatNumbers()"></app-seat-booking>
+        <app-seat-booking [trip]="trip" [boardingPoint]="boardingPoint" [droppingPoint]="droppingPoint"
+            [seatNumbers]="getSelectedSeatNumbers()"></app-seat-booking>
     </div>
 
     <div class="w-1/2 pr-4">

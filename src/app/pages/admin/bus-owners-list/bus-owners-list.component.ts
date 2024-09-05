@@ -64,18 +64,6 @@ export class BusOwnersListComponent implements OnInit {
     this.filteredOwners = filtered.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-  toggleBlockStatus(owner: any) {
-    const newStatus = !owner.is_blocked;
-    this.adminService.updateOwnerBlockStatus(owner._id, newStatus).subscribe(
-      () => {
-        owner.is_blocked = newStatus;
-      },
-      (error) => {
-        console.error('Error updating block status:', error);
-      }
-    );
-  }
-
   onPageChange(page: number) {
     this.currentPage = page;
     this.updateFilteredOwners();

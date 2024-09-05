@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AdminSideNavComponent } from '../admin-side-nav/admin-side-nav.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-users-list',
@@ -21,7 +22,7 @@ export class UsersListComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number = 0;
 
-  constructor(private adminLoginService: AdminLoginService, private router: Router) { }
+  constructor(private adminLoginService: AdminLoginService, private router: Router, private message: NzMessageService) { }
 
   ngOnInit() {
     this.verifyAdmin();
@@ -64,18 +65,6 @@ export class UsersListComponent implements OnInit {
     this.filteredUsers = filtered.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-  toggleBlockStatus(user: any) {
-    const newBlockStatus = !user.is_blocked;
-    this.adminLoginService.updateUserBlockStatus(user._id, newBlockStatus).subscribe(
-      () => {
-        user.is_blocked = newBlockStatus;
-      },
-      (error) => {
-        console.error('Error updating user block status', error);
-      }
-    );
-  }
-
   onPageChange(page: number) {
     this.currentPage = page;
     this.updateFilteredUsers();
@@ -87,5 +76,18 @@ export class UsersListComponent implements OnInit {
 
   getMaxItemsOnPage(): number {
     return Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
+  }
+
+  toggleUserBlock(user: any) {
+    this.adminLoginService.toggleUserBlock(user._id, !user.is_blocked).subscribe(
+      (response) => {
+        user.is_blocked = !user.is_blocked;
+        this.message.success(`User ${user.is_blocked ? 'blocked' : 'unblocked'} successfully`);
+      },
+      (error) => {
+        console.error('Error toggling user block status', error);
+        this.message.error('Failed to update user status. Please try again.');
+      }
+    );
   }
 }

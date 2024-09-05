@@ -13,6 +13,7 @@ export class SeatPreviewComponent implements OnChanges {
   @Input() rows!: number;
   @Input() columns!: number;
   @Input() selectedSeats: string[] = [];
+  @Input() bookedSeats: string[] = [];
   @Input() previewMode: boolean = false;
   @Input() isOwnerView: boolean = false;
   @Input() allowUserSelection: boolean = false;
@@ -60,21 +61,8 @@ export class SeatPreviewComponent implements OnChanges {
     }
   }
 
-  // toggleSeatSelection(seat: string) {
-  //   if (!this.allowUserSelection) return;
-
-  //   const index = this.userSelectedSeats.indexOf(seat);
-  //   if (index > -1) {
-  //     this.userSelectedSeats.splice(index, 1);
-  //   } else {
-  //     this.userSelectedSeats.push(seat);
-  //     console.log('user select cheytha seat',this.userSelectedSeats);
-  //   }
-  //   this.seatsSelected.emit(this.userSelectedSeats);
-  // }
-
   toggleSeatSelection(seat: string) {
-    if (!this.allowUserSelection) return;
+    if (!this.allowUserSelection || this.isSeatBooked(seat)) return;
 
     if (this.userSelectedSeats.length >= this.maxSeatsSelectionLimit && !this.isUserSelected(seat)) {
       alert('Maximum 6 seats allowed per booking')
@@ -86,7 +74,7 @@ export class SeatPreviewComponent implements OnChanges {
       this.userSelectedSeats.splice(index, 1);
     } else {
       this.userSelectedSeats.push(seat);
-      console.log('user select cheytha seat',this.userSelectedSeats);
+      console.log('user select cheytha seat', this.userSelectedSeats);
     }
     this.seatsSelected.emit(this.userSelectedSeats);
   }
@@ -112,5 +100,9 @@ export class SeatPreviewComponent implements OnChanges {
 
   getSeatNumber(seat: string): number | null {
     return this.selectedSeatsMap.get(seat) || null;
+  }
+
+  isSeatBooked(seat: string): boolean {
+    return this.bookedSeats && this.bookedSeats.includes(seat);
   }
 }

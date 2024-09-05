@@ -12,9 +12,8 @@
         </div>
         <div *ngFor="let row of seatLayout; let i = index" class="row">
             <ng-container *ngFor="let seat of row; let j = index">
-                <div class="seat" [class.selected]="isSeatSelected(seat)" 
-                    [class.hidden]="isOwnerView && !isSeatSelected(seat)" 
-                    (click)="toggleSeatSelectionOwner(seat)">
+                <div class="seat" [class.selected]="isSeatSelected(seat)"
+                    [class.hidden]="isOwnerView && !isSeatSelected(seat)" (click)="toggleSeatSelectionOwner(seat)">
                     <span>{{ getSeatNumber(seat) }}</span>
                 </div>
             </ng-container>
@@ -38,7 +37,7 @@
         <div *ngFor="let row of seatLayout; let i = index" class="row">
             <ng-container *ngFor="let seat of row; let j = index">
                 <div class="seat" [class.selected]="isSeatSelected(seat)" [class.user-selected]="isUserSelected(seat)"
-                    [class.selectable]="allowUserSelection && !isSeatSelected(seat)"
+                    [class.booked]="isSeatBooked(seat)" [class.selectable]="allowUserSelection && !isSeatSelected(seat) && !isSeatBooked(seat)"
                     [class.hidden]="isOwnerView && !isSeatSelected(seat)" (click)="toggleSeatSelection(seat)">
                     <span>{{ getSeatNumber(seat) }}</span>
                 </div>

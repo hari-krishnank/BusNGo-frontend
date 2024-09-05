@@ -29,7 +29,7 @@
                         owner.country }}</td>
 
                     <td class="py-3 px-4">
-                        <button (click)="toggleBlockStatus(owner)"
+                        <button
                             [ngClass]="{'bg-red-500 hover:bg-red-700': !owner.is_blocked, 'bg-green-500 hover:bg-green-700': owner.is_blocked}"
                             class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             {{ owner.is_blocked ? 'Unblock' : 'Block' }}
