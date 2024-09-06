@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { SessionManagementService } from '../../../../shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class signupService {
   private readonly EMAIL_KEY = 'ownerEmail';
   private readonly TOKEN_KEY = 'ownerToken';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sessionManagementService: SessionManagementService) { }
 
   sendOtp(email: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/owner/otp`, { email });
@@ -23,7 +24,7 @@ export class signupService {
   resendOtp(email: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/owner/resend-otp`, { email });
   }
-  
+
   setEmail(email: string): void {
     localStorage.setItem(this.EMAIL_KEY, email);
   }
@@ -33,7 +34,7 @@ export class signupService {
   }
 
   removeEmail(): void {
-    return localStorage.removeItem(this.EMAIL_KEY) 
+    return localStorage.removeItem(this.EMAIL_KEY)
   }
 
   getOwnerDetails(): Observable<any> {
@@ -49,8 +50,11 @@ export class signupService {
     return this.http.post<any>(`${this.apiUrl}/auth/owner/login`, loginData).pipe(
       tap(response => {
         if (response && response.access_token) {
+          console.log('Owner login respose token', response);
+
           this.setToken(response.access_token);
           this.setEmail(loginData.email);
+          this.sessionManagementService.setCurrentUserType('owner');
         }
       })
     );
@@ -67,6 +71,7 @@ export class signupService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.EMAIL_KEY);
+    this.sessionManagementService.clearCurrentUserType();
   }
 
   isLoggedIn(): boolean {

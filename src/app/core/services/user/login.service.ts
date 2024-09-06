@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment.development';
 import { ILoginResponse } from '../../models/user/login.interface';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { SessionManagementService } from '../../../shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class LoginService {
   public loginStatus$ = this.loginStatusSubject.asObservable();
   private isBlocked: boolean = false;
 
-  constructor(private http: HttpClient, private message: NzMessageService, private router: Router) { }
+  constructor(private http: HttpClient, private message: NzMessageService, private router: Router, private sessionManagementService: SessionManagementService) { }
 
   login(email: string, password: string): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.backendURL}/auth/user/login`, { email, password })
@@ -24,6 +25,7 @@ export class LoginService {
           console.log('normal login response', response);
           this.setToken(response.access_token);
           this.setUserInfo(response.user);
+          this.sessionManagementService.setCurrentUserType('user');
         }),
         catchError(error => this.handleLoginError(error))
       );
@@ -81,6 +83,7 @@ export class LoginService {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('searchData');
     this.loginStatusSubject.next(false);
+    this.sessionManagementService.clearCurrentUserType();
     if (!this.isBlocked) {
       this.message.success('You have been logged out successfully..!');
     }
@@ -88,11 +91,13 @@ export class LoginService {
   }
 
   blockedLogout(): void {
+    this.isBlocked = false
+    this.router.navigate(['/userLogin'])
     localStorage.removeItem('userToken');
     localStorage.removeItem('userInfo');
     localStorage.removeItem('searchData');
     this.loginStatusSubject.next(false);
-    this.router.navigate(['/userLogin'])
-    this.isBlocked = false
+    this.message.error('Your account has been blocked. Please contact support.')
+    this.sessionManagementService.clearCurrentUserType();
   }
 }

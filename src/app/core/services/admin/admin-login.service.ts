@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
+import { SessionManagementService } from '../../../shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,22 @@ import { Observable, of } from 'rxjs';
 export class AdminLoginService {
   private apiUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sessionManagementService: SessionManagementService) { }
+
+  // login(email: string, password: string): Observable<{ access_token: string }> {
+  //   return this.http.post<{ access_token: string }>(`${this.apiUrl}/admin/login`, { email, password });
+  // }
 
   login(email: string, password: string): Observable<{ access_token: string }> {
-    return this.http.post<{ access_token: string }>(`${this.apiUrl}/admin/login`, { email, password });
+    return this.http.post<{ access_token: string }>(`${this.apiUrl}/admin/login`, { email, password })
+      .pipe(
+        tap(response => {
+          if (response && response.access_token) {
+            // this.setToken(response.access_token);
+            this.sessionManagementService.setCurrentUserType('admin');
+          }
+        })
+      );
   }
 
   verifyToken(): Observable<any> {
@@ -31,6 +44,7 @@ export class AdminLoginService {
   }
 
   removeToken(): void {
+    this.sessionManagementService.clearCurrentUserType();
     localStorage.removeItem('adminToken');
   }
 
