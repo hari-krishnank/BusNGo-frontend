@@ -1,9 +1,9 @@
 <app-update-search [searchData]="searchData"></app-update-search>
-<div class="container mx-auto p-4 mb-16 mt-40">
-    <!-- <app-sort-buses></app-sort-buses>   -->
+<div class="container mx-auto p-4 mb-16 mt-36">
+    <app-sort-buses></app-sort-buses>
     <div class="flex">
-        <!-- <app-filter-buses class="w-1/4 pr-4 mr-2"></app-filter-buses>  -->
-        <div class="w-3/4 ml-28">
+        <app-filter-buses class="w-1/4 pr-4 mr-2"></app-filter-buses>
+        <div class="w-3/4">
             <div class="space-y-8">
                 <div *ngFor="let trip of searchResults; trackBy: trackByTripId"
                     class="border rounded-lg p-4 bg-white shadow-md">

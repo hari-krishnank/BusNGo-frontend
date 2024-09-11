@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,16 +16,11 @@ import html2canvas from 'html2canvas';
   templateUrl: './booking-success.component.html',
   styleUrl: './booking-success.component.css'
 })
-export class BookingSuccessComponent {
+export class BookingSuccessComponent implements OnInit {
   bookingDetails: any;
   isLoading: boolean = true;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private completedBookingService: CompletedBookingService,
-    private snackBar: MatSnackBar
-  ) { }
+  constructor(private router: Router, private route: ActivatedRoute, private completedBookingService: CompletedBookingService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

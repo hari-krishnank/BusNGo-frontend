@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { LoginService } from '../../../core/services/user/login.service';
 import { MatCardModule } from '@angular/material/card';
 import { UserPersonalInfoComponent } from '../user-personal-info/user-personal-info.component';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
+import { UserProfile, UserProfileService } from '../../../core/services/user/user-profile.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -18,34 +18,60 @@ import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.co
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit {
-  profileImage: string | null = null;
-  user: string | null = null;
-  email: string | null = null;
-  phone: string | null = null;
+  userProfile: UserProfile | null = null;
   userInitial: string = '';
+  fullName: string = '';
 
-  constructor(private loginService: LoginService) { }
+  constructor(private userProfileService: UserProfileService) { }
 
-  ngOnInit(): void {
-    this.updateUserInfo();
+  ngOnInit() {
+    this.loadUserProfile();
   }
 
-  updateUserInfo() {
-    const userInfo = this.loginService.getUserInfo();
-    console.log(userInfo);
-    
-    if (userInfo) {
-      this.profileImage = userInfo?.profileImage || null;
-      this.user = userInfo.username || null;
-      this.email = userInfo.email || null;
-      this.phone = userInfo.phone || 'Mobile number not provided';
-      this.userInitial = this.user ? this.user.charAt(0).toUpperCase() : '';
-    } else {
-      this.profileImage = null;
-      this.user = null;
-      this.email = null;
-      this.phone = null;
-      this.userInitial = '';
-    }
+  loadUserProfile() {
+    this.userProfileService.getUserProfile().subscribe({
+      next: (profile) => {
+        this.userProfile = profile;
+        this.userInitial = this.getInitial(profile.username);
+        this.fullName = this.getFullName(profile.username, profile.lastName);
+      },
+      error: (error) => {
+        console.error('Error fetching user profile', error);
+      }
+    });
+  }
+
+  getInitial(name: string): string {
+    return name ? name.charAt(0).toUpperCase() : '';
+  }
+
+  getFullName(firstName: string, lastName: string): string {
+    return `${firstName} ${lastName}`.trim();
+  }
+
+  onEditProfilePhoto() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        this.uploadProfilePhoto(file);
+      }
+    };
+    fileInput.click();
+  }
+
+  uploadProfilePhoto(file: File) {
+    this.userProfileService.uploadProfilePhoto(file).subscribe({
+      next: (result) => {
+        if (this.userProfile) {
+          this.userProfile.profileImage = result.url;
+        }
+      },
+      error: (error) => {
+        console.error('Error uploading profile photo:', error);
+      }
+    });
   }
 }

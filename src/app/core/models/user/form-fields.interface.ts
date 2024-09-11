@@ -9,13 +9,14 @@ export interface FormFieldError {
 export interface FormField {
     name: string;
     label?: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete' | 'select' | 'date';
+    type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete' | 'select' | 'date' | 'radio';
     placeholder?: string;
     errors: FormFieldError[];
     validators?: any[];
     showPassword ?: boolean;
     options?: { value: string; label: string, iconClass?: string }[];
     conditionalDisplay?: string
+    value?: string
 }
 
 export interface ModalFormField {

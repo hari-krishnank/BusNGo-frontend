@@ -29,11 +29,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   noResultsFound: boolean = false;
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private router: Router,
-    private searchResultsService: SearchResultsService,
-    public tripService: TripService
-  ) {
+  constructor(private router: Router, private searchResultsService: SearchResultsService, public tripService: TripService) {
     this.handleRouterNavigation();
   }
 

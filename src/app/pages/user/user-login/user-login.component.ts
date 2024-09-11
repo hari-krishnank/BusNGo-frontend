@@ -33,7 +33,7 @@ export class UserLoginComponent implements AfterViewInit {
   timestamp = new Date().getTime();
   showForgotPassword = false;
 
-  @ViewChild('imageDiv') imageDiv!: ElementRef;
+  @ViewChild('imageDiv') imageDiv!: ElementRef; 
   @ViewChild('formDiv') formDiv!: ElementRef;
 
   constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
