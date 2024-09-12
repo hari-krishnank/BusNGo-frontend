@@ -10,6 +10,8 @@ export interface UserProfile {
   phone: string;
   profileImage: string;
   is_googleUser: boolean;
+  dob?: string;
+  gender?: string;
 }
 
 @Injectable({
@@ -28,6 +30,10 @@ export class UserProfileService {
 
   getUserProfile(): Observable<UserProfile> {
     return this.http.get<UserProfile>(`${this.backendURL}/user-profile`, { headers: this.getHeaders() });
+  }
+
+  updateUserProfile(profile: UserProfile): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.backendURL}/user-profile`, profile, { headers: this.getHeaders() });
   }
 
   uploadProfilePhoto(file: File): Observable<{ url: string }> {

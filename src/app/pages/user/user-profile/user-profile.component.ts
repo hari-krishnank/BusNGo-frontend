@@ -45,8 +45,8 @@ export class UserProfileComponent implements OnInit {
     return name ? name.charAt(0).toUpperCase() : '';
   }
 
-  getFullName(firstName: string, lastName: string): string {
-    return `${firstName} ${lastName}`.trim();
+  getFullName(firstName: string, lastName?: string): string {
+    return lastName ? `${firstName} ${lastName}`.trim() : firstName;
   }
 
   onEditProfilePhoto() {
@@ -73,5 +73,9 @@ export class UserProfileComponent implements OnInit {
         console.error('Error uploading profile photo:', error);
       }
     });
+  }
+
+  onProfileUpdated() {
+    this.loadUserProfile();
   }
 }

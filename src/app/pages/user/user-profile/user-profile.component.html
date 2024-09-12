@@ -30,7 +30,7 @@
                                 <button mat-stroked-button color="primary" class="mb-2 mt-2" (click)="onEditProfilePhoto()">Edit Profile Photo</button>
                             </div>
                         </div>
-                        <app-user-personal-info></app-user-personal-info>
+                        <app-user-personal-info (profileUpdated)="onProfileUpdated()"></app-user-personal-info>
                     </div>
                 </div>
             </div>

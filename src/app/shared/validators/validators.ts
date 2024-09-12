@@ -3,6 +3,10 @@ import { AbstractControl, FormGroup, ValidatorFn } from "@angular/forms";
 export function usernameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const username = control.value;
+        if (username == null) {
+            return null; 
+        }
+
         if (username.length < 4) {
             return { 'minlength': true };
         }
@@ -29,6 +33,11 @@ export function passwordMatchValidator(controlName: string, matchingControlName:
 
 export function noWhitespaceValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
+
+        if (control.value == null) {
+            return null;
+        }
+
         const isWhitespace = (control.value || '').trim().length === 0;
         const isValid = !isWhitespace;
         return isValid ? null : { 'whitespace': true };
@@ -38,6 +47,10 @@ export function noWhitespaceValidator(): ValidatorFn {
 export function phoneNumberValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const phoneNumber = control.value;
+        if (phoneNumber == null) {
+            return { 'required': true };
+        }
+        
         const numericRegex = /^[0-9]+$/;
         if (!phoneNumber) {
             return { 'required': true };
