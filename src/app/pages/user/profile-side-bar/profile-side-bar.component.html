@@ -1,12 +1,16 @@
 <div class="w-auto bg-white rounded-sm shadow-sm" style="height: 90vh;">
     <nav>
-        <button class="ripple block w-full text-left px-4 py-2 text-blue-500 hover:bg-gray-100" [routerLink]="'/userProfile'">
+        <button class="ripple block w-full text-left px-4 py-2"
+            [ngClass]="{'text-blue-500': isRouteActive(['/userProfile']), 'text-gray-700': !isRouteActive(['/userProfile'])}"
+            [routerLink]="'/userProfile'">
             <i class="fas fa-user mr-2 mt-4"></i> Account Information
-            <p class="text-sm text-gray-500  ml-6 mt-2 ">Manage your profile, bookings and more</p>
+            <p class="text-sm text-gray-500 ml-6 mt-2">Manage your profile, bookings and more</p>
         </button>
-        <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" [routerLink]="'/completed-bookings'">
+        <button class="ripple block w-full text-left px-4 py-2"
+            [ngClass]="{'text-blue-500': isRouteActive(['/completed-bookings', '/cancelled-bookings']), 'text-gray-700': !isRouteActive(['/completed-bookings', '/cancelled-bookings'])}"
+            [routerLink]="'/completed-bookings'">
             <i class="fas fa-calendar-alt mr-2"></i> Your Bookings
-            <p class="text-sm text-gray-500  ml-6 mt-2">Check your latest/cancelled/pending bookings</p>
+            <p class="text-sm text-gray-500 ml-6 mt-2">Check your latest/cancelled/pending bookings</p>
         </button>
         <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
             <i class="fas fa-users mr-2"></i> Co-Travellers

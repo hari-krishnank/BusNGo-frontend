@@ -31,9 +31,9 @@ export class UserLoginComponent implements AfterViewInit {
   loginFields: FormField[] = loginFields;
   forgotPasswordFields: FormField[] = forgotPasswordField
   timestamp = new Date().getTime();
-  showForgotPassword = false;
+  showForgotPassword: boolean = false;
 
-  @ViewChild('imageDiv') imageDiv!: ElementRef; 
+  @ViewChild('imageDiv') imageDiv!: ElementRef;
   @ViewChild('formDiv') formDiv!: ElementRef;
 
   constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
@@ -111,7 +111,7 @@ export class UserLoginComponent implements AfterViewInit {
       },
       error: (error) => {
         console.error('Login failed', error);
-         if (error.message === 'ACCOUNT_BLOCKED') {
+        if (error.message === 'ACCOUNT_BLOCKED') {
           this.toastr.error('Your account has been blocked. Please contact support.');
         } else if (error.message === 'INVALID_CREDENTIALS') {
           this.toastr.error('Invalid email or password.');
@@ -123,11 +123,16 @@ export class UserLoginComponent implements AfterViewInit {
   }
 
   onForgotPasswordSubmit(formValue: { email: string }) {
-    console.log('Forgot password submitted for email:', formValue.email);
-    this.toastr.info('Password reset instructions have been sent to your email.');
-    this.toggleForgotPassword();
+    this.loginService.forgotPassword(formValue.email).subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.error('Forgot password failed', error);
+        this.toastr.error('An unexpected error occurred. Please try again later.');
+      }
+    });
   }
-
 
   toggleForgotPassword() {
     this.showForgotPassword = !this.showForgotPassword;

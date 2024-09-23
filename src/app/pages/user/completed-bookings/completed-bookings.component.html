@@ -1,146 +1,60 @@
-<app-bookingsnavbar></app-bookingsnavbar>
-<div class="min-h-screen py-8">
-    <div class="container mx-auto px-4">
-        <div *ngIf="isLoading" class="space-y-4">
-            <div *ngFor="let i of [1,2,3]" class="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-                <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-                <div class="h-4 bg-gray-200 rounded w-2/3 mb-4"></div>
-                <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+<app-usernav></app-usernav>
+<div class="relative min-h-screen flex bg-gray-100">
+    <div
+        class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-neutral-200 to-neutral-100 rounded-bl-[70%] rounded-br-[40%]">
+    </div>
+    <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
+        <div class="w-full">
+            <div class="mt-28">
+                <p class="text-3xl font-sans text-black mb-4 font-semibold">Your Bookings</p>
             </div>
-        </div>
+            <div class="flex">
+                <app-profile-side-bar></app-profile-side-bar>
 
-        <div *ngIf="!isLoading && completedBookings.length > 0" class="space-y-6">
-            <div *ngFor="let booking of completedBookings"
-                class="bg-white rounded-lg shadow-md overflow-hidden border-gray-300">
-                <div class="text-black p-6">
-                    <div class="flex justify-between items-start">
-
-                        <div>
-                            <div class="flex items-center space-x-4 mb-2">
-                                <i class="fas fa-receipt text-gray-500"></i>
-                                <p class="text-xl font-semibold mt-2">Booking ID: {{ booking.bookingId }}</p>
-                            </div>
-                            <div class="flex items-center space-x-4 mb-2">
-                                <i class="fas fa-calendar-alt text-gray-500"></i>
-                                <p class="text-lg font-medium mt-2">{{ booking.travelDate | date:'fullDate' }}</p>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-map-marker-alt text-gray-500"></i>
-                                <p class="text-lg font-medium mt-2">{{ booking.tripId.title }}</p>
+                <div class="flex-1 ml-8">
+                    <div class="bg-white rounded-md p-8 shadow-sm mb-8 h-full">
+                        <app-bookingsnavbar></app-bookingsnavbar>
+                        <div *ngIf="isLoading" class="space-y-4 mt-6">
+                            <div *ngFor="let i of [1,2,3]" class="bg-white rounded-lg p-6 animate-pulse">
+                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                                  <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                                <div class="h-4 bg-gray-200 rounded w-1/3"></div>
                             </div>
                         </div>
 
-                        <span
-                            class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
-                            {{ booking.status }}
-                        </span>
-                    </div>
+                        <div class="mt-2">
+                            <div *ngFor="let booking of completedBookings; let last = last"
+                                class="flex items-center py-4" [ngClass]="{'border-b border-gray-200': !last}">
+                                <div class="bg-red-500 text-white p-3 flex flex-col items-center justify-center min-w-[60px] rounded-md">
+                                    <span class="text-xs font-semibold uppercase">{{ booking.travelDate | date:'MMM' }}</span>
+                                    <span class="text-xl font-bold">{{ booking.travelDate | date:'dd' }}</span>
+                                    <span class="text-xs">{{ booking.travelDate | date:'EEE' }}</span>
+                                </div>
+                                <div class="flex-grow ml-4 hover:cursor-pointer" (click)="viewDetails(booking)">
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex space-x-2">
+                                            <mat-icon>directions_bus</mat-icon>
+                                            <p class="text-sm font-semibold font-sans">{{ booking.tripId.title }}</p>
+                                        </div>
+                                        <div class="flex flex-col items-end">
+                                            <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mr-2">
+                                                {{ booking.status }}
+                                            </span>
+                                            <span class="text-sm text-black mt-2 font-semibold mr-2">Trip ID: {{ booking.bookingId }}</span>
+                                            <button mat-button color="primary" class="text-sm hover:underline" (click)="viewDetails(booking)">View booking status</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="mt-2 flex justify-end">
-                        <button mat-stroked-button color="primary" (click)="viewDetails(booking)">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            View Details
-                        </button>
+                        <div *ngIf="!isLoading && completedBookings.length === 0" class="text-center mt-6">
+                            <p class="text-gray-500">No completed bookings found.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="hidden-scrollbar" [dismissible]="false">
-    <div class="sidebar-content" *ngIf="selectedBooking">
-        <div class="p-6 bg-gray-50">
-            <div class="flex justify-between items-center mb-6">
-                <p class="text-2xl font-bold text-gray-800">Booking Details</p>
-                <button mat-stroked-button color="warn">Cancel booking</button>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-6">
-                <div class="col-span-2 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <div>
-                                <p class="text-gray-600 text-sm">From</p>
-                                <p class="font-semibold text-gray-800 text-lg">{{ selectedBooking.boardingPoint.location }}</p>
-                            </div>
-                        </div>
-                    
-                        <div class="mx-2">
-                            <i class="fas fa-exchange-alt text-blue-500"></i>
-                        </div>
-                    
-                        <div class="flex items-center">
-                            <div class="text-right">
-                                <p class="text-gray-600 text-sm">To</p>
-                                <p class="font-semibold text-gray-800 text-lg">{{ selectedBooking.droppingPoint.location }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex items-center mb-2">
-                        <mat-icon class="text-blue-500 mr-2">directions_bus</mat-icon>
-                        <p class="text-gray-600 mt-2">Bus</p>
-                    </div>
-                    <p class="font-semibold text-gray-800 text-lg">{{ selectedBooking.busId.name }}</p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex items-center mb-2">
-                        <mat-icon class="text-blue-500 mr-2">category</mat-icon>
-                        <p class="text-gray-600 mt-2">Fleet Type</p>
-                    </div>
-                    <p class="font-semibold text-gray-800 text-lg">{{ selectedBooking.tripId.fleetType.name }}</p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex items-center mb-2">
-                        <mat-icon class="text-blue-500 mr-2">attach_money</mat-icon>
-                        <p class="text-gray-600 mt-2">Total Price</p>
-                    </div>
-                    <p class="font-semibold text-gray-800 text-lg">₹{{ selectedBooking.totalTicketPrice }}</p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex items-center mb-2">
-                        <mat-icon class="text-blue-500 mr-2">people</mat-icon>
-                        <p class="text-gray-600 mt-2">Travelers</p>
-                    </div>
-                    <p class="font-semibold text-gray-800 text-lg">{{ selectedBooking.travellersDetails.length }}</p>
-                </div>
-
-                <div
-                    class="col-span-2 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div class="flex items-center mb-2">
-                        <mat-icon class="text-blue-500 mr-2">schedule</mat-icon>
-                        <p class="text-gray-600 mt-2">Schedule</p>
-                    </div>
-                    <p class="font-semibold text-gray-800 text-xl">{{ selectedBooking.routeId.schedule.startFrom }} - {{ selectedBooking.routeId.schedule.end }}</p>
-                    <p class="text-sm text-gray-500 mt-1">Duration: {{ selectedBooking.routeId.schedule.duration }}</p>
-                </div>
-            </div>
-
-            <div class="mt-8">
-                <p class="text-2xl font-semibold mb-4 text-gray-800">Traveller Details</p>
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <div *ngFor="let traveller of selectedBooking.travellersDetails; let i = index"
-                        class="flex items-center mb-2 text-sm hover:bg-gray-100 p-2 rounded transition-colors duration-300">
-                        <mat-icon class="text-blue-500 mr-3">person</mat-icon>
-                        <div class="flex-grow">
-                            <span class="font-semibold text-gray-800">{{ traveller.firstName }} {{ traveller.lastName }}</span>
-                            <span class="text-gray-600 ml-2">{{ traveller.age }} ({{ traveller.gender.charAt(0).toUpperCase() }})</span>
-                        </div>
-                        <div class="flex items-center">
-                            <mat-icon class="text-gray-500 mr-1">airline_seat_recline_extra</mat-icon>
-                            <span class="font-semibold text-gray-700">{{ selectedBooking?.selectedSeatNumbers[i] }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</p-sidebar>
-
 <app-footer></app-footer>

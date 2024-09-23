@@ -24,4 +24,8 @@ export class CompletedBookingService {
     getAllCompletedBookings(): Observable<any> {
         return this.http.get(`${this.backendURL}/profile`, { headers: this.getHeaders() });
     }
+
+    getBookingByBookingId(bookingId: string): Observable<any> {
+        return this.http.get<any>(`${this.backendURL}/profile/booking/${bookingId}`, { headers: this.getHeaders() });
+    }
 }

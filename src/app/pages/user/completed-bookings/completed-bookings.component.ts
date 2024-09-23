@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BookingsnavbarComponent } from '../bookingsnavbar/bookingsnavbar.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { CompletedBookingService } from '../../../core/services/user/completed-booking.service';
 import { CommonModule } from '@angular/common';
@@ -8,11 +8,13 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { SidebarModule } from 'primeng/sidebar';
 import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
+import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
+import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
 
 @Component({
   selector: 'app-completed-bookings',
   standalone: true,
-  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, FooterComponent],
+  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, FooterComponent, UsernavComponent, ProfileSideBarComponent],
   templateUrl: './completed-bookings.component.html',
   styleUrl: './completed-bookings.component.css'
 })
@@ -24,7 +26,7 @@ export class CompletedBookingsComponent implements OnInit {
   sidebarVisible2: boolean = false;
   selectedBooking: any = null;
 
-  constructor(private completedBookingService: CompletedBookingService) { }
+  constructor(private completedBookingService: CompletedBookingService, private router: Router) { }
 
   ngOnInit() {
     this.loadCompletedBookings();
@@ -43,10 +45,8 @@ export class CompletedBookingsComponent implements OnInit {
       }
     });
   }
-
+  
   viewDetails(booking: any) {
-    this.selectedBooking = booking;
-    this.sidebarVisible2 = true;
+    this.router.navigate(['/booking-details', booking.bookingId]);
   }
-
 }

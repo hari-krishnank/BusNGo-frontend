@@ -1,0 +1,117 @@
+<app-usernav></app-usernav>
+<div class="relative min-h-screen flex bg-gray-100">
+    <div
+        class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-neutral-200 to-neutral-100 rounded-bl-[70%] rounded-br-[40%]">
+    </div>
+    <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
+        <div class="w-full">
+            <div class="mt-28">
+                <p class="text-3xl font-sans text-black mb-4 font-semibold">Booking Details</p>
+            </div>
+            <div class="bg-white rounded-md p-8 shadow-sm mb-8">
+                <div *ngIf="isLoading" class="space-y-4 mt-6">
+                    <!-- Add loading skeleton here -->
+                </div>
+
+                <div *ngIf="!isLoading && booking" class="grid grid-cols-2 gap-6">
+                    <!-- From - To -->
+                    <div class="col-span-2 bg-white rounded-lg shadow-md p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div>
+                                    <p class="text-gray-600 text-sm">From</p>
+                                    <p class="font-semibold text-gray-800 text-lg">{{ booking.boardingPoint.location }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mx-2">
+                                <mat-icon>arrow_forward</mat-icon>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="text-right">
+                                    <p class="text-gray-600 text-sm">To</p>
+                                    <p class="font-semibold text-gray-800 text-lg">{{ booking.droppingPoint.location }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bus -->
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <div class="flex items-center mb-2">
+                            <mat-icon class="text-blue-500 mr-2">directions_bus</mat-icon>
+                            <p class="text-gray-600">Bus</p>
+                        </div>
+                        <p class="font-semibold text-gray-800 text-lg">{{ booking.busId.name }}</p>
+                    </div>
+
+                    <!-- Fleet Type -->
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <div class="flex items-center mb-2">
+                            <mat-icon class="text-blue-500 mr-2">category</mat-icon>
+                            <p class="text-gray-600">Fleet Type</p>
+                        </div>
+                        <p class="font-semibold text-gray-800 text-lg">{{ booking.tripId.fleetType.name }}</p>
+                    </div>
+
+                    <!-- Total Price -->
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <div class="flex items-center mb-2">
+                            <mat-icon class="text-blue-500 mr-2">attach_money</mat-icon>
+                            <p class="text-gray-600">Total Price</p>
+                        </div>
+                        <p class="font-semibold text-gray-800 text-lg">₹{{ booking.totalTicketPrice }}</p>
+                    </div>
+
+                    <!-- Travelers -->
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <div class="flex items-center mb-2">
+                            <mat-icon class="text-blue-500 mr-2">people</mat-icon>
+                            <p class="text-gray-600">Travelers</p>
+                        </div>
+                        <p class="font-semibold text-gray-800 text-lg">{{ booking.travellersDetails.length }}</p>
+                    </div>
+
+                    <!-- Schedule -->
+                    <div class="col-span-2 bg-white rounded-lg shadow-md p-4">
+                        <div class="flex items-center mb-2">
+                            <mat-icon class="text-blue-500 mr-2">schedule</mat-icon>
+                            <p class="text-gray-600">Schedule</p>
+                        </div>
+                        <p class="font-semibold text-gray-800 text-xl">{{ booking.routeId.schedule.startFrom }} - {{
+                            booking.routeId.schedule.end }}</p>
+                        <p class="text-sm text-gray-500 mt-1">Duration: {{ booking.routeId.schedule.duration }}</p>
+                    </div>
+
+                    <!-- Traveller Details -->
+                    <div class="col-span-2 mt-8">
+                        <p class="text-2xl font-semibold mb-4 text-gray-800">Traveller Details</p>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <div *ngFor="let traveller of booking.travellersDetails; let i = index"
+                                class="flex items-center mb-2 text-sm hover:bg-gray-100 p-2 rounded transition-colors duration-300">
+                                <mat-icon class="text-blue-500 mr-3">person</mat-icon>
+                                <div class="flex-grow">
+                                    <span class="font-semibold text-gray-800">{{ traveller.firstName }} {{
+                                        traveller.lastName }}</span>
+                                    <span class="text-gray-600 ml-2">{{ traveller.age }} ({{
+                                        traveller.gender.charAt(0).toUpperCase() }})</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <mat-icon class="text-gray-500 mr-1">airline_seat_recline_extra</mat-icon>
+                                    <span class="font-semibold text-gray-700">{{ booking.selectedSeatNumbers[i]
+                                        }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="!isLoading && !booking" class="text-center mt-6">
+                    <p class="text-gray-500">Booking not found.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

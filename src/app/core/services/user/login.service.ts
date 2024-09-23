@@ -100,4 +100,30 @@ export class LoginService {
     this.message.error('Your account has been blocked. Please contact support.')
     this.sessionManagementService.clearCurrentUserType();
   }
+
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.backendURL}/users/forgot-password`, { email })
+      .pipe(
+        tap(response => {
+          this.message.success(response.message);
+        }),
+        catchError(error => {
+          this.message.error('An error occurred. Please try again later.');
+          return throwError(() => new Error('FORGOT_PASSWORD_ERROR'));
+        })
+      );
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.backendURL}/users/reset-password`, { token, newPassword })
+      .pipe(
+        tap(response => {
+          // this.message.success(response.message);
+        }),
+        catchError(error => {
+          // this.message.error('Failed to reset password. Please try again.');
+          return throwError(() => new Error('RESET_PASSWORD_ERROR'));
+        })
+      );
+  }
 }

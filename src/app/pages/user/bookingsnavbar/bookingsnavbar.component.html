@@ -1,13 +1,11 @@
-<app-usernav></app-usernav>
-<div class="container mt-24">
-    <p class="text-3xl font-semibold text-black mb-4">Your Trips</p>
-    <div class="bg-slate-100 rounded-t-lg p-4 flex">
-        <div class="flex-1 text-center cursor-pointer border-r border-black" [routerLink]="'/completed-bookings'"
+<div class="w-full">
+    <div class="rounded-t-lg p-3 flex border border-gray-200 bg-white shadow-sm">
+        <div class="flex-1 text-center cursor-pointer border-r border-gray-200" [routerLink]="'/completed-bookings'"
             [class.font-semibold]="isActive('/completed-bookings')">
             <i class="fas fa-check-circle mr-2"></i>
             <span>Completed Bookings</span>
         </div>
-        <div class="flex-1 text-center cursor-pointer" [routerLink]="'/cancelled-bookings'"
+        <div class="flex-1 text-center cursor-pointer ml-4" [routerLink]="'/cancelled-bookings'"
             [class.font-semibold]="isActive('/cancelled-bookings')">
             <i class="fas fa-ban mr-2"></i>
             <span>Cancelled Bookings</span>

@@ -1,10 +1,10 @@
-import { AbstractControl, FormGroup, ValidatorFn } from "@angular/forms";
+import { AbstractControl, ValidatorFn } from "@angular/forms";
 
 export function usernameValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const username = control.value;
         if (username == null) {
-            return null; 
+            return null;
         }
 
         if (username.length < 4) {
@@ -50,7 +50,7 @@ export function phoneNumberValidator(): ValidatorFn {
         if (phoneNumber == null) {
             return { 'required': true };
         }
-        
+
         const numericRegex = /^[0-9]+$/;
         if (!phoneNumber) {
             return { 'required': true };
@@ -65,15 +65,45 @@ export function phoneNumberValidator(): ValidatorFn {
     };
 }
 
+export function noSpaceValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        if (control.value && control.value.includes(' ')) {
+            return { 'containsSpace': true };
+        }
+        return null;
+    };
+}
+
+// export function strongPasswordValidator(): ValidatorFn {
+//     return (control: AbstractControl): { [key: string]: any } | null => {
+//         const password = control.value;
+//         const hasUpperCase = /[A-Z]/.test(password);
+//         const hasLowerCase = /[a-z]/.test(password);
+//         const hasNumeric = /[0-9]/.test(password);
+//         const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+
+//         const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar && password.length >= 8;
+
+//         if (!valid) {
+//             return { 'strongPassword': true };
+//         }
+//         return null;
+//     };
+// }
+
 export function strongPasswordValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const password = control.value;
+        if (!password) {
+            return null;
+        }
         const hasUpperCase = /[A-Z]/.test(password);
         const hasLowerCase = /[a-z]/.test(password);
         const hasNumeric = /[0-9]/.test(password);
         const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+        const hasNoSpaces = !/\s/.test(password);
 
-        const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar && password.length >= 8;
+        const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar && hasNoSpaces && password.length >= 8;
 
         if (!valid) {
             return { 'strongPassword': true };

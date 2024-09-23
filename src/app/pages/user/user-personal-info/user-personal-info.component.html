@@ -21,7 +21,7 @@
     </div>
 
     <div class="flex-grow py-2 border-gray-300 rounded-l-md focus:ring-indigo-500 focus:border-indigo-500">
-        <div class="flex mb-4 space-x-4 ml-2" [formGroup]="personalDetailsForm">
+        <div class="flex mb-2 space-x-4 ml-2" [formGroup]="personalDetailsForm">
             <label class="flex items-center border rounded-md px-4 py-2" [class.cursor-pointer]="isEditing"
                 [class.cursor-not-allowed]="!isEditing">
                 <input type="radio" formControlName="gender" value="male" class="mr-2">
@@ -39,8 +39,8 @@
         <app-form [form]="personalDetailsForm" [fields]="profileDobField" [hideSubmitButton]="true"></app-form>
     </div>
 </div>
-<div class="mb-28 flex justify-start" *ngIf="!isEditing"></div>
-<div class="mt-7 mb-16 flex justify-start space-x-4" *ngIf="isEditing">
+<div class="flex justify-start" *ngIf="!isEditing"></div>
+<div class="flex justify-start mt-2 ml-2 space-x-4" *ngIf="isEditing">
     <button mat-raised-button color="primary" class="w-28" (click)="saveDetails()">Save</button>
     <button mat-stroked-button color="primary" class="w-28" (click)="cancelEdit()">Cancel</button>
 </div>

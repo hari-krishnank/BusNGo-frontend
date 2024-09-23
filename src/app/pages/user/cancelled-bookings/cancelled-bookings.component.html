@@ -1,1 +1,25 @@
-<app-bookingsnavbar></app-bookingsnavbar>
+<app-usernav></app-usernav>
+<div class="relative min-h-screen flex bg-gray-100">
+    <div
+        class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-neutral-200 to-neutral-100 rounded-bl-[70%] rounded-br-[40%]">
+    </div>
+    <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
+        <div class="w-full">
+            <div class="mt-28">
+                <p class="text-3xl font-sans text-black mb-4 font-semibold">Your Bookings</p>
+            </div>
+            <div class="flex">
+                <!-- Sidebar -->
+                <app-profile-side-bar></app-profile-side-bar>
+
+                <!-- Main content -->
+                <div class="flex-1 ml-8">
+                    <div class="bg-white rounded-md p-8 shadow-sm mb-8 h-full">
+                        <app-bookingsnavbar></app-bookingsnavbar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

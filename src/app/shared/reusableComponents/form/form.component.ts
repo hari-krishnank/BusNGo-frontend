@@ -40,7 +40,7 @@ export class FormComponent<T> implements OnInit {
 
   ngOnInit(): void {
     this.form.valueChanges.subscribe(value => {
-      console.log('Form value changed in FormComponent:', value);
+      // console.log('Form value changed in FormComponent:', value);
       this.valueChanges.emit(value);
     });
     this.form.get('location')?.statusChanges.subscribe(status => {

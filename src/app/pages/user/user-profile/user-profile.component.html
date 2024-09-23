@@ -11,11 +11,11 @@
             </div>
             <div class="flex">
                 <!-- Sidebar -->
-                <app-profile-side-bar></app-profile-side-bar>
+                <app-profile-side-bar></app-profile-side-bar> 
 
                 <!-- Main content -->
                 <div class="flex-1 ml-8" *ngIf="userProfile">
-                    <div class="bg-white rounded-md p-8 shadow-sm mb-8">
+                    <div class="bg-white rounded-md p-8 shadow-sm mb-8 h-full">
                         <div class="flex items-center mb-8">
                             <div class="w-40 h-40 rounded-full overflow-hidden mr-8 border-4 border-neutral-300 relative">
                                 <div *ngIf="!userProfile.profileImage" class="w-full h-full bg-neutral-100 flex items-center justify-center">
