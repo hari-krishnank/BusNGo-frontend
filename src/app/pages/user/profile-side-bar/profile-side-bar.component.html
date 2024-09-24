@@ -1,4 +1,4 @@
-<div class="w-auto bg-white rounded-sm shadow-sm" style="height: 90vh;">
+<div class="w-auto bg-white rounded-sm shadow-sm h-full">
     <nav>
         <button class="ripple block w-full text-left px-4 py-2"
             [ngClass]="{'text-blue-500': isRouteActive(['/userProfile']), 'text-gray-700': !isRouteActive(['/userProfile'])}"
@@ -12,25 +12,25 @@
             <i class="fas fa-calendar-alt mr-2"></i> Your Bookings
             <p class="text-sm text-gray-500 ml-6 mt-2">Check your latest/cancelled/pending bookings</p>
         </button>
-        <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+        <button class="ripple block w-full text-left px-4 py-2"
+            [ngClass]="{'text-blue-500': isRouteActive(['/CoTravellers']), 'text-gray-700': !isRouteActive(['/CoTravellers'])}"
+            [routerLink]="'/CoTravellers'">
             <i class="fas fa-users mr-2"></i> Co-Travellers
             <p class="text-sm text-gray-500  ml-6 mt-2">Add or delete the respective traveler details</p>
         </button>
-        <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-            <i class="fas fa-percentage mr-2"></i> Promo Codes
-            <p class="text-sm text-gray-500  ml-6 mt-2">Refer a Friend and Earn</p>
-        </button>
-        <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-            <i class="fas fa-gift mr-2"></i> Gift Cards/ Coupons
-            <p class="text-sm text-gray-500  ml-6 mt-2">Check savings on your booking</p>
-        </button>
-        <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-            <i class="fas fa-wallet mr-2"></i> Wallet
+        <button class="ripple block w-full text-left px-4 py-2"
+            [ngClass]="{'text-blue-500': isRouteActive(['/wallet']), 'text-gray-700': !isRouteActive(['/wallet'])}"
+            [routerLink]="'/wallet'">
+            <i class="fas fa-wallet mr-2"></i> BusNGo Wallet
             <p class="text-sm text-gray-500  ml-6 mt-2">Check & Manage your added wallet balance</p>
         </button>
         <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
             <i class="fas fa-cog mr-2"></i> Settings
             <p class="text-sm text-gray-500  ml-6 mt-2">Manage Notification, Fare Alert and more</p>
+        </button>
+        <button class="ripple block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" (click)="onLogout()">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            <p class="text-sm text-gray-500 ml-6 mt-2">Sign out of your account</p>
         </button>
     </nav>
 </div>

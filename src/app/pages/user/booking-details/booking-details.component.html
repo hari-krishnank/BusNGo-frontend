@@ -1,117 +1,116 @@
 <app-usernav></app-usernav>
-<div class="relative min-h-screen flex bg-gray-100">
-    <div
-        class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-neutral-200 to-neutral-100 rounded-bl-[70%] rounded-br-[40%]">
-    </div>
-    <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
-        <div class="w-full">
-            <div class="mt-28">
-                <p class="text-3xl font-sans text-black mb-4 font-semibold">Booking Details</p>
+<div class="container mx-auto p-4 mb-10 mt-24">
+    <div class="flex flex-col md:flex-row">
+        <div class="w-full md:w-3/4 pr-0 md:pr-8">
+            <div class="mb-4 flex items-center justify-end">
+                <span [ngClass]="['px-2 py-0.5 text-xs rounded text-white font-medium', getStatusColor()]">
+                    {{booking?.status}}
+                </span>
+                <span class="ml-2 text-lg font-semibold">Trip ID: {{booking?.bookingId}}</span>
             </div>
-            <div class="bg-white rounded-md p-8 shadow-sm mb-8">
+            <div class="border rounded-lg bg-white shadow-sm overflow-hidden" style="height: 33vh;">
                 <div *ngIf="isLoading" class="space-y-4 mt-6">
-                    <!-- Add loading skeleton here -->
+                    <div *ngFor="let i of [1,2,3]" class="bg-white rounded-lg p-6 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                    </div>
                 </div>
-
-                <div *ngIf="!isLoading && booking" class="grid grid-cols-2 gap-6">
-                    <!-- From - To -->
-                    <div class="col-span-2 bg-white rounded-lg shadow-md p-4">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">
-                                <div>
-                                    <p class="text-gray-600 text-sm">From</p>
-                                    <p class="font-semibold text-gray-800 text-lg">{{ booking.boardingPoint.location }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="mx-2">
-                                <mat-icon>arrow_forward</mat-icon>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="text-right">
-                                    <p class="text-gray-600 text-sm">To</p>
-                                    <p class="font-semibold text-gray-800 text-lg">{{ booking.droppingPoint.location }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                <div *ngIf="!isLoading && booking" class="text-black p-4" style="background-color: #F0F0F0;">
+                    <div class="flex items-center">
+                        <mat-icon>directions_bus</mat-icon>
+                        <span class="ml-2 text-lg font-semibold">{{booking.busId?.name}}</span>
                     </div>
-
-                    <!-- Bus -->
-                    <div class="bg-white rounded-lg shadow-md p-4">
-                        <div class="flex items-center mb-2">
-                            <mat-icon class="text-blue-500 mr-2">directions_bus</mat-icon>
-                            <p class="text-gray-600">Bus</p>
+                    <p class="text-sm ml-8 mt-2">{{booking.tripId?.fleetType?.name}}</p>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-1/3">
+                            <p class="text-xl font-bold">
+                                {{ booking?.boardingPoint.city }}
+                                <span class="text-gray-600 text-lg ml-2">{{ booking?.routeId?.schedule?.startFrom }}</span>
+                            </p>
+                            <p class="text-gray-600">{{ booking?.boardingPoint.location }}</p>
                         </div>
-                        <p class="font-semibold text-gray-800 text-lg">{{ booking.busId.name }}</p>
-                    </div>
-
-                    <!-- Fleet Type -->
-                    <div class="bg-white rounded-lg shadow-md p-4">
-                        <div class="flex items-center mb-2">
-                            <mat-icon class="text-blue-500 mr-2">category</mat-icon>
-                            <p class="text-gray-600">Fleet Type</p>
+                        <div class="w-1/3 text-center">
+                            <p class="text-sm text-gray-600 font-medium">Journey duration</p>
+                            <p class="text-gray-600 font-sans">{{ booking?.routeId?.schedule?.duration }}</p>
                         </div>
-                        <p class="font-semibold text-gray-800 text-lg">{{ booking.tripId.fleetType.name }}</p>
-                    </div>
-
-                    <!-- Total Price -->
-                    <div class="bg-white rounded-lg shadow-md p-4">
-                        <div class="flex items-center mb-2">
-                            <mat-icon class="text-blue-500 mr-2">attach_money</mat-icon>
-                            <p class="text-gray-600">Total Price</p>
-                        </div>
-                        <p class="font-semibold text-gray-800 text-lg">₹{{ booking.totalTicketPrice }}</p>
-                    </div>
-
-                    <!-- Travelers -->
-                    <div class="bg-white rounded-lg shadow-md p-4">
-                        <div class="flex items-center mb-2">
-                            <mat-icon class="text-blue-500 mr-2">people</mat-icon>
-                            <p class="text-gray-600">Travelers</p>
-                        </div>
-                        <p class="font-semibold text-gray-800 text-lg">{{ booking.travellersDetails.length }}</p>
-                    </div>
-
-                    <!-- Schedule -->
-                    <div class="col-span-2 bg-white rounded-lg shadow-md p-4">
-                        <div class="flex items-center mb-2">
-                            <mat-icon class="text-blue-500 mr-2">schedule</mat-icon>
-                            <p class="text-gray-600">Schedule</p>
-                        </div>
-                        <p class="font-semibold text-gray-800 text-xl">{{ booking.routeId.schedule.startFrom }} - {{
-                            booking.routeId.schedule.end }}</p>
-                        <p class="text-sm text-gray-500 mt-1">Duration: {{ booking.routeId.schedule.duration }}</p>
-                    </div>
-
-                    <!-- Traveller Details -->
-                    <div class="col-span-2 mt-8">
-                        <p class="text-2xl font-semibold mb-4 text-gray-800">Traveller Details</p>
-                        <div class="bg-white rounded-lg shadow-md p-4">
-                            <div *ngFor="let traveller of booking.travellersDetails; let i = index"
-                                class="flex items-center mb-2 text-sm hover:bg-gray-100 p-2 rounded transition-colors duration-300">
-                                <mat-icon class="text-blue-500 mr-3">person</mat-icon>
-                                <div class="flex-grow">
-                                    <span class="font-semibold text-gray-800">{{ traveller.firstName }} {{
-                                        traveller.lastName }}</span>
-                                    <span class="text-gray-600 ml-2">{{ traveller.age }} ({{
-                                        traveller.gender.charAt(0).toUpperCase() }})</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <mat-icon class="text-gray-500 mr-1">airline_seat_recline_extra</mat-icon>
-                                    <span class="font-semibold text-gray-700">{{ booking.selectedSeatNumbers[i]
-                                        }}</span>
-                                </div>
-                            </div>
+                        <div class="w-1/3 text-right">
+                            <p class="text-xl font-bold">
+                                <span class="text-gray-600 text-lg mr-2">{{ booking?.routeId?.schedule?.end }}</span>
+                                {{ booking?.droppingPoint.city }}
+                            </p>
+                            <p class="text-gray-600">{{ booking?.droppingPoint.location }}</p>
                         </div>
                     </div>
                 </div>
-
-                <div *ngIf="!isLoading && !booking" class="text-center mt-6">
-                    <p class="text-gray-500">Booking not found.</p>
+            </div>
+            <div class="mb-8 mt-4">
+                <p class="text-xl font-semibold mb-4">Ticket details will be sent to</p>
+                <div class="flex items-center mb-2">
+                    <mat-icon>mail</mat-icon>
+                    <span class="ml-2">{{booking?.email}}</span>
                 </div>
+                <div class="flex items-center">
+                    <mat-icon>phone</mat-icon>
+                    <span class="ml-2">{{booking?.phone}}</span>
+                </div>
+                <div class="border-b mt-4"></div>
+            </div>
+
+            <div class="mb-8">
+                <p class="text-xl font-semibold mb-4">Traveller(s)</p>
+                <div *ngFor="let traveller of booking?.travellersDetails; let i = index" class="flex items-center mb-2">
+                    <mat-icon class="mr-2">airline_seat_recline_extra</mat-icon>
+                    <span>{{traveller.firstName}} {{traveller.lastName}}, {{traveller.age}}
+                        ({{traveller.gender.charAt(0).toUpperCase() }})</span>
+                    <span class="ml-4">Seat: {{booking?.selectedSeatNumbers[i]}}</span>
+                </div>
+                <div class="border-b mt-4"></div>
+            </div>
+
+            <div>
+                <p class="text-xl font-semibold mb-2">Cancellation Policy</p>
+                <button mat-stroked-button color="warn" class="text-blue-600 mt-2"
+                    (click)="openCancellationPolicy()">
+                    View Cancellation Policy
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/4 mt-8 md:mt-0">
+            <div class="border rounded-lg p-4 bg-white mb-4">
+                <h2 class="text-xl font-semibold mb-4">Price breakup</h2>
+                <div *ngIf="isLoading" class="space-y-4">
+                    <div *ngFor="let i of [1]" class="bg-white rounded-lg p-2 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                </div>
+                <div *ngIf="!isLoading && booking" class="space-y-2">
+                    <div class="flex justify-between font-semibold mt-4 pt-2 border-t">
+                        <span>Total amount paid</span>
+                        <span>₹ {{booking.tripId?.ticketPrice}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 bg-white">
+                <h2 class="text-lg font-semibold mb-2">Need help?</h2>
+                <p class="text-sm">
+                    Get in touch with BusNGo customer care on +91 9595333333 for your queries
+                </p>
             </div>
         </div>
     </div>
 </div>
+<p-sidebar [(visible)]="sidebarVisible2" position="right" styleClass="hidden-scrollbar">
+    <div class="sidebar-content" *ngIf="sidebarVisible2">
+        <p class="text-2xl font-serif text-black mb-4" style="margin-left: 10px;">Cancellation Policy</p>
+        <button mat-stroked-button color="warn">Cancel Ticket</button>
+    </div>
+</p-sidebar>
+
 <app-footer></app-footer>

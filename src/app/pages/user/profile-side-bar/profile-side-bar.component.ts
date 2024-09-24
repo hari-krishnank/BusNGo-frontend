@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
+import { LoginService } from '../../../core/services/user/login.service';
 
 @Component({
   selector: 'app-profile-side-bar',
@@ -11,9 +12,14 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './profile-side-bar.component.css'
 })
 export class ProfileSideBarComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: LoginService) {}
 
   isRouteActive(routes: string[]): boolean {
     return routes.some(route => this.router.isActive(route, true));
+  }
+
+  onLogout() {
+    this.loginService.logout()
+    this.router.navigate(['/home']);
   }
 }

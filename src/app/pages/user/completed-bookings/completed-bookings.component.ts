@@ -10,11 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
+import { CustomPaginatorComponent } from '../../../shared/reusableComponents/custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-completed-bookings',
   standalone: true,
-  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, FooterComponent, UsernavComponent, ProfileSideBarComponent],
+  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, FooterComponent, UsernavComponent, ProfileSideBarComponent, CustomPaginatorComponent],
   templateUrl: './completed-bookings.component.html',
   styleUrl: './completed-bookings.component.css'
 })
@@ -25,6 +26,10 @@ export class CompletedBookingsComponent implements OnInit {
   isLoading: boolean = true;
   sidebarVisible2: boolean = false;
   selectedBooking: any = null;
+
+  pageSize = 5;
+  pageIndex = 0;
+  totalBookings = 5;
 
   constructor(private completedBookingService: CompletedBookingService, private router: Router) { }
 
@@ -45,8 +50,14 @@ export class CompletedBookingsComponent implements OnInit {
       }
     });
   }
-  
+
   viewDetails(booking: any) {
     this.router.navigate(['/booking-details', booking.bookingId]);
+  }
+
+  onPageChange(event: { pageIndex: number, pageSize: number }) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadCompletedBookings();
   }
 }
