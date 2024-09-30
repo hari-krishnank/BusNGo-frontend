@@ -63,7 +63,7 @@ export class UserLoginComponent implements AfterViewInit {
     gsap.from(this.formDiv.nativeElement, {
       duration: 1,
       x: '100%',
-      ease: 'power3.out'
+      ease: 'power3.out' 
     });
   }
 

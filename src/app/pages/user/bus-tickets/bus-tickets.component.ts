@@ -28,13 +28,7 @@ export class BusTicketsComponent implements OnInit {
   selectedPaymentMethod: 'stripe' | 'wallet' = 'stripe';
   isLoading: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private pendingBookingService: PendingBookingService,
-    private stripeService: StripeService,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) {
+  constructor(private route: ActivatedRoute, private pendingBookingService: PendingBookingService, private stripeService: StripeService, private router: Router, private snackBar: MatSnackBar) {
     this.stripePromise = loadStripe(environment.STRIPE_KEY);
   }
 

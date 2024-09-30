@@ -27,5 +27,4 @@ export class OwnernavComponent {
     this.signupService.logout();
     this.router.navigate(['/ownerLogin']);
   }
-
 }

@@ -15,33 +15,15 @@
                 <p class="text-xl font-semibold mb-6">
                     Register Your Bus Fleet with BusNGo
                 </p>
-                <form [formGroup]="registerForm" (ngSubmit)="generateOtp()">
-                    <div class="mb-4">
-                        <input type="email" formControlName="email" placeholder="Enter Email"
-                            class="w-full p-3 border rounded"
-                            [ngClass]="{'border-red-500': formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)}">
-                        <div *ngIf="formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)"
-                            class="text-red-500 text-sm mt-1">
-                            <div *ngIf="formControls['email'].errors?.['required']">Email is required.</div>
-                            <div *ngIf="formControls['email'].errors?.['email']">Please enter a valid email address.
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit"
-                        class="w-full py-3 bg-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-400"
-                        [disabled]="!registerForm.valid">
-                        GENERATE OTP (One Time Password)
-                    </button>
-                </form>
+                <app-form [form]="ownerRegisterForm" [fields]="ownerRegisterFields" submitButtonText="Sign in" (formSubmit)="generateOtp($event)"> 
+                </app-form> 
                 <div class="text-center mb-6 mt-6">
-                    <p class="text-black text-sm">Do you have already an account ? <a [routerLink]="'/ownerLogin'">Sign
-                            in here</a> </p>
+                    <p class="text-black text-sm font-serif">Already have an account ..? <button mat-button color="warn" [routerLink]="'/ownerLogin'">Sign in here</button> </p>
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
-    <!-- Bottom section -->
     <div class="bg-white py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
         <p class="text-3xl font-bold mb-4 text-center">Bus Registration on BusNGo</p>
         <p class="text-black leading-relaxed ">

@@ -100,7 +100,7 @@ export class UserPersonalInfoComponent implements OnInit {
           this.isEditing = false;
           this.disableForm();
           this.loadUserProfile();
-          this.profileUpdated.emit();
+          this.profileUpdated.emit(); 
         },
         (error) => {
           console.error('Error updating profile:', error);

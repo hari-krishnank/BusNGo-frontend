@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +20,7 @@ import { FormField } from '../../../../core/models/user/form-fields.interface';
 import { SearchTripService } from '../../../../core/services/user/search-trip.service';
 import { HttpClientModule } from '@angular/common/http';
 import { From } from '../../../../shared/configs/user/busSearchForm.config';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-userhome',
@@ -31,7 +32,7 @@ import { From } from '../../../../shared/configs/user/busSearchForm.config';
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',
 })
-export class UserhomeComponent implements OnInit {
+export class UserhomeComponent implements OnInit, OnDestroy {
   model !: NgbDateStruct;
   searchForm!: FormGroup;
   From: FormField[] = From
@@ -57,6 +58,8 @@ export class UserhomeComponent implements OnInit {
     }
   ]
 
+  private destroy$ = new Subject<void>();
+
   constructor(private fb: FormBuilder, private router: Router, private searchTripService: SearchTripService) { }
 
   ngOnInit() {
@@ -64,6 +67,32 @@ export class UserhomeComponent implements OnInit {
       from: ['', Validators.required],
       to: ['', Validators.required],
       dateField: ['', Validators.required]
+    });
+    this.setupDebouncing();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private setupDebouncing() {
+    //Debounce for the 'from' field
+    this.searchForm.get('from')!.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(value => {
+      console.log('Debounced from value:', value);
+    }); 
+ 
+    // Debounce for the 'to' field
+    this.searchForm.get('to')!.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(value => {
+      console.log('Debounced to value:', value);
     });
   }
 

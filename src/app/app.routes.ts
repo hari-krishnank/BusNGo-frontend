@@ -40,9 +40,16 @@ import { PasswordResetComponent } from './pages/user/password-reset/password-res
 import { BookingDetailsComponent } from './pages/user/booking-details/booking-details.component';
 import { WalletComponent } from './pages/user/wallet/wallet.component';
 import { CoTravellersComponent } from './pages/user/co-travellers/co-travellers.component';
+import { StaffsComponent } from './pages/busOwner/staffs/staffs.component';
+import { StaffHomeComponent } from './pages/staff/staff-home/staff-home.component';
+import { StaffLoginComponent } from './pages/staff/staff-login/staff-login.component';
+import { StaffDashboardComponent } from './pages/staff/staff-dashboard/staff-dashboard.component';
+import { StaffNoAuthGuard } from './core/guards/staff-no-auth.guard';
+import { StaffAuthGuard } from './core/guards/staff-auth.guard';
+import { OwnerOtpGuard } from './core/guards/ownerOtp.guard';
 
 export const routes: Routes = [
-    
+
     //---USERS ROUTES
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: UserhomeComponent },
@@ -59,11 +66,20 @@ export const routes: Routes = [
     { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [UserAuthGuard] },
     { path: 'cancelled-bookings', component: CancelledBookingsComponent, canActivate: [UserAuthGuard] },
     { path: 'wallet', component: WalletComponent, canActivate: [UserAuthGuard] },
+    // {
+    //     path: 'wallet',
+    //     component: WalletComponent,
+    //     canActivate: [UserAuthGuard],
+    //     children: [
+    //         { path: '', component: WalletComponent },
+    //         { path: 'success', component: WalletComponent }
+    //     ]
+    // },
     { path: 'CoTravellers', component: CoTravellersComponent, canActivate: [UserAuthGuard] },
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'ownerRegister', component: OwnerRegisterComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'ownerOtp', component: OwnerOtpComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'ownerOtp', component: OwnerOtpComponent, canActivate: [OwnerNoAuthGuard, OwnerOtpGuard] },
     { path: 'ownerDetails', component: OwnerDetailsComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'agencyDetails', component: AgencyDetailsComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'confirmation', component: ConfirmDetailsComponent, canActivate: [OwnerNoAuthGuard] },
@@ -78,6 +94,12 @@ export const routes: Routes = [
     { path: 'schedule', component: ScheduleComponent, canActivate: [OwnerAuthGuard] },
     { path: 'trip', component: TripComponent, canActivate: [OwnerAuthGuard] },
     { path: 'assignBus', component: AssignedBusComponent, canActivate: [OwnerAuthGuard] },
+    { path: 'manageStaffs', component: StaffsComponent, canActivate: [OwnerAuthGuard] },
+
+    //---STAFF ROUTES
+    { path: 'staffHome', component: StaffHomeComponent, canActivate: [StaffNoAuthGuard] },
+    { path: 'staffLogin', component: StaffLoginComponent, canActivate: [StaffNoAuthGuard] },
+    { path: 'staff/dashboard', component: StaffDashboardComponent, canActivate: [StaffAuthGuard] },
 
     //---ADMIN ROUTES
     { path: 'admin', component: AdminLoginComponent, canActivate: [AdminNoAuthGuard] },

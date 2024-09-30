@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ isEditing ? 'Edit' : 'Add New' }} Traveller</h2>
+<mat-dialog-content class="hide-scrollbar">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-8">
+        <div class="flex-grow py-2 border-gray-300 rounded-l-md">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerFirstNameField"
+                [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow py-2 border-gray-300 rounded-l-md">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerLastNameField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerAgeField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="col-span-2 flex-grow border-gray-300 rounded-l-md mt-2">
+            <p class="font-serif text-xl text-black">Contact Details</p>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md" style="margin-top: -15px;">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerEmailField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md" style="margin-top: -15px;">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerMobileField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="col-span-2 flex-grow border-gray-300 rounded-l-md mt-2">
+            <p class="font-serif text-xl text-black">Address</p>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md" style="margin-top: -15px;">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerAddressField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md" style="margin-top: -15px;">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerCityField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerStateField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerPinCodeField" [hideSubmitButton]="true"></app-form>
+        </div>
+        <div class="flex-grow border-gray-300 rounded-l-md">
+            <app-form [form]="coTravellerForm" [fields]="coTravellerCountryField" [hideSubmitButton]="true"></app-form>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="coTravellerForm.invalid">
+        {{ isEditing ? 'Update' : 'Save' }}
+    </button>
+</mat-dialog-actions>

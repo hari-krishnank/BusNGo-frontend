@@ -1,24 +1,50 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { SessionManagementService } from '../../../../shared/services/auth.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class signupService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.backendUrl;
   private readonly EMAIL_KEY = 'ownerEmail';
   private readonly TOKEN_KEY = 'ownerToken';
+  private otpVerified: boolean = false;
+
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An unknown error occurred';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else {
+      errorMessage = error.error.message || error.statusText;
+    }
+    return throwError(() => errorMessage);
+  }
 
   constructor(private http: HttpClient, private sessionManagementService: SessionManagementService) { }
 
-  sendOtp(email: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/owner/otp`, { email });
+  sendOtp(email: string): Observable<string> {
+    return this.http.post<void>(`${this.apiUrl}/owner/otp`, { email }).pipe(
+      map(response => 'OTP sent successfully'),
+      catchError(this.handleError)
+    );
   }
 
   verifyOtp(email: string, otp: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/owner/verify-otp`, { email, otp });
+    return this.http.post<any>(`${this.apiUrl}/owner/verify-otp`, { email, otp }).pipe(
+      map(response => 'OTP Verified successfully'),
+      catchError(this.handleError)
+    );
+  }
+
+  setOtpVerified(status: boolean): void {
+    this.otpVerified = status;
+  }
+
+  isOtpVerified(): boolean {
+    return this.otpVerified;
   }
 
   resendOtp(email: string): Observable<void> {

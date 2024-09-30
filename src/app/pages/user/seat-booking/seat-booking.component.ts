@@ -144,7 +144,7 @@ export class SeatBookingComponent implements OnInit, OnChanges {
         console.log('Pending booking created:', response);
         this.router.navigate(['/busTickets', response.bookingId]);
       },
-      error => {
+      error => {  
         console.error('Error creating pending booking:', error);
       }
     );

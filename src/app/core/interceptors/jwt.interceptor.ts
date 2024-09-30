@@ -4,6 +4,7 @@ import { SessionManagementService } from '../../shared/services/auth.service';
 import { UserJwtInterceptor } from './userJwt.interceptor';
 import { OwnerJwtInterceptor } from './ownerJwt.interceptor';
 import { AdminJwtInterceptor } from './adminJwt.interceptor';
+import { StaffJwtInterceptor } from './staffJwt.interceptor';
 
 export const JwtInterceptor: HttpInterceptorFn = (req, next) => {
     const sessionManagementService = inject(SessionManagementService);
@@ -16,6 +17,8 @@ export const JwtInterceptor: HttpInterceptorFn = (req, next) => {
             return OwnerJwtInterceptor(req, next);
         case 'admin':
             return AdminJwtInterceptor(req, next);
+        case 'staff':
+            return StaffJwtInterceptor(req, next);
         default:
             return next(req);
     }

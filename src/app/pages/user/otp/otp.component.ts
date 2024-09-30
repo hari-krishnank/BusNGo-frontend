@@ -20,8 +20,7 @@ export class OtpComponent {
   otpForm: FormGroup;
   otpFields: FormField[] = otpFields;
 
-  constructor(private fb: FormBuilder,private signupService: SignupService) 
-  {
+  constructor(private fb: FormBuilder, private signupService: SignupService) {
     this.otpForm = this.fb.group({
       otp: ['', this.otpFields[0].validators]
     });

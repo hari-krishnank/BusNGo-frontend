@@ -1,0 +1,19 @@
+<div class="bg-white rounded-lg p-4 flex justify-between items-center border-b">
+    <div class="flex-grow">
+        <span class="font-semibold text-xl">{{ traveller.firstName }} {{ traveller.lastName }}</span>
+        <span class="text-gray-600 ml-2 font-sans text-xl">({{ traveller.age }})</span>
+        <div class="mt-2 font-sans" style="font-size: medium;">
+            <span class="text-gray-600">{{ traveller.emailAddress }}</span>
+            <span class="text-gray-600 ml-2">{{ traveller.mobileNo }}</span>
+            <span class="text-gray-600 ml-2">{{ traveller.city }}, {{ traveller.state }}, {{ traveller.country }}</span>
+        </div>
+    </div>
+    <div>
+        <button mat-icon-button color="primary" (click)="onEdit()">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onDelete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+</div>

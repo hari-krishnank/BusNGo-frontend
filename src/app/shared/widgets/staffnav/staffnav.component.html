@@ -1,0 +1,21 @@
+<nav class="bg-gray-50 border-b border-gray-200 shadow-md fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+            <div [routerLink]="['/staffHome']" class="flex-shrink-0 flex items-center hover:cursor-pointer">
+                <span class="text-xl font-bold">
+                    <span class="text-red-500">B</span>usNGo
+                </span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button *ngIf="showLoginButton"  (click)="navigateToLogin()" mat-button class="text-sm text-black">
+                    <mat-icon style="color: black;">account_circle</mat-icon>
+                    <span>Login >></span>
+                </button>
+                <button *ngIf="showLogoutButton"  (click)="logout()" mat-button class="text-sm text-black">
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

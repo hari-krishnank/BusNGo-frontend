@@ -11,8 +11,8 @@
             <div class="flex">
                 <app-profile-side-bar></app-profile-side-bar>
 
-                <div class="flex-1 ml-8">
-                    <div class="bg-white rounded-md p-8 shadow-sm mb-8 h-full">
+                <div class="flex-1">
+                    <div class="bg-white border-l shadow-sm p-8 mb-8 h-full">
                         <app-bookingsnavbar></app-bookingsnavbar>
                         <div *ngIf="isLoading" class="space-y-4 mt-6">
                             <div *ngFor="let i of [1,2,3]" class="bg-white rounded-lg p-6 animate-pulse">

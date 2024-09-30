@@ -32,6 +32,7 @@ export class DataTableComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() columns: Column[] = [];
   @Input() title: string = '';
+  @Input() showActions: boolean = true; 
   @Output() addNew = new EventEmitter<void>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
@@ -70,7 +71,10 @@ export class DataTableComponent implements OnInit {
 
   updateDisplayedColumns() {
     this.displayedColumns = this.columns.map(col => col.key);
-    this.displayedColumns.push('actions');
+    // this.displayedColumns.push('actions');
+    if (this.showActions) {
+      this.displayedColumns.push('actions');
+    }
   }
 
   initializeDataSource() {

@@ -1,0 +1,8 @@
+<app-ownernav></app-ownernav>
+<app-data-table 
+    [columns]="staffColumns" 
+    [data]="staffs" 
+    title="ALL STAFFS FOR THE BUSES" 
+    (addNew)="openModal()"
+    [showActions]="false">
+</app-data-table>

@@ -9,12 +9,12 @@
             </div>
             <div class="flex">
                 <app-profile-side-bar></app-profile-side-bar>
-                <div class="flex-1 ml-8">
-                    <div class="bg-white rounded-md p-8 shadow-sm mb-8 h-full">
+                <div class="flex-1">
+                    <div class="bg-white border-l shadow-sm p-8 mb-8 h-full">
                         <div class="p-2">
                             <div class="flex justify-between items-center mb-4">
                                 <p class="text-2xl font-sans text-gray-800">Current balance in your wallet</p>
-                                <button color="warn" mat-stroked-button>Add money +</button>
+                                <button color="warn" mat-stroked-button (click)="openAddMoneyModal()">Add money +</button>
                             </div>
                             <p class="text-3xl font-medium text-gray-900 mb-6">₹ 0</p>
                             <div class="border-t pt-4">

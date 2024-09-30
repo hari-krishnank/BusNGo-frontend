@@ -1,0 +1,21 @@
+<app-staffnav [showLoginButton]="false"></app-staffnav>
+<div class="min-h-screen flex flex-col pt-20">
+    <div class="flex-grow flex items-start justify-center px-4 pt-8">
+        <div class="flex w-full mb-20 max-w-5xl">
+            <div #imageDiv class="hidden md:block md:w-1/2 bg-gray-50 overflow-hidden mt-20">
+                <div class="w-full h-full bg-white p-8">
+                    <img src="assets/User/operator-illustration-hero.png" alt="City Bus" class="w-full h-auto">
+                </div>
+            </div>
+
+            <div #formDiv class="w-full md:w-1/2 p-8 rounded-r-lg shadow-md">
+                <p class="text-2xl font-bold mb-6">Staff Login...</p>
+                <div class="flex mb-6 border-b">
+                    <button class="flex-1 px-4 py-2 border-b-2 border-blue-500 text-blue-500 font-medium">Login Here...</button>
+                </div>
+                <app-form [form]="staffLoginForm" [fields]="staffLoginFields" submitButtonText="Login" (formSubmit)="onLogin($event)">
+                </app-form>
+            </div>
+        </div>
+    </div>
+</div>
