@@ -10,10 +10,7 @@ import { NoAuthGuard } from './core/guards/no-auth.guard';
 import { AdminNoAuthGuard } from './core/guards/admin-no-auth.guard';
 import { OwnerLoginComponent } from './pages/busOwner/owner-login/owner-login.component';
 import { OwnerRegisterComponent } from './pages/busOwner/owner-register/owner-register.component';
-import { OwnerOtpComponent } from './pages/busOwner/owner-otp/owner-otp.component';
 import { OwnerDetailsComponent } from './pages/busOwner/owner-details/owner-details.component';
-import { AgencyDetailsComponent } from './pages/busOwner/agency-details/agency-details.component';
-import { ConfirmDetailsComponent } from './pages/busOwner/confirm-details/confirm-details.component';
 import { DashboardComponent } from './pages/busOwner/dashboard/dashboard.component';
 import { OwnerAuthGuard } from './core/guards/ownerauth.guard';
 import { BusOwnersListComponent } from './pages/admin/bus-owners-list/bus-owners-list.component';
@@ -46,7 +43,6 @@ import { StaffLoginComponent } from './pages/staff/staff-login/staff-login.compo
 import { StaffDashboardComponent } from './pages/staff/staff-dashboard/staff-dashboard.component';
 import { StaffNoAuthGuard } from './core/guards/staff-no-auth.guard';
 import { StaffAuthGuard } from './core/guards/staff-auth.guard';
-import { OwnerOtpGuard } from './core/guards/ownerOtp.guard';
 
 export const routes: Routes = [
 
@@ -79,10 +75,7 @@ export const routes: Routes = [
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'ownerRegister', component: OwnerRegisterComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'ownerOtp', component: OwnerOtpComponent, canActivate: [OwnerNoAuthGuard, OwnerOtpGuard] },
     { path: 'ownerDetails', component: OwnerDetailsComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'agencyDetails', component: AgencyDetailsComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'confirmation', component: ConfirmDetailsComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'ownerHome', component: OwnerHomeComponent, canActivate: [OwnerAuthGuard] },
     { path: 'ownerDashboard', component: DashboardComponent, canActivate: [OwnerAuthGuard] },
     { path: 'counters', component: CountersComponent, canActivate: [OwnerAuthGuard] },

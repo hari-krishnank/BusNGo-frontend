@@ -32,13 +32,7 @@ export class OwnerRegisterComponent {
 
   private otpDialogRef: MatDialogRef<ModalComponent> | null = null;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private signupService: signupService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private dialog: MatDialog
-  ) {
+  constructor(private formBuilder: FormBuilder, private signupService: signupService, private snackBar: MatSnackBar, private router: Router, private dialog: MatDialog) {
     this.ownerRegisterForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -49,9 +43,9 @@ export class OwnerRegisterComponent {
       this.email = this.ownerRegisterForm.get('email')?.value;
       this.signupService.sendOtp(this.email).subscribe({
         next: (successMessage: string) => {
-          this.showMessage(successMessage);
           this.signupService.setEmail(this.email);
           this.openOtpModal();
+          this.showMessage(successMessage);
         },
         error: (errorMessage: string) => {
           console.error('Error sending OTP', errorMessage);
@@ -107,7 +101,6 @@ export class OwnerRegisterComponent {
       next: (isValid) => {
         if (isValid) {
           this.showMessage('OTP verified successfully');
-          this.signupService.setOtpVerified(true);
           this.otpDialogRef?.close();
           this.router.navigate(['/ownerDetails']);
         } else {
@@ -115,8 +108,8 @@ export class OwnerRegisterComponent {
         }
       },
       error: (error) => {
-        console.error('Error verifying OTP', error);
-        this.showMessage('Error verifying OTP');
+        console.error(error);
+        this.showMessage(error);
       }
     });
   }

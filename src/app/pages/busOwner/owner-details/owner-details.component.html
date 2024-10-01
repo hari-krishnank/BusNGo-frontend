@@ -1,91 +1,100 @@
 <app-ownernav></app-ownernav>
 
-<div class="bg-gray-100 pt-20">
+<div class="pt-20 pb-20">
     <div class="container mx-auto mt-10">
-        <div class="bg-white p-8 rounded-lg shadow-sm">
-            <div
-                class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
-                <li
-                    class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-                    <span
-                        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                        </svg>
-                        Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
-                    </span>
-                </li>
-                <li
-                    class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-                    <span
-                        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-                        <span class="me-2">2</span>
-                        Account <span class="hidden sm:inline-flex sm:ms-2">Info</span>
-                    </span>
-                </li>
-                <li class="flex items-center">
-                    <span class="me-2">3</span>
-                    Confirmation
-                </li>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="bg-gray-100 pt-4 pb-20">
-    <div class="container mx-auto mt-10">
-        <div class="bg-white p-8 rounded-lg shadow-sm">
-            <div class="mb-6">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center justify-center w-10 h-10 text-white bg-blue-500 rounded-full">1</div>
-                    <p class="text-xl font-semibold pt-3">Personal Details</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="firstName" class="block text-gray-700 mb-2">First Name</label>
-                    <input id="firstName" type="text" placeholder="First Name"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        [(ngModel)]="firstName">
-                </div>
-                <div>
-                    <label for="lastName" class="block text-gray-700 mb-2">Last Name</label>
-                    <input id="lastName" type="text" placeholder="Last Name"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        [(ngModel)]="lastName">
-                </div>
-                <div>
-                    <label for="email" class="block text-gray-700 mb-2">Enter Your Email id</label>
-                    <input id="email" type="email" placeholder="Enter Your Email id"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                        [(ngModel)]="email" disabled>
-                </div>
-                <div>
-                    <label for="mobile" class="block text-gray-700 mb-2">Enter Your Mobile No</label>
-                    <input id="mobile" type="tel" placeholder="Enter Your Mobile No"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        [(ngModel)]="mobile">
-                </div>
-                <div>
-                    <label for="password" class="block text-gray-700 mb-2">Enter Password</label>
-                    <input id="password" type="password" placeholder="Enter Password"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        [(ngModel)]="password">
-                </div>
-                <div>
-                    <label for="rePassword" class="block text-gray-700 mb-2">Re-Enter Password</label>
-                    <input id="rePassword" type="password" placeholder="Re-Enter Password"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        [(ngModel)]="rePassword">
-                </div>
-            </div>
-            <div class="flex justify-center mt-8">
-                <button (click)="onSubmit()"
-                    class="px-6 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-700">
-                    Submit Details
-                </button>
-            </div>
+        <div class="bg-white p-2">
+            <mat-stepper [linear]="true" #stepper>
+                <mat-step [stepControl]="personalInfoForm">
+                    <form [formGroup]="personalInfoForm">
+                        <ng-template matStepLabel>Personal Information</ng-template>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                            <app-form [form]="personalInfoForm" [fields]="ownerFirstNameField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="personalInfoForm" [fields]="ownerLastNameField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="personalInfoForm" [fields]="ownerEmailField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="personalInfoForm" [fields]="ownerMobileField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="personalInfoForm" [fields]="ownerPasswordField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="personalInfoForm" [fields]="ownerConfirmPasswordField" [hideSubmitButton]="true"></app-form>
+                        </div>
+                        <div class="flex justify-end mt-8">
+                            <button class="w-40" mat-stroked-button color="primary" (click)="onPersonalInfoSubmit()" matStepperNext>
+                                Next
+                            </button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <mat-step [stepControl]="agencyDetailsForm">
+                    <form [formGroup]="agencyDetailsForm">
+                        <ng-template matStepLabel>Agency Details</ng-template>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+                            <app-form [form]="agencyDetailsForm" [fields]="agencyNameField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="agencyDetailsForm" [fields]="designationField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="agencyDetailsForm" [fields]="countryField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="agencyDetailsForm" [fields]="stateField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="agencyDetailsForm" [fields]="cityField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="agencyDetailsForm" [fields]="postalCodeField" [hideSubmitButton]="true"></app-form>
+                            <app-form [form]="agencyDetailsForm" [fields]="addressField" [hideSubmitButton]="true"></app-form>
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button class="w-40" mat-stroked-button color="primary" matStepperPrevious> Back </button>
+                            <button class="w-40" mat-stroked-button color="primary" (click)="onAgencyDetailsSubmit()" matStepperNext> Next </button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <mat-step>
+                    <ng-template matStepLabel>Confirmation</ng-template>
+                    <div class="mt-8 space-y-6">
+                        <p class="text-3xl font-serif mb-4">Please review your informations :</p>
+                        <div class="bg-white overflow-hidden">
+                            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold">1</span>
+                                </div>
+                                <p class="text-2xl font-medium mt-3">Personal Information</p>
+                            </div>
+                            <div class="px-6 py-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">First Name :  </span> {{ ownerDetails?.firstName }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Last Name :  </span> {{ ownerDetails?.lastName }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Email :  </span> {{ ownerDetails?.email }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Mobile :  </span> {{ ownerDetails?.mobile }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white overflow-hidden border-b">
+                            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center mr-4">
+                                    <span class="text-white font-bold">2</span>
+                                </div>
+                                <p class="text-2xl font-medium mt-3">Agency Information</p>
+                            </div>
+                            <div class="px-6 py-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Agency Name:</span> {{ ownerDetails?.agencyName }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Designation:</span> {{ ownerDetails?.designation }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Country:</span> {{ ownerDetails?.country }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">State:</span> {{ ownerDetails?.state }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">City:</span> {{ ownerDetails?.city }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Postal Code:</span> {{ ownerDetails?.postalCode }}</p>
+                                    <p class="text-lg font-sans"><span class="font-serif text-sm">Address:</span> {{ ownerDetails?.address }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button class="w-40" mat-stroked-button color="primary" matStepperPrevious>
+                                Back
+                            </button>
+                            <button class="w-64" mat-stroked-button color="warn" (click)="confirmAndSubmit()">
+                                Confirm and Submit
+                            </button>
+                        </div>
+                    </div>
+                </mat-step>
+            </mat-stepper>
         </div>
     </div>
 </div>

@@ -11,7 +11,6 @@ export class signupService {
   private apiUrl = environment.backendUrl;
   private readonly EMAIL_KEY = 'ownerEmail';
   private readonly TOKEN_KEY = 'ownerToken';
-  private otpVerified: boolean = false;
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred';
@@ -39,14 +38,6 @@ export class signupService {
     );
   }
 
-  setOtpVerified(status: boolean): void {
-    this.otpVerified = status;
-  }
-
-  isOtpVerified(): boolean {
-    return this.otpVerified;
-  }
-
   resendOtp(email: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/owner/resend-otp`, { email });
   }
@@ -63,10 +54,15 @@ export class signupService {
     return localStorage.removeItem(this.EMAIL_KEY)
   }
 
-  getOwnerDetails(): Observable<any> {
-    const email = this.getEmail();
-    return this.http.get(`${this.apiUrl}/owner/details`, { params: { email } });
+  // getOwnerDetails(): Observable<any> {
+  //   const email = this.getEmail();
+  //   return this.http.get(`${this.apiUrl}/owner/details`, { params: { email } });
+  // }
+
+  getOwnerDetails(email: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/owner/details?email=${email}`);
   }
+
 
   confirmOwnerDetails(email: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/owner/confirm-details`, { email });
