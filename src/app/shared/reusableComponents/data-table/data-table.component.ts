@@ -32,16 +32,25 @@ export class DataTableComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() columns: Column[] = [];
   @Input() title: string = '';
-  @Input() showActions: boolean = true; 
+  @Input() showActions: boolean = true;
+  @Input() showAddNewButton: boolean = true;
+
   @Output() addNew = new EventEmitter<void>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() viewPreview = new EventEmitter<any>();
+
   @Input() totalItems: number = 0;
   @Input() itemsPerPage: number = 10;
   @Output() pageChange = new EventEmitter<any>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  @Input() showViewDetails: boolean = false;
+  @Output() viewDetails = new EventEmitter<void>();
+
+  @Input() showBlockUnblock: boolean = false;
+  @Output() blockUnblock = new EventEmitter<any>();
 
   dataSource!: MatTableDataSource<any>;
   searchForm !: FormGroup;
@@ -71,9 +80,14 @@ export class DataTableComponent implements OnInit {
 
   updateDisplayedColumns() {
     this.displayedColumns = this.columns.map(col => col.key);
-    // this.displayedColumns.push('actions');
     if (this.showActions) {
       this.displayedColumns.push('actions');
+    }
+    if (this.showViewDetails) {
+      this.displayedColumns.push('viewDetails');
+    }
+    if (this.showBlockUnblock) {
+      this.displayedColumns.push('blockUnblock');
     }
   }
 
@@ -105,6 +119,14 @@ export class DataTableComponent implements OnInit {
 
   onDelete(item: any) {
     this.delete.emit(item);
+  }
+
+  onBlockUnblock(item: any) {
+    this.blockUnblock.emit(item);
+  }
+
+  onViewDetails(item: any) {
+    this.viewDetails.emit(item);
   }
 
   onSearch(formValue: any) {

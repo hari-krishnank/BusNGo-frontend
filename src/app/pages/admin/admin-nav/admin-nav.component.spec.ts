@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminnavComponent } from './adminnav.component';
+import { AdminNavComponent } from './admin-nav.component';
 
-describe('AdminnavComponent', () => {
-  let component: AdminnavComponent;
-  let fixture: ComponentFixture<AdminnavComponent>;
+describe('AdminNavComponent', () => {
+  let component: AdminNavComponent;
+  let fixture: ComponentFixture<AdminNavComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminnavComponent]
+      imports: [AdminNavComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AdminnavComponent);
+    fixture = TestBed.createComponent(AdminNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

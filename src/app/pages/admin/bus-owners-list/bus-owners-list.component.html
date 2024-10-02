@@ -1,59 +1,15 @@
-<div class="flex">
-    <app-admin-side-nav class="w-64 flex-shrink-0"></app-admin-side-nav>
-    <div class="flex-grow p-8 mt-14">
-        <p class="text-2xl font-bold mb-6">Owners</p>
-        <div class="mb-4">
-            <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Search owners..."
-                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <thead class="bg-gray-200 text-gray-700">
-                <tr>
-                    <th class="py-3 px-4 text-left">Name</th>
-                    <th class="py-3 px-4 text-left">Email</th>
-                    <th class="py-3 px-4 text-left">Phone</th>
-                    <th class="py-3 px-4 text-left">Agency name</th>
-                    <th class="py-3 px-4 text-left">Designation</th>
-                    <th class="py-3 px-4 text-left">Address</th>
-                    <th class="py-3 px-4 text-left">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let owner of filteredOwners">
-                    <td class="py-3 px-4">{{ owner.firstName }} {{ owner.lastName }}</td>
-                    <td class="py-3 px-4">{{ owner.email }}</td>
-                    <td class="py-3 px-4">{{ owner.mobile }}</td>
-                    <td class="py-3 px-4">{{ owner.agencyName }}</td>
-                    <td class="py-3 px-4">{{ owner.designation }}</td>
-                    <td class="py-3 px-4">{{ owner.registeredAddress }}, {{ owner.city }}, {{ owner.state }}, {{
-                        owner.country }}</td>
-
-                    <td class="py-3 px-4">
-                        <button
-                            [ngClass]="{'bg-red-500 hover:bg-red-700': !owner.is_blocked, 'bg-green-500 hover:bg-green-700': owner.is_blocked}"
-                            class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            {{ owner.is_blocked ? 'Unblock' : 'Block' }}
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div *ngIf="filteredOwners.length === 0" class="text-center font-serif py-4 text-red-500">
-            No owners found matching your search.
-        </div>
-
-        <div class="mt-4 flex justify-between items-center">
-            <div>
-                Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
-                {{ getMaxItemsOnPage() }} of {{ totalItems }} entries
-            </div>
-            <div>
-                <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="onPageChange(i + 1)"
-                    [ngClass]="{'bg-slate-400 text-white': currentPage === i + 1, 'bg-gray-200': currentPage !== i + 1}"
-                    class="px-3 py-1 rounded-md mx-1 focus:outline-none focus:ring-2 focus:ring-slate-400">
-                    {{ i + 1 }}
-                </button>
-            </div>
-        </div>
+<div class="flex h-screen overflow-hidden">
+    <app-admin-side-nav (sidebarStateChange)="onSidebarStateChange($event)"></app-admin-side-nav>
+    <div class="flex-grow overflow-y-auto transition-all duration-300"
+        [ngClass]="{'ml-[300px]': !isSidebarCollapsed, 'ml-[100px]': isSidebarCollapsed}">
+        <app-data-table 
+            [data]="verifiedOwners" 
+            [columns]="ownersColumns" 
+            [showActions]="false" 
+            [showAddNewButton]="false" 
+            [showViewDetails]="true"
+            [showBlockUnblock]="true"
+            title="ALL VERIFIED OWNERS">
+        </app-data-table>
     </div>
 </div>

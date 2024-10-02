@@ -29,7 +29,7 @@ export class OwnerLoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-  }
+  } 
 
   onSubmit(formValue: any) {
     if (this.ownerLoginForm.invalid) {

@@ -3,22 +3,27 @@ import { AdminSideNavComponent } from '../admin-side-nav/admin-side-nav.componen
 import { AdminLoginService } from '../../../core/services/admin/admin-login.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ownersColumns } from '../../../shared/data/admin/owners.columns';
+import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 
 @Component({
   selector: 'app-bus-owners-list',
   standalone: true,
-  imports: [AdminSideNavComponent, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AdminSideNavComponent, DataTableComponent],
   templateUrl: './bus-owners-list.component.html',
   styleUrl: './bus-owners-list.component.css'
 })
 export class BusOwnersListComponent implements OnInit {
   verifiedOwners: any[] = [];
+  ownersColumns = ownersColumns;
   filteredOwners: any[] = [];
   searchTerm: string = '';
 
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalItems: number = 0;
+
+  isSidebarCollapsed: boolean = false;
 
   constructor(private adminService: AdminLoginService) { }
 
@@ -29,8 +34,10 @@ export class BusOwnersListComponent implements OnInit {
   loadVerifiedOwners() {
     this.adminService.getVerifiedOwners().subscribe(
       (owners) => {
-        console.log('Received owners:', owners);
-        this.verifiedOwners = owners;
+        this.verifiedOwners = owners.map(owner => ({
+          ...owner,
+          fullName: owner.lastName ? `${owner.firstName} ${owner.lastName}` : owner.firstName
+        }))
         this.totalItems = this.verifiedOwners.length;
         this.updateFilteredOwners();
       },
@@ -75,5 +82,9 @@ export class BusOwnersListComponent implements OnInit {
 
   getMaxItemsOnPage(): number {
     return Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
+  }
+
+  onSidebarStateChange(isCollapsed: boolean) {
+    this.isSidebarCollapsed = isCollapsed;
   }
 }
