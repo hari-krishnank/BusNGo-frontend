@@ -9,6 +9,11 @@
             [showAddNewButton]="false" 
             [showViewDetails]="true"
             [showBlockUnblock]="true"
+            [totalItems]="totalItems"
+            [itemsPerPage]="itemsPerPage" 
+            (pageChange)="onPageChange($event)"
+            (viewDetails)="openModal($event)"
+            (blockUnblock)="onBlockUnblock($event)"
             title="ALL VERIFIED OWNERS">
         </app-data-table>
     </div>

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
 import { usersColumns } from '../../../shared/data/admin/users.columns';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsersResponse } from '../../../core/models/admin/users.interface';
 
 @Component({
   selector: 'app-users-list',
@@ -16,16 +17,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './users-list.component.css'
 })
 export class UsersListComponent implements OnInit {
+  isSidebarCollapsed: boolean = false;
   usersData: any[] = []
   usersColumns = usersColumns;
-  filteredUsers: any[] = [];
-  searchTerm: string = '';
-
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   totalItems: number = 0;
-
-  isSidebarCollapsed: boolean = false;
 
   constructor(private adminLoginService: AdminLoginService, private router: Router, private snackBar: MatSnackBar) { }
 
@@ -40,52 +37,27 @@ export class UsersListComponent implements OnInit {
     }
   }
 
+  onSidebarStateChange(isCollapsed: boolean) {
+    this.isSidebarCollapsed = isCollapsed;
+  }
+
   loadVerifiedUsers() {
-    this.adminLoginService.getVerifiedUsers().subscribe(
-      (data) => {
-        this.usersData = data.map(user => ({
+    this.adminLoginService.getVerifiedUsers(this.currentPage, this.itemsPerPage).subscribe(
+      (response: UsersResponse) => {
+        this.usersData = response.users.map((user, index) => ({
           ...user,
-          fullName: user.lastName ? `${user.username} ${user.lastName}` : user.username
+          fullName: user.lastName ? `${user.username} ${user.lastName}` : user.username,
+          siNumber: (this.currentPage - 1) * this.itemsPerPage + index + 1
         }));
-        this.totalItems = this.usersData.length;
-        this.updateFilteredUsers();
+        this.totalItems = response.total; 
       },
       (error) => {
         console.error('Error fetching verified users', error);
+        this.showMessage('Failed to load users. Please try again.');
       }
     );
   }
-
-  onSearch() {
-    this.currentPage = 1;
-    this.updateFilteredUsers();
-  }
-
-  updateFilteredUsers() {
-    const filtered = this.usersData.filter(user =>
-      user.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.phone.includes(this.searchTerm)
-    );
-
-    this.totalItems = filtered.length;
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.filteredUsers = filtered.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  onPageChange(page: number) {
-    this.currentPage = page;
-    this.updateFilteredUsers();
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.itemsPerPage);
-  }
-
-  getMaxItemsOnPage(): number {
-    return Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
-  }
-
+ 
   onBlockUnblock(user: any) {
     this.adminLoginService.toggleUserBlock(user._id, !user.is_blocked).subscribe(
       (response) => {
@@ -99,8 +71,10 @@ export class UsersListComponent implements OnInit {
     );
   }
 
-  onSidebarStateChange(isCollapsed: boolean) {
-    this.isSidebarCollapsed = isCollapsed;
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadVerifiedUsers();
   }
 
   private showMessage(message: string): void {

@@ -3,14 +3,17 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { SessionManagementService } from '../../../../shared/services/auth.service';
 import { environment } from '../../../../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class signupService {
+export class signupService { 
   private apiUrl = environment.backendUrl;
   private readonly EMAIL_KEY = 'ownerEmail';
   private readonly TOKEN_KEY = 'ownerToken';
+
+  constructor(private http: HttpClient, private sessionManagementService: SessionManagementService, private router:Router) { }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred';
@@ -21,8 +24,6 @@ export class signupService {
     }
     return throwError(() => errorMessage);
   }
-
-  constructor(private http: HttpClient, private sessionManagementService: SessionManagementService) { }
 
   sendOtp(email: string): Observable<string> {
     return this.http.post<void>(`${this.apiUrl}/owner/otp`, { email }).pipe(
@@ -53,11 +54,6 @@ export class signupService {
   removeEmail(): void {
     return localStorage.removeItem(this.EMAIL_KEY)
   }
-
-  // getOwnerDetails(): Observable<any> {
-  //   const email = this.getEmail();
-  //   return this.http.get(`${this.apiUrl}/owner/details`, { params: { email } });
-  // }
 
   getOwnerDetails(email: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/owner/details?email=${email}`);

@@ -9,6 +9,9 @@
             [showAddNewButton]="false" 
             [showBlockUnblock]="true"
             (blockUnblock)="onBlockUnblock($event)"
+            [totalItems]="totalItems"
+            [itemsPerPage]="itemsPerPage" 
+            (pageChange)="onPageChange($event)"
             title="ALL USERS">
         </app-data-table>
     </div>

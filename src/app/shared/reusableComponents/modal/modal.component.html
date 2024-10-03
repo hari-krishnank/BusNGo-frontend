@@ -2,11 +2,32 @@
     <button class="close-button" (click)="onCancel()">&#10005;</button>
     <p class="modal-title">{{data.title}}</p>
     <mat-dialog-content class="custom-scroll">
-        <app-form [form]="form" [fields]="data.fields" [submitButtonText]="data.submitButtonText"
-            (formSubmit)="onSave($event)">
-        </app-form>
-        
-        <app-resend-otp *ngIf="data.showResendOtp" [cooldownTime]="data.resendCooldown || 30"
-            (resend)="onResendOtp()"></app-resend-otp>
+        <ng-container *ngIf="form && data.fields; else viewDetails">
+            <app-form 
+                [form]="form" 
+                [fields]="data.fields" 
+                [submitButtonText]="submitButtonText"
+                (formSubmit)="onSave($event)">
+            </app-form>
+            <app-resend-otp 
+                *ngIf="data.showResendOtp" 
+                [cooldownTime]="data.resendCooldown || 30"
+                (resend)="onResendOtp()">
+            </app-resend-otp>
+        </ng-container>
+
+        <ng-template #viewDetails>
+            <div *ngIf="data.viewDetailsData" class="owner-details-grid">
+                <div *ngFor="let key of getOrderedFields()" class="detail-item">
+                    <ng-container *ngIf="data.viewDetailsData[key] !== undefined">
+                        <div class="detail-label">
+                            <i class="material-icons">{{displayFields[key].icon}}</i>
+                            {{displayFields[key].label}}
+                        </div>
+                        <div class="detail-value">{{data.viewDetailsData[key]}}</div>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-template>
     </mat-dialog-content>
 </div>

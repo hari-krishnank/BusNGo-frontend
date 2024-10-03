@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ownersColumns } from '../../../shared/data/admin/owners.columns';
 import { DataTableComponent } from '../../../shared/reusableComponents/data-table/data-table.component';
+import { OwnersResponse } from '../../../core/models/admin/users.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OwnerDetailsService } from '../../../core/services/admin/owner-details.service';
 
 @Component({
   selector: 'app-bus-owners-list',
@@ -14,77 +17,71 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
   styleUrl: './bus-owners-list.component.css'
 })
 export class BusOwnersListComponent implements OnInit {
+  isSidebarCollapsed: boolean = false;
   verifiedOwners: any[] = [];
   ownersColumns = ownersColumns;
-  filteredOwners: any[] = [];
-  searchTerm: string = '';
-
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  isSidebarCollapsed: boolean = false;
-
-  constructor(private adminService: AdminLoginService) { }
+  constructor(private adminService: AdminLoginService, private snackBar: MatSnackBar, private ownerModalService: OwnerDetailsService) { }
 
   ngOnInit() {
     this.loadVerifiedOwners();
   }
 
+  onSidebarStateChange(isCollapsed: boolean) {
+    this.isSidebarCollapsed = isCollapsed;
+  }
+
   loadVerifiedOwners() {
-    this.adminService.getVerifiedOwners().subscribe(
-      (owners) => {
-        this.verifiedOwners = owners.map(owner => ({
+    this.adminService.getVerifiedOwners(this.currentPage, this.itemsPerPage).subscribe(
+      (response: OwnersResponse) => {
+        this.verifiedOwners = response.owners.map((owner, index) => ({
           ...owner,
-          fullName: owner.lastName ? `${owner.firstName} ${owner.lastName}` : owner.firstName
-        }))
-        this.totalItems = this.verifiedOwners.length;
-        this.updateFilteredOwners();
+          fullName: owner.lastName ? `${owner.firstName} ${owner.lastName}` : owner.firstName,
+          siNumber: (this.currentPage - 1) * this.itemsPerPage + index + 1
+        }));
+        this.totalItems = response.total;
       },
       (error) => {
         console.error('Error fetching verified owners:', error);
+        this.showMessage('Failed to load users. Please try again.');
+      }
+    ); 
+  }
+
+  onBlockUnblock(owner: any) {
+    this.adminService.toggleOwnerBlock(owner._id, !owner.is_blocked).subscribe(
+      (response) => {
+        owner.is_blocked = !owner.is_blocked;
+        this.showMessage(`${owner.fullName} has been successfully ${owner.is_blocked ? 'blocked' : 'unblocked'}.`);
+      },
+      (error) => {
+        console.error('Error toggling owner block status', error);
+        this.showMessage('Failed to update user status. Please try again.');
       }
     );
   }
 
-  onSearch() {
-    this.currentPage = 1;
-    this.updateFilteredOwners();
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadVerifiedOwners();
   }
 
-  updateFilteredOwners() {
-    const filtered = this.verifiedOwners.filter(owner =>
-      owner.firstName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.lastName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.mobile.includes(this.searchTerm) ||
-      owner.agencyName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.designation.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.registeredAddress.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.city.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.state.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      owner.country.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-
-    this.totalItems = filtered.length;
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.filteredOwners = filtered.slice(startIndex, startIndex + this.itemsPerPage);
+  openModal(owner?: any): void {
+    this.ownerModalService.openOwnerModal(owner)
+      .subscribe(result => {
+        console.log(result);
+      });
   }
 
-  onPageChange(page: number) {
-    this.currentPage = page;
-    this.updateFilteredOwners();
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.itemsPerPage);
-  }
-
-  getMaxItemsOnPage(): number {
-    return Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
-  }
-
-  onSidebarStateChange(isCollapsed: boolean) {
-    this.isSidebarCollapsed = isCollapsed;
+  private showMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
   }
 }

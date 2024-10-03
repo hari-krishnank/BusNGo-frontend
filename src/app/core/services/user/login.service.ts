@@ -10,7 +10,7 @@ import { SessionManagementService } from '../../../shared/services/auth.service'
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService { 
   private backendURL = environment.backendUrl
   private loginStatusSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   public loginStatus$ = this.loginStatusSubject.asObservable();
@@ -22,7 +22,6 @@ export class LoginService {
     return this.http.post<ILoginResponse>(`${this.backendURL}/auth/user/login`, { email, password })
       .pipe(
         tap(response => {
-          console.log('normal login response', response);
           this.setToken(response.access_token);
           this.setUserInfo(response.user);
           this.sessionManagementService.setCurrentUserType('user');
@@ -45,7 +44,6 @@ export class LoginService {
     return this.http.post<ILoginResponse>(`${this.backendURL}/auth/user/google-login`, { credential })
       .pipe(
         tap(response => {
-          console.log('response kitti', response);
           this.setToken(response.access_token);
           this.setUserInfo(response.user);
         }),
@@ -118,10 +116,9 @@ export class LoginService {
     return this.http.post<{ message: string }>(`${this.backendURL}/users/reset-password`, { token, newPassword })
       .pipe(
         tap(response => {
-          // this.message.success(response.message);
+          // console.log(response);
         }),
         catchError(error => {
-          // this.message.error('Failed to reset password. Please try again.');
           return throwError(() => new Error('RESET_PASSWORD_ERROR'));
         })
       );
