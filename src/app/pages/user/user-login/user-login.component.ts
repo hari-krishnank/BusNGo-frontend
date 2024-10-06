@@ -118,7 +118,7 @@ export class UserLoginComponent implements AfterViewInit {
         } else {
           this.toastr.error('An unexpected error occurred. Please try again later.');
         }
-      }
+      } 
     });
   }
 

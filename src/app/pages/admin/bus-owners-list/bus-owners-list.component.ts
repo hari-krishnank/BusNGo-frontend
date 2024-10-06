@@ -48,7 +48,7 @@ export class BusOwnersListComponent implements OnInit {
         console.error('Error fetching verified owners:', error);
         this.showMessage('Failed to load users. Please try again.');
       }
-    ); 
+    );
   }
 
   onBlockUnblock(owner: any) {

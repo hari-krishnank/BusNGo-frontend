@@ -4,7 +4,8 @@
             <p class="text-2xl font-semibold leading-tight font-sans">{{ title }}</p>
             <div class="flex items-center justify-between">
                 <div class="search-area mr-4" [@fadeInOut]>
-                    <app-form [form]="searchForm" [fields]="searchFields" [hideSubmitButton]="true" (valueChanges)="onSearch($event)">
+                    <app-form [form]="searchForm" [fields]="searchFields" [hideSubmitButton]="true"
+                        (valueChanges)="onSearch($event)">
                     </app-form>
                 </div>
                 <div *ngIf="showAddNewButton">
@@ -29,8 +30,8 @@
                             </button>
                         </ng-container>
                         <ng-container *ngSwitchCase="'status'">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
-                                  [ngClass]="{'bg-green-100 text-green-800': element[column.key] === 'Active', 'bg-red-100 text-red-800': element[column.key] === 'Inactive'}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                [ngClass]="{'bg-green-100 text-green-800': element[column.key] === 'Active', 'bg-red-100 text-red-800': element[column.key] === 'Inactive'}">
                                 {{ element[column.key] === 'Active' ? 'Active' : 'Inactive' }}
                             </span>
                         </ng-container>
@@ -55,24 +56,40 @@
                     </button>
                 </td>
             </ng-container>
-            
+
             <ng-container matColumnDef="viewDetails" *ngIf="showViewDetails">
                 <th mat-header-cell *matHeaderCellDef class="bg-gray-100 text-gray-700 px-6 py-4 text-center">
                     VIEW MORE DETAILS
                 </th>
                 <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap text-center">
-                    <button mat-button [ngStyle]="{'background-color': 'white', 'color': 'green'}" (click)="onViewDetails(element)">
+                    <button mat-button [ngStyle]="{'background-color': 'white', 'color': 'green'}"
+                        (click)="onViewDetails(element)">
                         View Details
                     </button>
                 </td>
             </ng-container>
-            
+
+            <ng-container matColumnDef="approveReject" *ngIf="showApproveOrReject"> 
+                <th mat-header-cell *matHeaderCellDef class="bg-gray-100 text-gray-700 px-6 py-4 text-center">
+                    APPROVE/REJECT
+                </th>
+                <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap text-center">
+                    <button mat-button color="primary" class="mr-2" (click)="onApprove(element)">
+                        Approve
+                    </button>
+                    <button mat-button color="warn" (click)="onReject(element)">
+                        Reject
+                    </button>
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="blockUnblock" *ngIf="showBlockUnblock">
                 <th mat-header-cell *matHeaderCellDef class="bg-gray-100 text-gray-700 px-6 py-4 text-center">
                     BLOCK/UNBLOCK
                 </th>
                 <td mat-cell *matCellDef="let element" class="px-6 py-4 whitespace-nowrap text-center">
-                    <button mat-button [color]="element.is_blocked ? 'primary' : 'warn'" (click)="onBlockUnblock(element)">
+                    <button mat-button [color]="element.is_blocked ? 'primary' : 'warn'"
+                        (click)="onBlockUnblock(element)">
                         {{ element.is_blocked ? 'Unblock' : 'Block' }}
                     </button>
                 </td>

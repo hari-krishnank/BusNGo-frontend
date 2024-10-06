@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { OwnernavComponent } from '../../../shared/widgets/ownernav/ownernav.component';
 import { Router, RouterModule } from '@angular/router';
 import { BusOwnerfooterComponent } from '../../../shared/widgets/bus-ownerfooter/bus-ownerfooter.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
-import { OwnerDetailsService } from '../../../core/services/busOwner/ownerDetails/owner-details.service';
+import { OwnerApiService } from '../../../core/services/busOwner/ownerDetails/owner-api.service';
 import { FormField } from '../../../core/models/user/form-fields.interface';
 import { ownerConfirmPasswordField, ownerEmailField, ownerFirstNameField, ownerLastNameField, ownerMobileField, ownerPasswordField } from '../../../shared/configs/busOwner/registerForm-config';
 import { FormComponent } from '../../../shared/reusableComponents/form/form.component';
-import { passwordMatchValidator } from '../../../shared/validators/validators';
-import { HttpClient } from '@angular/common/http';
-import { signupService } from '../../../core/services/busOwner/signup/signup.service';
 import { addressField, agencyNameField, cityField, countryField, designationField, postalCodeField, stateField } from '../../../shared/configs/busOwner/ownerRegistrationDetails-config';
+import { OwnerService } from '../../../core/services/busOwner/signup/owner.service';
+import { OwnerDetailsFormService } from '../../../core/services/busOwner/ownerDetails/owner-form.service';
+import { MessageService } from '../../../shared/services/message.service';
 
 @Component({
   selector: 'app-owner-details',
@@ -26,6 +26,8 @@ import { addressField, agencyNameField, cityField, countryField, designationFiel
 export class OwnerDetailsComponent implements OnInit {
   personalInfoForm: FormGroup;
   agencyDetailsForm: FormGroup;
+  ownerDetails: any;
+
   ownerFirstNameField: FormField[] = ownerFirstNameField;
   ownerLastNameField: FormField[] = ownerLastNameField;
   ownerEmailField: FormField[] = ownerEmailField;
@@ -39,78 +41,40 @@ export class OwnerDetailsComponent implements OnInit {
   cityField: FormField[] = cityField;
   postalCodeField: FormField[] = postalCodeField;
   addressField: FormField[] = addressField;
-  ownerDetails: any;
 
-  constructor(private ownerDetailsService: OwnerDetailsService, private router: Router, private fb: FormBuilder, private http: HttpClient, private signupService: signupService) {
-    this.personalInfoForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: [{ value: '', disabled: true }, Validators.required],
-      mobile: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    }, { validator: passwordMatchValidator('password', 'confirmPassword') });
-
-    this.agencyDetailsForm = this.fb.group({
-      agencyName: ['', Validators.required],
-      designation: ['', Validators.required],
-      country: ['', Validators.required],
-      state: ['', Validators.required],
-      city: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      address: ['', Validators.required]
-    });
+  constructor(private ownerApiService: OwnerApiService, private formService: OwnerDetailsFormService, private router: Router, private signupService: OwnerService, private message: MessageService) {
+    this.personalInfoForm = this.formService.createPersonalInfoForm();
+    this.agencyDetailsForm = this.formService.createAgencyDetailsForm();
   }
 
   ngOnInit() {
-    const email = this.ownerDetailsService.getOwnerEmail();
+    const email = this.ownerApiService.getOwnerEmail();
     if (email) {
       this.personalInfoForm.patchValue({ email: email });
-      this.fetchOwnerDetails(email)
+      this.fetchOwnerDetails(email);
     }
   }
 
   fetchOwnerDetails(email: string) {
     this.signupService.getOwnerDetails(email).subscribe(
-      (data) => {
+      (data: any) => {
         this.ownerDetails = data;
-        this.populateFormsWithExistingData();
+        this.formService.populateFormsWithExistingData(this.personalInfoForm, this.agencyDetailsForm, this.ownerDetails);
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching owner details:', error);
       }
     );
-  }
-
-  populateFormsWithExistingData() {
-    if (this.ownerDetails) {
-      this.personalInfoForm.patchValue({
-        firstName: this.ownerDetails.firstName,
-        lastName: this.ownerDetails.lastName,
-        email: this.ownerDetails.email,
-        mobile: this.ownerDetails.mobile,
-      });
-
-      this.agencyDetailsForm.patchValue({
-        agencyName: this.ownerDetails.agencyName,
-        designation: this.ownerDetails.designation,
-        country: this.ownerDetails.country,
-        state: this.ownerDetails.state,
-        city: this.ownerDetails.city,
-        postalCode: this.ownerDetails.postalCode,
-        address: this.ownerDetails.address
-      });
-    }
   }
 
   onPersonalInfoSubmit() {
     if (this.personalInfoForm.valid) {
       const ownerDetails = {
         ...this.personalInfoForm.getRawValue(),
-        email: this.personalInfoForm.get('email')?.value 
+        email: this.personalInfoForm.get('email')?.value
       };
 
-      this.ownerDetailsService.updateOwnerDetails(ownerDetails).subscribe(
+      this.ownerApiService.updateOwnerDetails(ownerDetails).subscribe(
         (response) => {
           console.log('Personal info updated successfully');
         },
@@ -129,11 +93,9 @@ export class OwnerDetailsComponent implements OnInit {
         ...this.agencyDetailsForm.value,
         email: this.personalInfoForm.get('email')?.value
       };
-      console.log(agencyDetails);
-      
-      this.http.put('http://localhost:3000/owner/update-details', agencyDetails).subscribe(
+
+      this.ownerApiService.updateOwnerDetails(agencyDetails).subscribe(
         (response) => {
-          console.log('Agency details updated successfully', response);
           this.fetchOwnerDetails(agencyDetails.email);
         },
         (error) => {
@@ -146,15 +108,21 @@ export class OwnerDetailsComponent implements OnInit {
   }
 
   confirmAndSubmit() {
-    this.signupService.confirmOwnerDetails(this.ownerDetails.email).subscribe(
-      (response) => {
-        console.log('Owner confirmed and saved to verified collection successfully:', response);
-        this.signupService.removeEmail();
-        this.router.navigate(['/ownerLogin']);
-      },
-      (error) => {
-        console.error('Error confirming owner details:', error);
-      }
-    );
+    const email = this.ownerApiService.getOwnerEmail();
+    if (email) {
+      this.signupService.confirmOwnerDetails(email).subscribe(
+        (response: any) => {
+          this.message.showSuccessMessage(response.message);
+          localStorage.removeItem('ownerEmail')
+          this.router.navigate(['/registration-success']);
+        },
+        (error: any) => {
+          console.error('Error confirming owner details:', error);
+          this.message.showErrorMessage('Error sending registration request. Please try again.');
+        }
+      );
+    } else {
+      this.message.showErrorMessage('Owner email not found. Please try again.');
+    }
   }
 }

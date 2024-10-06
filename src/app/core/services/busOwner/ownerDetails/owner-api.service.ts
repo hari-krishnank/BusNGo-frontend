@@ -6,7 +6,7 @@ import { environment } from '../../../../../environments/environment.development
 @Injectable({
     providedIn: 'root'
 })
-export class OwnerDetailsService {
+export class OwnerApiService {
     private apiUrl = environment.backendUrl;
 
     constructor(private http: HttpClient) { }
@@ -23,4 +23,4 @@ export class OwnerDetailsService {
     getOwnerEmail(): string | null {
         return localStorage.getItem('ownerEmail');
     }
-}
+} 

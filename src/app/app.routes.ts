@@ -43,6 +43,8 @@ import { StaffLoginComponent } from './pages/staff/staff-login/staff-login.compo
 import { StaffDashboardComponent } from './pages/staff/staff-dashboard/staff-dashboard.component';
 import { StaffNoAuthGuard } from './core/guards/staff-no-auth.guard';
 import { StaffAuthGuard } from './core/guards/staff-auth.guard';
+import { RegistrationSuccessComponent } from './pages/busOwner/registration-success/registration-success.component';
+import { OwnerRequestsComponent } from './pages/admin/owner-requests/owner-requests.component';
 
 export const routes: Routes = [
 
@@ -62,20 +64,12 @@ export const routes: Routes = [
     { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [UserAuthGuard] },
     { path: 'cancelled-bookings', component: CancelledBookingsComponent, canActivate: [UserAuthGuard] },
     { path: 'wallet', component: WalletComponent, canActivate: [UserAuthGuard] },
-    // {
-    //     path: 'wallet',
-    //     component: WalletComponent,
-    //     canActivate: [UserAuthGuard],
-    //     children: [
-    //         { path: '', component: WalletComponent },
-    //         { path: 'success', component: WalletComponent }
-    //     ]
-    // },
     { path: 'CoTravellers', component: CoTravellersComponent, canActivate: [UserAuthGuard] },
     //---BUS OWNER ROUTES
     { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'ownerRegister', component: OwnerRegisterComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'ownerDetails', component: OwnerDetailsComponent, canActivate: [OwnerNoAuthGuard] },
+    { path: 'registration-success', component: RegistrationSuccessComponent, canActivate: [OwnerNoAuthGuard] },
     { path: 'ownerHome', component: OwnerHomeComponent, canActivate: [OwnerAuthGuard] },
     { path: 'ownerDashboard', component: DashboardComponent, canActivate: [OwnerAuthGuard] },
     { path: 'counters', component: CountersComponent, canActivate: [OwnerAuthGuard] },
@@ -101,6 +95,7 @@ export const routes: Routes = [
             [
                 { path: 'listUsers', component: UsersListComponent, canActivate: [AuthGuard] },
                 { path: 'listOwners', component: BusOwnersListComponent, canActivate: [AuthGuard] },
+                { path: 'owner-requests', component: OwnerRequestsComponent, canActivate: [AuthGuard] },
             ]
     }
 ];

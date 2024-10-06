@@ -5,10 +5,9 @@
             <mat-icon class="mt-1.5">people</mat-icon>
             <button mat-button [color]="isRouteActive('/admin/listUsers') ? 'warn' : 'black'" *ngIf="!isCollapsed">Users</button>
         </div>
-        <div class="sidebar-item border-b" [routerLink]="['/admin/ownerRegistrationRequests']"
-            routerLinkActive="active-route">
+        <div class="sidebar-item border-b" [routerLink]="['/admin/owner-requests']" routerLinkActive="active-route">
             <mat-icon class="mt-1.5">how_to_reg</mat-icon>
-            <button mat-button [color]="isRouteActive('/admin/ownerRegistrationRequests') ? 'warn' : 'black'" *ngIf="!isCollapsed">Owner Requests</button>
+            <button mat-button [color]="isRouteActive('/admin/owner-requests') ? 'warn' : 'black'" *ngIf="!isCollapsed">Owner Requests</button>
         </div>
         <div class="sidebar-item border-b" [routerLink]="['/admin/listOwners']" routerLinkActive="active-route">
             <mat-icon class="mt-1.5">business</mat-icon>

@@ -19,7 +19,12 @@ export const ownerFirstNameField: FormField[] = [
         label: "First Name",
         type: "text",
         placeholder: 'Enter your First Name',
-        errors: []
+        errors: [
+            { type: 'required', message: 'Username is required.' },
+            { type: 'whitespace', message: 'Username cannot be blank.' },
+            { type: 'minlength', message: 'Must be at least 4 characters.' },
+            { type: 'onlyLetters', message: 'Use only letters.' }
+        ]
     }
 ]
 
@@ -29,7 +34,12 @@ export const ownerLastNameField: FormField[] = [
         label: "Last Name",
         type: "text",
         placeholder: 'Enter your Last Name',
-        errors: []
+        errors: [
+            { type: 'required', message: 'Username is required.' },
+            { type: 'whitespace', message: 'Username cannot be blank.' },
+            { type: 'minlength', message: 'Must be at least 4 characters.' },
+            { type: 'onlyLetters', message: 'Use only letters.' }
+        ]
     }
 ]
 
@@ -49,7 +59,11 @@ export const ownerMobileField: FormField[] = [
         label: "Mobile",
         type: "text",
         placeholder: 'Enter your Mobile Number',
-        errors: []
+        errors: [
+            { type: 'required', message: 'Phone number is required.' },
+            { type: 'invalidLength', message: 'Must be exactly 10 digits.' },
+            { type: 'invalidCharacters', message: 'Use only digits.' }
+        ]
     }
 ]
 
@@ -59,7 +73,11 @@ export const ownerPasswordField: FormField[] = [
         label: "Password",
         type: "password",
         placeholder: 'Enter your Password',
-        errors: []
+        errors: [
+            { type: 'required', message: 'Password is required.' },
+            { type: 'minlength', message: 'Must be at least 8 characters.' },
+            { type: 'strongPassword', message: 'Use uppercase, lowercase, number, and symbol.' }
+        ]
     }
 ]
 
@@ -69,6 +87,9 @@ export const ownerConfirmPasswordField: FormField[] = [
         label: "Confirm Password",
         type: "password",
         placeholder: 'Enter your Confirm Password',
-        errors: []
+        errors: [
+            { type: 'required', message: 'Confirm password is required.' },
+            { type: 'passwordMismatch', message: 'Passwords do not match.' }
+        ]
     }
 ]

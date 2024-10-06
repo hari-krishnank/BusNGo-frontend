@@ -3,28 +3,27 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { Router, RouterModule } from '@angular/router';
-import { signupService } from '../../../core/services/busOwner/signup/signup.service';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/busOwner/signup/auth.service';
 
 @Component({
   selector: 'app-ownernav',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, RouterModule, MatMenuModule, CommonModule, MatButtonModule],
+  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatMenuModule],
   templateUrl: './ownernav.component.html',
   styleUrl: './ownernav.component.css'
 })
 export class OwnernavComponent {
   FleetMenu!: MatMenuTrigger;
   TripMenu!: MatMenuTrigger;
-  
-  constructor(private signupService: signupService, private router: Router) { }
+
+  constructor(private authService: AuthService) { }
 
   isLoggedIn(): boolean {
-    return this.signupService.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
 
   logout(): void {
-    this.signupService.logout();
-    this.router.navigate(['/ownerLogin']);
+    this.authService.logout();
   }
 }

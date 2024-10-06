@@ -21,6 +21,6 @@ export const appConfig: ApplicationConfig = {
     NzMessageService,
     provideToastr(),
     provideStore(),
-    provideEffects()
-]
+    provideEffects(),
+  ]
 };

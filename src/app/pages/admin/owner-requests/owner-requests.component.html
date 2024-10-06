@@ -1,0 +1,21 @@
+<div class="flex h-screen overflow-hidden">
+    <app-admin-side-nav (sidebarStateChange)="onSidebarStateChange($event)"></app-admin-side-nav>
+    <div class="flex-grow overflow-y-auto transition-all duration-300"
+        [ngClass]="{'ml-[300px]': !isSidebarCollapsed, 'ml-[100px]': isSidebarCollapsed}">
+        <app-data-table 
+            [data]="requestsData" 
+            [columns]="ownerRequestsColumns"
+            [showActions]="false" 
+            [showAddNewButton]="false"
+            [showBlockUnblock]="false"
+            [showViewDetails]="true"
+            [showApproveOrReject]="true"
+            (approveReject)="onApproveReject($event)"
+            (viewDetails)="openModal($event)"
+            [totalItems]="totalItems"
+            [itemsPerPage]="itemsPerPage"
+            (pageChange)="onPageChange($event)" 
+            title="PENDING REQUESTS OF OWNER REGISTRATIONS">
+        </app-data-table>
+    </div>
+</div> 

@@ -42,6 +42,9 @@ export class ModalComponent {
     country: { label: 'Country', icon: 'public' },
     state: { label: 'State', icon: 'map' },
     city: { label: 'City', icon: 'location_city' },
+    registeredAddress: { label: 'Address', icon: 'place' },
+    postalCode: { label: 'Postal Code', icon: 'markunread_mailbox' },
+    address: { label: 'Address', icon: 'place' },
   };
 
   constructor(
@@ -103,7 +106,7 @@ export class ModalComponent {
       this.form.patchValue({ selectedSeats: seats });
     }
   }
- 
+
   getIconForField(field: string): string {
     const iconMap: { [key: string]: string } = {
       firstName: 'person',
@@ -114,7 +117,10 @@ export class ModalComponent {
       designation: 'work',
       country: 'public',
       state: 'map',
-      city: 'location_city'
+      city: 'location_city',
+      registeredAddress: 'place',
+      address: 'place',
+      postalCode: 'markunread_mailbox'
     };
     return iconMap[field] || 'info';
   }

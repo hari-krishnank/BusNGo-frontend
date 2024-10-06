@@ -67,6 +67,5 @@ export const addressField: FormField[] = [
         placeholder: "Address",
         type: "text",
         errors: [],
-        // rows: 5
     }
 ]

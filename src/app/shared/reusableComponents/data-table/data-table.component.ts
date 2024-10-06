@@ -49,6 +49,9 @@ export class DataTableComponent implements OnInit {
   @Input() showViewDetails: boolean = false;
   @Output() viewDetails = new EventEmitter<void>();
 
+  @Input() showApproveOrReject: boolean = false;
+  @Output() approveReject = new EventEmitter<{ action: 'approve' | 'reject', item: any }>();
+
   @Input() showBlockUnblock: boolean = false;
   @Output() blockUnblock = new EventEmitter<any>();
 
@@ -89,6 +92,9 @@ export class DataTableComponent implements OnInit {
     if (this.showBlockUnblock) {
       this.displayedColumns.push('blockUnblock');
     }
+    if (this.showApproveOrReject) {
+      this.displayedColumns.push('approveReject');
+    }
   }
 
   initializeDataSource() {
@@ -123,6 +129,14 @@ export class DataTableComponent implements OnInit {
 
   onBlockUnblock(item: any) {
     this.blockUnblock.emit(item);
+  }
+
+  onApprove(item: any) {
+    this.approveReject.emit({ action: 'approve', item });
+  }
+
+  onReject(item: any) {
+    this.approveReject.emit({ action: 'reject', item });
   }
 
   onViewDetails(item: any) {

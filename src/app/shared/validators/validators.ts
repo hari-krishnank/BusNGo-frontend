@@ -74,23 +74,6 @@ export function noSpaceValidator(): ValidatorFn {
     };
 }
 
-// export function strongPasswordValidator(): ValidatorFn {
-//     return (control: AbstractControl): { [key: string]: any } | null => {
-//         const password = control.value;
-//         const hasUpperCase = /[A-Z]/.test(password);
-//         const hasLowerCase = /[a-z]/.test(password);
-//         const hasNumeric = /[0-9]/.test(password);
-//         const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
-
-//         const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar && password.length >= 8;
-
-//         if (!valid) {
-//             return { 'strongPassword': true };
-//         }
-//         return null;
-//     };
-// }
-
 export function strongPasswordValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const password = control.value;

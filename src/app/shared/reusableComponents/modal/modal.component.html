@@ -22,7 +22,7 @@
                     <ng-container *ngIf="data.viewDetailsData[key] !== undefined">
                         <div class="detail-label">
                             <i class="material-icons">{{displayFields[key].icon}}</i>
-                            {{displayFields[key].label}}
+                            <span class="hover:underline">{{displayFields[key].label}}</span>
                         </div>
                         <div class="detail-value">{{data.viewDetailsData[key]}}</div>
                     </ng-container>

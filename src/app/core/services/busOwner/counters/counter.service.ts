@@ -19,7 +19,7 @@ export class CounterService {
   }
 
   getCounters(page: number = 1, limit: number = 5): Observable<CountersResponse> {
-    const params = new HttpParams() 
+    const params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
 
