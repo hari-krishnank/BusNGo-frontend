@@ -5,6 +5,7 @@ import { DataTableComponent } from '../../../shared/reusableComponents/data-tabl
 import { ownerRequestsColumns } from '../../../shared/data/admin/owner-requests.columns';
 import { OwnerRequestsService } from '../../../core/services/admin/owner-requests.service';
 import { OwnerDetailsService } from '../../../core/services/admin/owner-details.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-owner-requests',
@@ -21,27 +22,26 @@ export class OwnerRequestsComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(private ownerRequestsService: OwnerRequestsService, private ownerModalService: OwnerDetailsService) { }
+  constructor(private ownerRequestsService: OwnerRequestsService, private ownerModalService: OwnerDetailsService, private router: Router) { }
 
   ngOnInit() {
     this.loadOwnerRequests();
   }
 
   loadOwnerRequests() {
-    this.ownerRequestsService.getOwnerRegistrationRequests(this.currentPage, this.itemsPerPage)
-      .subscribe(
-        (response: any) => {
-          this.requestsData = response.owners.map((owner: { lastName: any; firstName: any; }, index: number) => ({
-            ...owner,
-            fullName: owner.lastName ? `${owner.firstName} ${owner.lastName}` : owner.firstName,
-            siNumber: (this.currentPage - 1) * this.itemsPerPage + index + 1
-          }));
-          this.totalItems = response.total;
-        },
-        (error) => {
-          console.error('Error fetching owner requests:', error);
-        }
-      );
+    this.ownerRequestsService.getOwnerRegistrationRequests(this.currentPage, this.itemsPerPage).subscribe(
+      (response: any) => {
+        this.requestsData = response.owners.map((owner: any, index: number) => ({
+          ...owner,
+          fullName: owner.lastName ? `${owner.firstName} ${owner.lastName}` : owner.firstName,
+          siNumber: (this.currentPage - 1) * this.itemsPerPage + index + 1
+        }));
+        this.totalItems = response.total;
+      },
+      (error) => {
+        console.error('Error fetching owner requests:', error);
+      }
+    );
   }
 
   openModal(owner: any): void {
@@ -85,11 +85,15 @@ export class OwnerRequestsComponent {
     this.ownerRequestsService.rejectOwnerRegistration(owner.email)
       .subscribe(
         (response) => {
-          this.loadOwnerRequests(); 
+          this.loadOwnerRequests();
         },
         (error) => {
           console.error('Error rejecting owner:', error);
         }
       );
+  }
+
+  navigateToRejectedRequests() {
+    this.router.navigate(['/admin/rejected-requests']);
   }
 }

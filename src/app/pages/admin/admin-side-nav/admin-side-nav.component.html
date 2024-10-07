@@ -7,7 +7,12 @@
         </div>
         <div class="sidebar-item border-b" [routerLink]="['/admin/owner-requests']" routerLinkActive="active-route">
             <mat-icon class="mt-1.5">how_to_reg</mat-icon>
-            <button mat-button [color]="isRouteActive('/admin/owner-requests') ? 'warn' : 'black'" *ngIf="!isCollapsed">Owner Requests</button>
+            <button mat-button [color]="isRouteActive('/admin/owner-requests') || isRouteActive('/admin/rejected-requests') ? 'warn' : 'black'" *ngIf="!isCollapsed">
+                Owner Requests
+                <span *ngIf="pendingRequestsCount > 0" class="ml-2 px-2 py-1 text-xs font-bold leading-none text-black bg-slate-100 rounded-full">
+                    {{ pendingRequestsCount }}
+                </span>
+            </button>
         </div>
         <div class="sidebar-item border-b" [routerLink]="['/admin/listOwners']" routerLinkActive="active-route">
             <mat-icon class="mt-1.5">business</mat-icon>

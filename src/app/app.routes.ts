@@ -45,43 +45,56 @@ import { StaffNoAuthGuard } from './core/guards/staff-no-auth.guard';
 import { StaffAuthGuard } from './core/guards/staff-auth.guard';
 import { RegistrationSuccessComponent } from './pages/busOwner/registration-success/registration-success.component';
 import { OwnerRequestsComponent } from './pages/admin/owner-requests/owner-requests.component';
+import { RejectedRequestsComponent } from './pages/admin/rejected-requests/rejected-requests.component';
+import { OwnerDetailsGuard } from './core/guards/owner-details.guard';
 
 export const routes: Routes = [
 
     //---USERS ROUTES
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: UserhomeComponent },
+    { path: '', redirectTo: 'user/home', pathMatch: 'full' },
+    {
+        path: 'user',
+        children: [
+            { path: 'home', component: UserhomeComponent },
+            { path: 'login', component: UserLoginComponent, canActivate: [NoAuthGuard] },
+            { path: 'register', component: UserRegisterComponent, canActivate: [NoAuthGuard] },
+            { path: 'profile', component: UserProfileComponent, canActivate: [UserAuthGuard] },
+            { path: 'co-travellers', component: CoTravellersComponent, canActivate: [UserAuthGuard] },
+            { path: 'completed-bookings', component: CompletedBookingsComponent, canActivate: [UserAuthGuard] },
+            { path: 'cancelled-bookings', component: CancelledBookingsComponent, canActivate: [UserAuthGuard] },
+            { path: 'wallet', component: WalletComponent, canActivate: [UserAuthGuard] },
+        ]
+    },
     { path: 'login', component: LoginComponent, },
     { path: 'reset-password', component: PasswordResetComponent },
-    { path: 'userLogin', component: UserLoginComponent, canActivate: [NoAuthGuard] },
-    { path: 'userRegister', component: UserRegisterComponent, canActivate: [NoAuthGuard] },
     { path: 'searchresults', component: SearchResultsComponent },
     { path: 'busTickets/:bookingId', component: BusTicketsComponent },
-    { path: 'userProfile', component: UserProfileComponent, canActivate: [UserAuthGuard] },
     { path: 'help', component: HelpUsersComponent },
     { path: 'booking-success', component: BookingSuccessComponent },
-    { path: 'completed-bookings', component: CompletedBookingsComponent, canActivate: [UserAuthGuard] },
     { path: 'booking-details/:id', component: BookingDetailsComponent, canActivate: [UserAuthGuard] },
-    { path: 'cancelled-bookings', component: CancelledBookingsComponent, canActivate: [UserAuthGuard] },
-    { path: 'wallet', component: WalletComponent, canActivate: [UserAuthGuard] },
-    { path: 'CoTravellers', component: CoTravellersComponent, canActivate: [UserAuthGuard] },
+
     //---BUS OWNER ROUTES
-    { path: 'ownerLogin', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'ownerRegister', component: OwnerRegisterComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'ownerDetails', component: OwnerDetailsComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'registration-success', component: RegistrationSuccessComponent, canActivate: [OwnerNoAuthGuard] },
-    { path: 'ownerHome', component: OwnerHomeComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'ownerDashboard', component: DashboardComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'counters', component: CountersComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'amenities', component: AmenitiesComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'seatlayout', component: SeatLayoutsComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'fleet', component: FleettypeComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'buses', component: BusesComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'routes', component: AddRoutesComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'schedule', component: ScheduleComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'trip', component: TripComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'assignBus', component: AssignedBusComponent, canActivate: [OwnerAuthGuard] },
-    { path: 'manageStaffs', component: StaffsComponent, canActivate: [OwnerAuthGuard] },
+    {
+        path: 'owner',
+        children: [
+            { path: 'login', component: OwnerLoginComponent, canActivate: [OwnerNoAuthGuard] },
+            { path: 'register', component: OwnerRegisterComponent, canActivate: [OwnerNoAuthGuard] },
+            { path: 'details', component: OwnerDetailsComponent, canActivate: [OwnerNoAuthGuard, OwnerDetailsGuard] },
+            { path: 'registration-success', component: RegistrationSuccessComponent, canActivate: [OwnerNoAuthGuard] },
+            { path: 'home', component: OwnerHomeComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'dashboard', component: DashboardComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'counters', component: CountersComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'amenities', component: AmenitiesComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'seat-layout', component: SeatLayoutsComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'fleet', component: FleettypeComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'buses', component: BusesComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'routes', component: AddRoutesComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'schedule', component: ScheduleComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'trip', component: TripComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'assign-bus', component: AssignedBusComponent, canActivate: [OwnerAuthGuard] },
+            { path: 'manage-staffs', component: StaffsComponent, canActivate: [OwnerAuthGuard] },
+        ]
+    },
 
     //---STAFF ROUTES
     { path: 'staffHome', component: StaffHomeComponent, canActivate: [StaffNoAuthGuard] },
@@ -96,6 +109,7 @@ export const routes: Routes = [
                 { path: 'listUsers', component: UsersListComponent, canActivate: [AuthGuard] },
                 { path: 'listOwners', component: BusOwnersListComponent, canActivate: [AuthGuard] },
                 { path: 'owner-requests', component: OwnerRequestsComponent, canActivate: [AuthGuard] },
+                { path: 'rejected-requests', component: RejectedRequestsComponent, canActivate: [AuthGuard] }
             ]
     }
 ];

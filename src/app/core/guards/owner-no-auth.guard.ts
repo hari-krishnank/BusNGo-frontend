@@ -11,7 +11,7 @@ export class OwnerNoAuthGuard implements CanActivate {
 
     canActivate(): boolean {
         if (this.signupService.isLoggedIn()) {
-            this.router.navigate(['/ownerDashboard']);
+            this.router.navigate(['/ownerHome']);
             return false;
         }
         return true;

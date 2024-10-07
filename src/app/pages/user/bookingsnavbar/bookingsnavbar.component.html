@@ -1,12 +1,10 @@
 <div class="w-full">
     <div class="rounded-t-lg p-3 flex border border-gray-200 bg-white shadow-sm">
-        <div class="flex-1 text-center cursor-pointer border-r border-gray-200" [routerLink]="'/completed-bookings'"
-            [class.font-semibold]="isActive('/completed-bookings')">
+        <div class="flex-1 text-center cursor-pointer border-r border-gray-200" [routerLink]="'/user/completed-bookings'" [class.font-semibold]="isActive('/user/completed-bookings')">
             <i class="fas fa-check-circle mr-2"></i>
             <span>Completed Bookings</span>
         </div>
-        <div class="flex-1 text-center cursor-pointer ml-4" [routerLink]="'/cancelled-bookings'"
-            [class.font-semibold]="isActive('/cancelled-bookings')">
+        <div class="flex-1 text-center cursor-pointer ml-4" [routerLink]="'/user/cancelled-bookings'" [class.font-semibold]="isActive('/user/cancelled-bookings')">
             <i class="fas fa-ban mr-2"></i>
             <span>Cancelled Bookings</span>
         </div>

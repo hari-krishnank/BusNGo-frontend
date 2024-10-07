@@ -114,7 +114,7 @@ export class OwnerDetailsComponent implements OnInit {
         (response: any) => {
           this.message.showSuccessMessage(response.message);
           localStorage.removeItem('ownerEmail')
-          this.router.navigate(['/registration-success']);
+          this.router.navigate(['/owner/registration-success']);
         },
         (error: any) => {
           console.error('Error confirming owner details:', error);

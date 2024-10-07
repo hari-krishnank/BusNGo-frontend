@@ -40,6 +40,6 @@ export class NotificationBannerComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    this.router.navigate(['/userRegister'])
+    this.router.navigate(['/user/register'])
   }
 }

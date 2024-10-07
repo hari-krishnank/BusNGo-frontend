@@ -2,27 +2,31 @@
 
 <div class="flex flex-col h-screen">
     <div class="flex flex-col flex-grow pt-14 ">
-        <div class="w-full bg-emerald-400 p-12 flex items-center flex-grow">
+        <div class="w-full bg-emerald-400 p-12 flex items-center" style="height: 70vh;">
             <div class="text-white">
-                <p class="text-5xl font-bold leading-tight ">
+                <p class="text-5xl font-semibold leading-tight">
                     Expand Your Business with BusNGo
                 </p>
-                <p class="text-3xl mt-4">
+                <p class="text-4xl mt-4 font-serif">
                     Reach Millions of Bus Travelers
                 </p>
             </div>
-            <div class="w-96 p-8 bg-white shadow-lg rounded-lg" style="margin-left: 120px;">
-                <p class="text-xl font-semibold mb-6">
+            <div class="w-96 p-8 bg-white shadow-lg rounded-lg" style="margin-left: 120px; height: 100%;">
+                <p class="text-xl font-semibold mb-6 pt-10">
                     Register Your Bus Fleet with BusNGo
                 </p>
-                <app-form [form]="ownerRegisterForm" [fields]="ownerRegisterFields" submitButtonText="Sign in" (formSubmit)="generateOtp()"> 
-                </app-form> 
+                <app-form 
+                    [form]="ownerRegisterForm" 
+                    [fields]="ownerRegisterFields" 
+                    submitButtonText="Sign in" 
+                    (formSubmit)="generateOtp()">
+                </app-form>
                 <div class="text-center mb-6 mt-6">
-                    <p class="text-black text-sm font-serif">Already have an account ..? <button mat-button color="warn" [routerLink]="'/ownerLogin'">Sign in here</button> </p>
+                    <p class="text-black text-sm font-serif">Already have an account ..? <button mat-button color="warn" [routerLink]="'/owner/login'">Sign in here</button></p>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="bg-white py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
         <p class="text-3xl font-bold mb-4 text-center">Bus Registration on BusNGo</p>

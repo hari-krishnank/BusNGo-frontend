@@ -57,7 +57,7 @@ export class OwnerRegisterComponent {
       next: (isValid) => {
         if (isValid) {
           this.otpService.closeOtpModal();
-          this.router.navigate(['/ownerDetails']);
+          this.router.navigate(['/owner/details']);
         }
       },
       error: (error) => console.error('Error verifying OTP', error)

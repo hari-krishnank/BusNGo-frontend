@@ -2,53 +2,49 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between" style="height: 65px;">
             <div class="flex-shrink-0 flex items-center hover:cursor-pointer">
-                <span class="text-xl font-bold" [routerLink]="'/ownerHome'">
+                <span class="text-xl font-bold" [routerLink]="'/owner/home'">
                     <span class="text-red-500">B</span>usNGo
                 </span>
             </div>
             <div class="flex items-center space-x-10">
                 <ng-container *ngIf="isLoggedIn()">
-                    <button mat-button class="rounded-md px-3 py-2 text-sm font-medium text-black"
-                        [routerLink]="'/ownerHome'">
+                    <button mat-button class="rounded-md px-3 py-2 text-sm font-medium text-black" [routerLink]="'/owner/home'">
                         <mat-icon>home</mat-icon>
                         Home
                     </button>
-                    <button mat-button class="rounded-md px-3 py-2 text-sm font-medium text-black"
-                        [routerLink]="'/ownerDashboard'">
+                    <button mat-button class="rounded-md px-3 py-2 text-sm font-medium text-black" [routerLink]="'/owner/dashboard'">
                         <mat-icon>dashboard</mat-icon>
                         Dashboard
                     </button>
                     
-                    <button mat-button class="rounded-md px-3 py-2 text-sm font-medium text-black"
-                        [routerLink]="'/manageStaffs'">
+                    <button mat-button class="rounded-md px-3 py-2 text-sm font-medium text-black" [routerLink]="'/owner/manage-staffs'">
                         <mat-icon>people</mat-icon>
                         Manage Staffs
                     </button>
 
-                    <button mat-button [matMenuTriggerFor]="FleetMenu"
-                        class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-black">
+                    <button mat-button [matMenuTriggerFor]="FleetMenu" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-black">
                         <mat-icon>directions_bus</mat-icon>
                         Manage Fleets
                     </button>
                     <mat-icon style="margin-left: -17px; color: black; margin-top: 2px;">arrow_drop_down</mat-icon>
                     <mat-menu #FleetMenu="matMenu">
-                        <button mat-menu-item [routerLink]="'/counters'">
+                        <button mat-menu-item [routerLink]="'/owner/counters'">
                             <mat-icon>store</mat-icon>
                             <span>Bus Stations</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/amenities'">
+                        <button mat-menu-item [routerLink]="'/owner/amenities'">
                             <mat-icon>hotel</mat-icon>
                             <span>Amenities</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/seatlayout'">
+                        <button mat-menu-item [routerLink]="'/owner/seat-layout'">
                             <mat-icon>airline_seat_recline_extra</mat-icon>
                             <span>Seat Layouts</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/fleet'">
+                        <button mat-menu-item [routerLink]="'/owner/fleet'">
                             <mat-icon>category</mat-icon>
                             <span>Fleet Type</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/buses'">
+                        <button mat-menu-item [routerLink]="'/owner/buses'">
                             <mat-icon>directions_bus</mat-icon>
                             <span>Buses</span>
                         </button>
@@ -60,19 +56,19 @@
                     </button>
                     <mat-icon style="margin-left: -17px; color: black; margin-top: 2px;">arrow_drop_down</mat-icon>
                     <mat-menu #TripMenu="matMenu">
-                        <button mat-menu-item [routerLink]="'/schedule'">
+                        <button mat-menu-item [routerLink]="'/owner/schedule'">
                             <mat-icon>schedule</mat-icon>
                             <span>Schedule</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/routes'">
+                        <button mat-menu-item [routerLink]="'/owner/routes'">
                             <mat-icon>navigation</mat-icon>
                             <span>Route</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/trip'">
+                        <button mat-menu-item [routerLink]="'/owner/trip'">
                             <mat-icon>card_travel</mat-icon>
                             <span>Trip</span>
                         </button>
-                        <button mat-menu-item [routerLink]="'/assignBus'">
+                        <button mat-menu-item [routerLink]="'/owner/assign-bus'">
                             <mat-icon>assignment</mat-icon>
                             <span>Assigned Bus</span>
                         </button>

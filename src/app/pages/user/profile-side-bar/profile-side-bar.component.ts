@@ -20,6 +20,6 @@ export class ProfileSideBarComponent {
 
   onLogout() {
     this.loginService.logout()
-    this.router.navigate(['/home']);
+    this.router.navigate(['/user/home']);
   }
 }

@@ -7,6 +7,7 @@
     (pageChange)="onPageChange($event)" 
     title="ALL AMENITIES" 
     (addNew)="openModal()"
+    [showRejectedButton]="false"
     (edit)="openModal($event)" 
     (delete)="deleteAmenity($event)"
     (search)="onSearch($event)">

@@ -90,7 +90,7 @@ export class LoginService {
 
   blockedLogout(): void {
     this.isBlocked = false
-    this.router.navigate(['/userLogin'])
+    this.router.navigate(['/user/login'])
     localStorage.removeItem('userToken');
     localStorage.removeItem('userInfo');
     localStorage.removeItem('searchData');

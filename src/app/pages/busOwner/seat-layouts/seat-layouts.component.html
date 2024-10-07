@@ -8,6 +8,7 @@
     title="ALL LAYOUTS" 
     (viewPreview)="onViewPreview($event)"
     (addNew)="openModal()"
+    [showRejectedButton]="false"
     (edit)="editSeatLayout($event)"
     (delete)="deleteSeatLayout($event)">
 </app-data-table>

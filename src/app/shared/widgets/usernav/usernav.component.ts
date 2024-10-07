@@ -38,6 +38,6 @@ export class UsernavComponent implements OnInit {
     this.loginService.logout();
     this.firstName = '';
     this.profileImage = null;
-    this.router.navigate(['/home']);
+    this.router.navigate(['/user/home']);
   }
 }

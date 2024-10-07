@@ -3,9 +3,18 @@
         <div class="flex justify-between items-center mb-4">
             <p class="text-2xl font-semibold leading-tight font-sans">{{ title }}</p>
             <div class="flex items-center justify-between">
+                <div *ngIf="showRejectedButton" class="mr-4">
+                    <button mat-stroked-button color="accent" (click)="onRejectedRequests()">
+                        REJECTED REQUESTS
+                    </button>
+                </div>
+                <div *ngIf="showPendingButton" class="mr-4">
+                    <button mat-stroked-button color="accent" (click)="onPendingRequests()">
+                        PENDING REQUESTS
+                    </button>
+                </div>
                 <div class="search-area mr-4" [@fadeInOut]>
-                    <app-form [form]="searchForm" [fields]="searchFields" [hideSubmitButton]="true"
-                        (valueChanges)="onSearch($event)">
+                    <app-form [form]="searchForm" [fields]="searchFields" [hideSubmitButton]="true" (valueChanges)="onSearch($event)">
                     </app-form>
                 </div>
                 <div *ngIf="showAddNewButton">

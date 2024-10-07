@@ -104,8 +104,6 @@ export class UserLoginComponent implements AfterViewInit {
   onSubmit(formValue: ILoginFormValue) {
     this.loginService.login(formValue.email, formValue.password).subscribe({
       next: (response: ILoginResponse) => {
-        console.log('login cheyyumbo ulla response:', response);
-
         this.loginService.setToken(response.access_token);
         this.handleSuccessfulLogin()
       },
@@ -148,6 +146,6 @@ export class UserLoginComponent implements AfterViewInit {
 
   private handleSuccessfulLogin() {
     this.toastr.success('Welcome back! Login Successful');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/user/home']);
   }
 } 

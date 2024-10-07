@@ -9,5 +9,6 @@
     (addNew)="openModal()"
     (edit)="openModal($event)" 
     (delete)="deleteCounter($event)" 
-    (search)="searchCounters($event)">
+    (search)="searchCounters($event)"
+    [showRejectedButton]="false">
 </app-data-table>

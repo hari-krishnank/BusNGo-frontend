@@ -147,7 +147,7 @@ export class UserRegisterComponent implements AfterViewInit, OnInit {
           this.showOtpModal = false;
           this.otpDialogRef?.close();
           this.toastr.success('OTP verified successfully', 'Success');
-          this.router.navigate(['/userLogin']);
+          this.router.navigate(['/user/login']);
         } else {
           console.error('OTP verification failed:', response);
           this.toastr.error('Invalid OTP. Please try again.', 'Verification Failed');

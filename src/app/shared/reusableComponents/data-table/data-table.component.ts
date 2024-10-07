@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { IconPipe } from '../../pipes/icon.pipe';
@@ -12,6 +12,7 @@ import { FormField } from '../../../core/models/user/form-fields.interface';
 import { rowAnimation, tableAnimation } from '../../animations/data-table.animation';
 import { FormComponent } from '../form/form.component';
 import { fadeInOut } from '../../animations/form.animations';
+import { Router } from '@angular/router';
 
 interface Column {
   key: string;
@@ -27,13 +28,17 @@ interface Column {
   styleUrl: './data-table.component.css',
   animations: [tableAnimation, rowAnimation, fadeInOut]
 })
-export class DataTableComponent implements OnInit {
+export class DataTableComponent implements OnInit, OnChanges {
   displayedColumns: string[] = [];
   @Input() data: any[] = [];
   @Input() columns: Column[] = [];
   @Input() title: string = '';
   @Input() showActions: boolean = true;
   @Input() showAddNewButton: boolean = true;
+  @Input() showRejectedButton: boolean = false;
+  @Input() showPendingButton: boolean = false;
+  @Output() rejectedButtonClick = new EventEmitter<void>();
+  @Output() pendingButtonClick = new EventEmitter<void>();
 
   @Output() addNew = new EventEmitter<void>();
   @Output() edit = new EventEmitter<any>();
@@ -67,7 +72,7 @@ export class DataTableComponent implements OnInit {
     }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.searchForm = this.fb.group({
       searchTerm: ['']
     });
@@ -79,6 +84,13 @@ export class DataTableComponent implements OnInit {
     this.searchForm.get('searchTerm')?.valueChanges.subscribe(value => {
       this.onSearch({ searchTerm: value });
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['columns']) {
+      this.updateDisplayedColumns();
+      this.initializeDataSource();
+    }
   }
 
   updateDisplayedColumns() {
@@ -117,6 +129,14 @@ export class DataTableComponent implements OnInit {
 
   onAddNew() {
     this.addNew.emit();
+  }
+
+  onRejectedRequests() {
+    this.rejectedButtonClick.emit();
+  }
+  
+  onPendingRequests() {
+    this.pendingButtonClick.emit();
   }
 
   onEdit(item: any) {

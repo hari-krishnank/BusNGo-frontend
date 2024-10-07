@@ -6,5 +6,6 @@
     [itemsPerPage]="itemsPerPage" 
     (pageChange)="onPageChange($event)" 
     title="ALL SCHEDULES"
-    (addNew)="openModal()">
+    (addNew)="openModal()"
+    [showRejectedButton]="false">
 </app-data-table>

@@ -48,14 +48,14 @@ export class AuthService {
     logout(): void {
         localStorage.removeItem(this.TOKEN_KEY);
         this.sessionManagementService.clearCurrentUserType();
-        this.router.navigate(['/ownerLogin']);
+        this.router.navigate(['/owner/login']);
     }
 
     blockedLogout(): void {
         localStorage.removeItem(this.TOKEN_KEY);
         this.sessionManagementService.clearCurrentUserType();
         this.message.showErrorMessage('Your account has been blocked. Please contact support.');
-        this.router.navigate(['/ownerLogin']);
+        this.router.navigate(['/owner/login']);
     }
 
     isLoggedIn(): boolean {

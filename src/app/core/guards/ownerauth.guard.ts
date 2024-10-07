@@ -12,7 +12,7 @@ export class OwnerAuthGuard implements CanActivate {
     if (this.signupService.isLoggedIn()) {
       return true;
     } else {
-      this.router.navigate(['/ownerLogin']);
+      this.router.navigate(['/owner/login']);
       return false;
     }
   }

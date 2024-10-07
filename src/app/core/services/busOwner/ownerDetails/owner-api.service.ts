@@ -23,4 +23,4 @@ export class OwnerApiService {
     getOwnerEmail(): string | null {
         return localStorage.getItem('ownerEmail');
     }
-} 
+}

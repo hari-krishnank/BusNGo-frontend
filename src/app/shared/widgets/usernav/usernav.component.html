@@ -1,7 +1,7 @@
 <nav class="bg-gray-50 border-b border-gray-200 shadow-md fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between h-16">
-            <div [routerLink]="'/home'" class="flex-shrink-0 flex items-center hover:cursor-pointer">
+            <div [routerLink]="'/user/home'" class="flex-shrink-0 flex items-center hover:cursor-pointer">
                 <span class="text-xl font-bold">
                     <span class="text-red-500">B</span>usNGo
                 </span>
@@ -33,7 +33,7 @@
                         </button>
                     </ng-container>
                     <ng-template #loggedInMenu>
-                        <button mat-menu-item [routerLink]="'/userProfile'">
+                        <button mat-menu-item [routerLink]="'/user/profile'">
                             <mat-icon style="color: black;">person</mat-icon>
                             Profile
                         </button>

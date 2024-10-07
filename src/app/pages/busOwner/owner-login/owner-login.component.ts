@@ -38,7 +38,7 @@ export class OwnerLoginComponent {
     }
     this.authService.login(this.ownerLoginForm.value).subscribe(
       (response) => {
-        this.router.navigate(['/ownerHome']);
+        this.router.navigate(['/owner/home']);
       },
       (error) => {
         console.error('Login failed', error);

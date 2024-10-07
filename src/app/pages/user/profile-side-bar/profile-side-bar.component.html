@@ -1,26 +1,26 @@
 <div class="w-max bg-gray-100 max-h-full">
     <nav>
         <button class="ripple block w-full text-left px-4 py-2 border-b-2"
-            [ngClass]="{'text-blue-500': isRouteActive(['/userProfile']), 'text-gray-700': !isRouteActive(['/userProfile'])}"
-            [routerLink]="'/userProfile'">
+            [ngClass]="{'text-blue-500': isRouteActive(['/user/profile']), 'text-gray-700': !isRouteActive(['/user/profile'])}"
+            [routerLink]="'/user/profile'">
             <i class="fas fa-user mr-2 mt-4"></i> Account Information
             <p class="text-sm text-gray-500 ml-6 mt-2">Manage your profile, bookings and more</p>
         </button>
         <button class="ripple block w-full text-left px-4 py-2 border-b-2"
-            [ngClass]="{'text-blue-500': isRouteActive(['/completed-bookings', '/cancelled-bookings']), 'text-gray-700': !isRouteActive(['/completed-bookings', '/cancelled-bookings'])}"
-            [routerLink]="'/completed-bookings'">
+            [ngClass]="{'text-blue-500': isRouteActive(['/user/completed-bookings', '/user/cancelled-bookings']), 'text-gray-700': !isRouteActive(['/user/completed-bookings', '/user/cancelled-bookings'])}"
+            [routerLink]="'/user/completed-bookings'">
             <i class="fas fa-calendar-alt mr-2"></i> Your Bookings
             <p class="text-sm text-gray-500 ml-6 mt-2">Check your latest/cancelled bookings</p>
         </button>
         <button class="ripple block w-full text-left px-4 py-2 border-b-2"
-            [ngClass]="{'text-blue-500': isRouteActive(['/CoTravellers']), 'text-gray-700': !isRouteActive(['/CoTravellers'])}"
-            [routerLink]="'/CoTravellers'">
+            [ngClass]="{'text-blue-500': isRouteActive(['/user/co-travellers']), 'text-gray-700': !isRouteActive(['/user/co-travellers'])}"
+            [routerLink]="'/user/co-travellers'">
             <i class="fas fa-users mr-2"></i> Co-Travellers
             <p class="text-sm text-gray-500  ml-6 mt-2">Manage the respective traveler details</p>
         </button>
         <button class="ripple block w-full text-left px-4 py-2 border-b-2"
-            [ngClass]="{'text-blue-500': isRouteActive(['/wallet']), 'text-gray-700': !isRouteActive(['/wallet'])}"
-            [routerLink]="'/wallet'">
+            [ngClass]="{'text-blue-500': isRouteActive(['/user/wallet']), 'text-gray-700': !isRouteActive(['/user/wallet'])}"
+            [routerLink]="'/user/wallet'">
             <i class="fas fa-wallet mr-2"></i> BusNGo Wallet
             <p class="text-sm text-gray-500  ml-6 mt-2">Manage your added wallet balance</p>
         </button>
