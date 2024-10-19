@@ -6,12 +6,12 @@ import { FooterComponent } from '../../../shared/widgets/footer/footer.component
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SidebarModule } from 'primeng/sidebar';
+import { CancellationPolicySidebarComponent } from '../cancellation-policy-sidebar/cancellation-policy-sidebar.component';
 
 @Component({
   selector: 'app-booking-details',
   standalone: true,
-  imports: [UsernavComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, SidebarModule],
+  imports: [UsernavComponent, CommonModule, MatIconModule, MatButtonModule, CancellationPolicySidebarComponent, FooterComponent,],
   templateUrl: './booking-details.component.html',
   styleUrl: './booking-details.component.css'
 })
@@ -48,13 +48,21 @@ export class BookingDetailsComponent implements OnInit {
       case 'completed':
         return 'bg-green-600';
       case 'pending':
-        return 'bg-red-500';
+        return 'bg-orange-500';
+      case 'cancelled':
+        return 'bg-red-600'
       default:
         return 'bg-gray-500';
     }
   }
 
   openCancellationPolicy() {
-    this.sidebarVisible2 = true
+    this.sidebarVisible2 = true;
+  }
+  
+  onBookingCancelled() {
+    if (this.booking && this.booking.bookingId) {
+      this.loadBookingDetails(this.booking.bookingId);
+    }
   }
 }

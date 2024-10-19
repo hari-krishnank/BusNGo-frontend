@@ -8,11 +8,13 @@ import { noWhitespaceValidator, phoneNumberValidator, usernameValidator } from '
 import { profileDobField, profileEmailField, profileFirstNameField, profileLastNameField, profileMobileNumberField } from '../../../shared/configs/user/personalDetailsForm.config';
 import { CommonModule } from '@angular/common';
 import { UserProfile, UserProfileService } from '../../../core/services/user/user-profile.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-user-personal-info',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, FormComponent, ReactiveFormsModule, CommonModule],
+  imports: [MatButtonModule, MatIconModule, MatDatepickerModule, MatNativeDateModule, FormComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './user-personal-info.component.html',
   styleUrl: './user-personal-info.component.css'
 })
@@ -100,7 +102,7 @@ export class UserPersonalInfoComponent implements OnInit {
           this.isEditing = false;
           this.disableForm();
           this.loadUserProfile();
-          this.profileUpdated.emit(); 
+          this.profileUpdated.emit();
         },
         (error) => {
           console.error('Error updating profile:', error);
@@ -133,6 +135,6 @@ export class UserPersonalInfoComponent implements OnInit {
 
         this.personalDetailsForm.get(key)?.enable();
       }
-    }); 
+    });
   }
 }

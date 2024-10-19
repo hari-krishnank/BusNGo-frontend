@@ -89,7 +89,6 @@ export class SeatSelectionComponent implements OnInit {
 
   onSeatsSelected(tripName: string, selectedSeats: string[]) {
     this.seatsSelected.emit(selectedSeats);
-    console.log('seat emited:', this.seatsSelected.emit(selectedSeats));
     this.totalTicketPrice = selectedSeats.length * this.trip.ticketPrice;
   }
 
@@ -118,7 +117,6 @@ export class SeatSelectionComponent implements OnInit {
         bus_id: this.trip.bus._id 
       };
 
-      console.log('Emitting booking data:', emittedData);
       this.bookTrip.emit(emittedData);
 
       if (this.seatBookingComponent) {
@@ -130,7 +128,6 @@ export class SeatSelectionComponent implements OnInit {
     }
   }
 
-
   openErrorModal() {
     const dialogRef = this.dialog.open(ErrorModalComponent, {
       width: '300px',
@@ -139,7 +136,7 @@ export class SeatSelectionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'login') {
-        this.router.navigate(['/userLogin']);
+        this.router.navigate(['/user/login']);
       }
     });
   }

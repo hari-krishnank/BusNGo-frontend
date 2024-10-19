@@ -1,0 +1,30 @@
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 36px - 64px);
+    overflow: hidden;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.filter-scroll-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

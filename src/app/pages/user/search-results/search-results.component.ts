@@ -14,11 +14,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { SeatPreviewComponent } from '../../busOwner/seat-preview/seat-preview.component';
 import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
 import { TripService } from '../../../core/services/user/trip.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, UsernavComponent, UpdateSearchComponent, SortBusesComponent, FilterBusesComponent, SeatPreviewComponent, SeatSelectionComponent, BusrouteDetailsComponent, FooterComponent],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, InfiniteScrollModule, UsernavComponent, UpdateSearchComponent, SortBusesComponent, FilterBusesComponent, SeatPreviewComponent, SeatSelectionComponent, BusrouteDetailsComponent, FooterComponent],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.css'
 })
@@ -26,8 +28,13 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   searchResults: any[] = [];
   selectedDate: string = '';
   searchData: any;
+  displayedResults: any[] = [];
   noResultsFound: boolean = false;
   private subscription: Subscription = new Subscription();
+
+  pageSize: number = 3;
+  currentPage: number = 1;
+  isLoading: boolean = false;
 
   constructor(private router: Router, private searchResultsService: SearchResultsService, public tripService: TripService) {
     this.handleRouterNavigation();
@@ -74,6 +81,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       this.searchResultsService.searchResults$.subscribe(results => {
         this.searchResults = results || [];
         this.noResultsFound = this.searchResults.length === 0;
+        this.loadInitialResults();
         console.log('Updated search results:', this.searchResults);
       })
     );
@@ -89,6 +97,29 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
         this.searchData = data || null;
       })
     );
+  }
+
+  private loadInitialResults() {
+    this.displayedResults = this.searchResults.slice(0, this.pageSize);
+    console.log(this.displayedResults.length);
+
+    this.currentPage = 1;
+  }
+
+  onScroll() {
+    if (!this.isLoading && this.currentPage * this.pageSize < this.searchResults.length) {
+      this.isLoading = true;
+      setTimeout(() => {
+        const nextPage = this.currentPage + 1;
+        const nextPageResults = this.searchResults.slice(
+          this.currentPage * this.pageSize,
+          nextPage * this.pageSize
+        );
+        this.displayedResults.push(...nextPageResults);
+        this.currentPage = nextPage;
+        this.isLoading = false;
+      }, 2000);
+    }
   }
 
   private updateComponentData(results: any[], date: string, data: any) {

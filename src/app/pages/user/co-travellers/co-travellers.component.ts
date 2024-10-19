@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
@@ -9,11 +9,12 @@ import { CoTravellersModalComponent } from '../co-travellers-modal/co-travellers
 import { CoTravellerService } from '../../../core/services/user/co-traveller.service';
 import { CoTravellersCardComponent } from '../co-travellers-card/co-travellers-card.component';
 import { CustomPaginatorComponent } from '../../../shared/reusableComponents/custom-paginator/custom-paginator.component';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-co-travellers',
   standalone: true,
-  imports: [UsernavComponent, ProfileSideBarComponent, FooterComponent, CommonModule, MatButtonModule, MatDialogModule, CoTravellersCardComponent, CustomPaginatorComponent],
+  imports: [UsernavComponent, ProfileSideBarComponent, FooterComponent, CommonModule, MatButtonModule, MatPaginatorModule, MatDialogModule, CoTravellersCardComponent, CustomPaginatorComponent],
   templateUrl: './co-travellers.component.html',
   styleUrl: './co-travellers.component.css'
 })
@@ -24,11 +25,12 @@ export class CoTravellersComponent implements OnInit {
   pageSize = 5;
   pageIndex = 0;
   totalBookings = 5;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
     this.loadCoTravellers();
   }
- 
+
   loadCoTravellers() {
     this.coTravellerService.getAllCoTravellers().subscribe(
       (travellers) => {
@@ -68,7 +70,7 @@ export class CoTravellersComponent implements OnInit {
     );
   }
 
-  onPageChange(event: { pageIndex: number, pageSize: number }) {
+  onPageChange(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadCoTravellers()

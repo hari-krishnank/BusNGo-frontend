@@ -42,3 +42,10 @@
         color: black !important;
     }
 }
+
+.home-main {
+    background-attachment: fixed;
+    background-size: auto 90vh;
+    background-repeat: no-repeat;
+    background-position: center top;
+}

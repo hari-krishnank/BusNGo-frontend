@@ -1,76 +1,57 @@
-<div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold">Filters</h2>
-    <button class="text-gray-400">Reset All</button>
-</div>
+<div class="filter-container">
+    <div class="filter-header">
+        <h2 class="text-xl font-bold">Filters</h2>
+        <button class="text-gray-400">Reset All</button>
+    </div>
+    <div class="filter-scroll-area scrollbar-hide">
+        <!-- Bus Type filters -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="font-semibold">Bus Type</h3>
+                <button class="text-gray-400">Reset</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="bg-gray-100 p-2 rounded">AC</button>
+                <button class="bg-gray-100 p-2 rounded">Non-AC</button>
+                <button class="bg-gray-100 p-2 rounded">Seater</button>
+                <button class="bg-gray-100 p-2 rounded">Sleeper</button>
+            </div>
+        </div>
 
-<!-- Popular filters -->
-<!-- <div class="mb-4">
-    <div class="flex justify-between items-center mb-2">
-        <h3 class="font-semibold">Popular</h3>
-        <button class="text-gray-400">Reset</button>
-    </div>
-    <div class="space-y-2">
-        <label class="flex items-center">
-            <input type="checkbox" class="mr-2">
-            <span>BusNGo Discount</span>
-        </label>
-        <label class="flex items-center">
-            <input type="checkbox" class="mr-2">
-            <span>Live Tracking</span>
-        </label>
-        <label class="flex items-center">
-            <input type="checkbox" class="mr-2">
-            <span>Top Rated Buses</span>
-        </label>
-    </div>
-</div> -->
+        <!-- Departure Time filters -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="font-semibold">Departure Time</h3>
+                <button class="text-gray-400">Reset</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="bg-gray-100 p-2 rounded text-sm">12 midnight - 6 AM</button>
+                <button class="bg-gray-100 p-2 rounded text-sm">6 AM - 12 noon</button>
+                <button class="bg-gray-100 p-2 rounded text-sm">12 noon - 6 PM</button>
+                <button class="bg-gray-100 p-2 rounded text-sm">6 PM - 12 midnight</button>
+            </div>
+        </div>
 
-<!-- Bus Type filters -->
-<div class="mb-4">
-    <div class="flex justify-between items-center mb-2">
-        <h3 class="font-semibold">Bus Type</h3>
-        <button class="text-gray-400">Reset</button>
-    </div>
-    <div class="grid grid-cols-2 gap-2">
-        <button class="bg-gray-100 p-2 rounded">AC</button>
-        <button class="bg-gray-100 p-2 rounded">Non-AC</button>
-        <button class="bg-gray-100 p-2 rounded">Seater</button>
-        <button class="bg-gray-100 p-2 rounded">Sleeper</button>
-    </div>
-</div>
-
-<!-- Departure Time filters -->
-<div class="mb-8">
-    <div class="flex justify-between items-center mb-2">
-        <h3 class="font-semibold">Departure Time</h3>
-        <button class="text-gray-400">Reset</button>
-    </div>
-    <div class="grid grid-cols-2 gap-2">
-        <button class="bg-gray-100 p-2 rounded text-sm">12 midnight - 6 AM</button>
-        <button class="bg-gray-100 p-2 rounded text-sm">6 AM - 12 noon</button>
-        <button class="bg-gray-100 p-2 rounded text-sm">12 noon - 6 PM</button>
-        <button class="bg-gray-100 p-2 rounded text-sm">6 PM - 12 midnight</button>
-    </div>
-</div>
-
-
-<div class="mb-4">
-    <div class="flex justify-between items-center mb-2">
-        <h3 class="font-semibold text-gray-800">Arrival Time</h3>
-        <button class="text-gray-400 text-sm">Reset</button>
-    </div>
-    <div class="grid grid-cols-2 gap-2">
-        <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-            12 midnight - 6 AM
-        </button>
-        <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-            6 AM - 12 noon
-        </button>
-        <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-            12 noon - 6 PM
-        </button>
-        <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-            6 PM - 12 midnight
-        </button>
+        <!-- Arrival Time filters -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="font-semibold text-gray-800">Arrival Time</h3>
+                <button class="text-gray-400 text-sm">Reset</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
+                    12 midnight - 6 AM
+                </button>
+                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
+                    6 AM - 12 noon
+                </button>
+                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
+                    12 noon - 6 PM
+                </button>
+                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
+                    6 PM - 12 midnight
+                </button>
+            </div>
+        </div>
     </div>
 </div>

@@ -11,25 +11,26 @@ import { FooterComponent } from '../../../shared/widgets/footer/footer.component
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
 import { CustomPaginatorComponent } from '../../../shared/reusableComponents/custom-paginator/custom-paginator.component';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-completed-bookings',
   standalone: true,
-  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, FooterComponent, UsernavComponent, ProfileSideBarComponent, CustomPaginatorComponent],
+  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, MatPaginatorModule, FooterComponent, UsernavComponent, ProfileSideBarComponent, CustomPaginatorComponent],
   templateUrl: './completed-bookings.component.html',
   styleUrl: './completed-bookings.component.css'
 })
 export class CompletedBookingsComponent implements OnInit {
-  @ViewChild('sidebarContent') sidebarContent!: ElementRef;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  completedBookings: any[] = [];
+  completedBookings: any[] = []; 
   isLoading: boolean = true;
   sidebarVisible2: boolean = false;
   selectedBooking: any = null;
 
   pageSize = 5;
   pageIndex = 0;
-  totalBookings = 5;
+  totalBookings = 1;
 
   constructor(private completedBookingService: CompletedBookingService, private router: Router) { }
 
@@ -55,9 +56,9 @@ export class CompletedBookingsComponent implements OnInit {
     this.router.navigate(['/booking-details', booking.bookingId]);
   }
 
-  onPageChange(event: { pageIndex: number, pageSize: number }) {
+  onPageChange(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadCompletedBookings();
   }
-}
+} 

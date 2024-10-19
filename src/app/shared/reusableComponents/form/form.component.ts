@@ -13,11 +13,18 @@ import { SeatPreviewComponent } from '../../../pages/busOwner/seat-preview/seat-
 import { fadeInOut, slideInOut } from '../../animations/form.animations';
 import { Feature, MapBoxService } from '../../services/map-box.service';
 import { FormField, ModalFormField } from '../../../core/models/user/form-fields.interface';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SeatPreviewComponent, MatSlideToggleModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    SeatPreviewComponent, 
+    MatDatepickerModule,
+    MatSlideToggleModule, 
+    MatCheckboxModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatTooltipModule, MatIconModule, MatSelectModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css',
   animations: [fadeInOut, slideInOut]
@@ -35,6 +42,8 @@ export class FormComponent<T> implements OnInit {
   @Output() valueChanges = new EventEmitter<any>();
   private openMultiselects: { [key: string]: boolean } = {};
 
+  minDate: Date = new Date();
+
 
   constructor(private fb: FormBuilder, private mapboxService: MapBoxService) { }
 
@@ -46,6 +55,12 @@ export class FormComponent<T> implements OnInit {
     this.form.get('location')?.statusChanges.subscribe(status => {
       console.log('Location status:', status);
       console.log('Location errors:', this.form.get('location')?.errors);
+    });
+
+    this.fields.forEach(field => {
+      if (field.type === 'date' && field.config && field.config.min) {
+        this.minDate = field.config.min;
+      }
     });
   }
 

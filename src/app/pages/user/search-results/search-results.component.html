@@ -1,11 +1,14 @@
 <app-update-search [searchData]="searchData"></app-update-search>
-<div class="container mx-auto p-4 mb-16 mt-36">
+<div class="search-results-container container mx-auto p-4 mb-16 mt-36">
     <app-sort-buses></app-sort-buses>
-    <div class="flex">
-        <app-filter-buses class="w-1/4 pr-4 mr-2"></app-filter-buses>
-        <div class="w-3/4">
+    <div class="flex h-[calc(100vh-100px)]">
+        <div class="w-1/4 pr-4 sidebar">
+            <app-filter-buses></app-filter-buses>
+        </div>
+        <div class="main-content w-3/4 ml-auto" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+            (scrolled)="onScroll()">
             <div class="space-y-8">
-                <div *ngFor="let trip of searchResults; trackBy: trackByTripId"
+                <div *ngFor="let trip of displayedResults; trackBy: trackByTripId"
                     class="border rounded-lg p-4 bg-white shadow-md">
                     <div class="flex justify-between items-start mb-4">
                         <div class="w-1/5 pr-2">
@@ -31,63 +34,63 @@
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <div class="mt-4">
-                        </div>
+                        <div class="mt-4"></div>
                         <button class="w-40" mat-raised-button color="primary"
-                            (click)="tripService.toggleTripDetails(trip._id)">
-                            {{ tripService.isTripExpanded(trip._id) ? 'HIDE SEATS' : 'SELECT SEATS' }}
+                            (click)="tripService.toggleTripDetails(trip?.bus?._id)">
+                            {{ tripService.isTripExpanded(trip?.bus?._id) ? 'HIDE SEATS' : 'SELECT SEATS' }}
                         </button>
                     </div>
 
-                    <div *ngIf="tripService.expandedTripIds[trip._id]" class="mt-4">
+                    <div *ngIf="tripService.expandedTripIds[trip?.bus?._id]" class="mt-4">
                         <div class="bg-gray-100 rounded-full">
                             <ul class="flex justify-between mt-2 ml-3" style="padding: 10px;">
                                 <li>
                                     <button mat-button
-                                        [color]="tripService.isSelectedSection(trip._id, 'SELECT SEATS') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip?.bus?._id, 'SELECT SEATS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="tripService.selectSection(trip._id, 'SELECT SEATS')">
+                                        (click)="tripService.selectSection(trip?.bus?._id, 'SELECT SEATS')">
                                         SELECT SEATS
                                     </button>
                                 </li>
                                 <li>
                                     <button mat-button
-                                        [color]="tripService.isSelectedSection(trip._id, 'AMENITIES AND PHOTOS') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip?.bus?._id, 'AMENITIES AND PHOTOS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="tripService.selectSection(trip._id, 'AMENITIES AND PHOTOS')">
+                                        (click)="tripService.selectSection(trip?.bus?._id, 'AMENITIES AND PHOTOS')">
                                         AMENITIES AND PHOTOS
                                     </button>
                                 </li>
                                 <li>
                                     <button mat-button
-                                        [color]="tripService.isSelectedSection(trip._id, 'REVIEWS') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip?.bus?._id, 'REVIEWS') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="tripService.selectSection(trip._id, 'REVIEWS')">
+                                        (click)="tripService.selectSection(trip?.bus?._id, 'REVIEWS')">
                                         REVIEWS
                                     </button>
                                 </li>
                                 <li>
                                     <button mat-button
-                                        [color]="tripService.isSelectedSection(trip._id, 'POLICIES') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip?.bus?._id, 'POLICIES') ? 'warn' : ''"
                                         class="px-4 py-2" style="font-size: small;"
-                                        (click)="tripService.selectSection(trip._id, 'POLICIES')">
+                                        (click)="tripService.selectSection(trip?.bus?._id, 'POLICIES')">
                                         POLICIES
                                     </button>
                                 </li>
                                 <li>
                                     <button mat-button
-                                        [color]="tripService.isSelectedSection(trip._id, 'BOARDING AND DROPPING') ? 'warn' : ''"
+                                        [color]="tripService.isSelectedSection(trip?.bus?._id, 'BOARDING AND DROPPING') ? 'warn' : ''"
                                         class="px-4 py-2 mr-3" style="font-size: small;"
-                                        (click)="tripService.selectSection(trip._id, 'BOARDING AND DROPPING')">
+                                        (click)="tripService.selectSection(trip?.bus?._id, 'BOARDING AND DROPPING')">
                                         BOARDING AND DROPPING
                                     </button>
                                 </li>
                             </ul>
                         </div>
 
-                        <div [ngSwitch]="tripService.selectedSections[trip._id]" class="mt-4">
+                        <div [ngSwitch]="tripService.selectedSections[trip?.bus?._id]" class="mt-4">
                             <div *ngSwitchCase="'SELECT SEATS'">
-                                <app-seat-selection [trip]="trip"
+                                <app-seat-selection 
+                                    [trip]="trip"
                                     (seatsSelected)="onSeatsSelected(trip.bus.name, $event)"
                                     (bookSeatsClicked)="bookSeats($event)">
                                 </app-seat-selection>
@@ -111,8 +114,11 @@
                     <p class="text-xl">No results found for your search criteria.</p>
                 </div>
             </div>
+            <div *ngIf="isLoading" class="flex justify-center items-center py-4">
+                <mat-spinner [diameter]="40"></mat-spinner>
+            </div>
         </div>
     </div>
-    <!-- <app-busroute-details></app-busroute-details> -->
+    <app-busroute-details></app-busroute-details>
 </div>
 <app-footer></app-footer>

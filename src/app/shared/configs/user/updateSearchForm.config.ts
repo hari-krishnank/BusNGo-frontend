@@ -21,12 +21,34 @@ export const To: FormField[] = [
     },
 ];
 
-export const Date: FormField[] = [
+// export const Date: FormField[] = [
+//     {
+//         name: 'dateField',
+//         type: 'date',
+//         placeholder: 'Date',
+//         validators: [Validators.required],
+//         errors: [
+//             { type: 'required', message: 'Date is required' },
+//             { type: 'invalidDate', message: 'Please select a current or future date' }
+//         ],
+//         config: {
+//             min: new Date() 
+//         }
+//     }
+// ];
+
+export const dateFieldConfig: FormField[] = [
     {
         name: 'dateField',
         type: 'date',
         placeholder: 'Date',
         validators: [Validators.required],
-        errors: [{ type: 'required', message: 'Date is required' }]
+        errors: [
+            { type: 'required', message: 'Date is required' },
+            { type: 'invalidDate', message: 'Please select a current or future date' }
+        ],
+        config: {
+            min: new Date() 
+        }
     }
 ];

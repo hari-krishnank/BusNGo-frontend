@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
@@ -7,27 +7,32 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { WalletAddMoneyModalComponent } from '../wallet-add-money-modal/wallet-add-money-modal.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WalletService } from '../../../core/services/user/wallet.service';
+import { CommonModule } from '@angular/common';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-wallet',
   standalone: true,
-  imports: [UsernavComponent, ProfileSideBarComponent, FooterComponent, MatButtonModule, MatDialogModule],
+  imports: [CommonModule, UsernavComponent, ProfileSideBarComponent, FooterComponent, MatButtonModule, MatDialogModule, MatPaginatorModule],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.css'
 })
 export class WalletComponent {
   walletBalance: number = 0;
   transactions: any[] = [];
+  pagedTransactions: any[] = [];
+  pageSize: number = 5;
 
-  constructor(private dialog: MatDialog, private walletService: WalletService, private route: ActivatedRoute, private router: Router) { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(
+    private dialog: MatDialog,
+    private walletService: WalletService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    // this.route.queryParams.subscribe(params => {
-    //   if (params['session_id']) {
-    //     this.verifySession(params['session_id']);
-    //   }
-    // });
-    // this.loadWalletData();
     this.route.url.subscribe(segments => {
       if (segments.length > 0 && segments[0].path === 'success') {
         this.handleSuccessRedirect();
@@ -52,8 +57,21 @@ export class WalletComponent {
       balance => this.walletBalance = balance
     );
     this.walletService.getTransactions().subscribe(
-      transactions => this.transactions = transactions
+      transactions => {
+        this.transactions = transactions;
+        this.updatePagedTransactions();
+      }
     );
+  }
+
+  updatePagedTransactions() {
+    const startIndex = this.paginator ? this.paginator.pageIndex * this.paginator.pageSize : 0;
+    this.pagedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.updatePagedTransactions();
   }
 
   openAddMoneyModal(): void {
@@ -65,7 +83,6 @@ export class WalletComponent {
       if (result) {
         this.walletService.createTopUpSession(result).subscribe(
           sessionId => {
-            // Redirect to Stripe Checkout
             window.location.href = sessionId;
           },
           error => console.error('Error creating top-up session:', error)

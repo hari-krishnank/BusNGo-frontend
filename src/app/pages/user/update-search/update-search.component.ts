@@ -8,12 +8,15 @@ import { UpdateSearchService } from '../../../core/services/user/update-search.s
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchResultsService } from '../../../core/services/user/search-result.service';
-import { Date, From, To } from '../../../shared/configs/user/updateSearchForm.config';
+import { dateFieldConfig, From, To } from '../../../shared/configs/user/updateSearchForm.config';
+import { dateValidator } from '../../../shared/validators/search-date.validator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-update-search',
   standalone: true,
-  imports: [UsernavComponent, FormComponent, MatButtonModule, HttpClientModule],
+  imports: [UsernavComponent, FormComponent, MatButtonModule, HttpClientModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './update-search.component.html',
   styleUrl: './update-search.component.css'
 })
@@ -22,15 +25,20 @@ export class UpdateSearchComponent {
   updateSearchForm!: FormGroup;
   From: FormField[] = From
   To: FormField[] = To
-  Date: FormField[] = Date
+  Date: FormField[] = dateFieldConfig
 
-  constructor(private fb: FormBuilder, private updateSearchService: UpdateSearchService, private router: Router, private searchResultsService: SearchResultsService) { }
+  constructor(
+    private fb: FormBuilder,
+    private updateSearchService: UpdateSearchService,
+    private router: Router,
+    private searchResultsService: SearchResultsService
+  ) { }
 
   ngOnInit() {
     this.updateSearchForm = this.fb.group({
       from: [this.searchData?.from || '', Validators.required],
       to: [this.searchData?.to || '', Validators.required],
-      dateField: [this.searchData?.date || '', Validators.required]
+      dateField: [this.searchData?.date || '', [Validators.required, dateValidator()]]
     });
   }
 
@@ -49,7 +57,7 @@ export class UpdateSearchComponent {
       const searchData = {
         from: this.updateSearchForm.get('from')?.value,
         to: this.updateSearchForm.get('to')?.value,
-        date: this.updateSearchForm.get('dateField')?.value
+        date: this.formatDate(this.updateSearchForm.get('dateField')?.value)
       };
 
       this.updateSearchService.updateSearch(searchData).subscribe(
@@ -65,5 +73,10 @@ export class UpdateSearchComponent {
         }
       );
     }
+  }
+
+  private formatDate(date: string | Date): string {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
 }

@@ -4,11 +4,7 @@
 
     <app-notification-banner></app-notification-banner>
 
-    <div class="bg-cover relative bg-center h-[500px] flex flex-col justify-between" style="background-image: url('assets/User/homemain.jpg');
-        background-attachment: fixed;
-        background-size: auto 90vh;
-        background-repeat: no-repeat;
-        background-position: center top;">
+    <div class="home-main bg-cover relative bg-center h-[500px] flex flex-col justify-between" style="background-image: url('assets/User/homemain.jpg');">
 
         <div class="relative z-10 container mx-auto px-4 pt-32 max-w-5xl">
             <p class="text-white text-3xl font-bold mb-2" style="margin-left: 130px;">Book Cheap Bus Tickets</p>
@@ -18,12 +14,27 @@
         <div class="relative z-10 container mx-auto px-4 pb-36">
             <div class="bg-gray-50 rounded-lg p-4 flex items-center max-w-5xl mx-auto">
                 <div class="flex-grow flex items-center space-x-4">
-                    <app-form [form]="searchForm" [fields]="From" (formSubmit)="onSearchSubmit()"
-                        submitButtonText="Find now" [hideSubmitButton]="true" class="w-1/3"></app-form>
-                    <app-form [form]="searchForm" [fields]="To" (formSubmit)="onSearchSubmit()"
-                        submitButtonText="Find now" [hideSubmitButton]="true" class="w-1/3"></app-form>
-                    <app-form [form]="searchForm" [fields]="Date" (formSubmit)="onSearchSubmit()"
-                        submitButtonText="Find now" [hideSubmitButton]="true" class="w-1/3"></app-form>
+                    <app-form class="w-1/3"
+                        [form]="searchForm" 
+                        [fields]="From" 
+                        (formSubmit)="onSearchSubmit()"
+                        submitButtonText="Find now" 
+                        [hideSubmitButton]="true">
+                    </app-form>
+                    <app-form class="w-1/3"
+                        [form]="searchForm" 
+                        [fields]="To" 
+                        (formSubmit)="onSearchSubmit()"
+                        submitButtonText="Find now" 
+                        [hideSubmitButton]="true">
+                    </app-form>
+                    <app-form class="w-1/3"
+                        [form]="searchForm" 
+                        [fields]="Date" 
+                        (formSubmit)="onSearchSubmit()"
+                        submitButtonText="Find now" 
+                        [hideSubmitButton]="true">
+                    </app-form>
                 </div>
                 <button (click)="onSearchSubmit()" mat-raised-button color="primary"
                     class="ml-4 px-4 py-2 text-base hover:bg-opacity-80 transition-colors duration-300">

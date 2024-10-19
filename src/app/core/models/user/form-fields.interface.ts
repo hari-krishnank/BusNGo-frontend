@@ -12,12 +12,17 @@ export interface FormField {
     type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'iconSelect' | 'toggle' | 'checkbox' | 'autocomplete' | 'select' | 'date' | 'radio' | 'textarea';
     placeholder?: string;
     errors: FormFieldError[];
-    validators?: any[]; 
+    validators?: any[];
     showPassword?: boolean;
+    conditionalDisplay?: string;
+    value?: string;
+    rows?: number;
     options?: { value: string; label: string, iconClass?: string }[];
-    conditionalDisplay?: string
-    value?: string
-    rows?: number
+    config?: {
+        min?: Date;
+        max?: Date;
+        [key: string]: any;
+    };
 }
 
 export interface ModalFormField {

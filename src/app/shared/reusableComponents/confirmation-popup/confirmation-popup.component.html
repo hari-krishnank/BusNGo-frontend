@@ -1,0 +1,16 @@
+<div *ngIf="isOpen" #popupElement class="absolute bg-white rounded-md shadow-lg p-4 h-26 z-50 w-96"
+    [style.bottom.px]="position.bottom" [style.left.px]="position.left">
+    <div class="flex justify-center mb-2 text-blue-600">
+        <mat-icon>info</mat-icon>
+    </div>
+    <p class="text-sm font-medium">{{ message }}</p>
+    <div class="border-b-2 mb-4"></div>
+    <div class="flex justify-end space-x-2">
+        <button mat-stroked-button class="px-4 py-2" (click)="onCancel.emit()">
+            Cancel
+        </button>
+        <button mat-stroked-button class="px-4 py-2" color="warn" (click)="onConfirm.emit()">
+            Confirm
+        </button>
+    </div>
+</div>

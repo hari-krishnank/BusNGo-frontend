@@ -13,7 +13,17 @@ import { UserProfile, UserProfileService } from '../../../core/services/user/use
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [UsernavComponent, UserPersonalInfoComponent, ProfileSideBarComponent, FooterComponent, CommonModule, MatIconModule, MatButtonModule, MatProgressBarModule, MatCardModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    UsernavComponent,
+    ProfileSideBarComponent,
+    UserPersonalInfoComponent,
+    FooterComponent,
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })

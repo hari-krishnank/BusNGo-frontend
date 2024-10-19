@@ -10,18 +10,18 @@ export class PendingBookingService {
     private backendURL = environment.backendUrl
 
     constructor(private http: HttpClient) { }
- 
+
     private getHeaders(): HttpHeaders {
         const token = localStorage.getItem('userToken');
-        console.log('userToken:', token);
         return new HttpHeaders().set('Authorization', `Bearer ${token}`)
     }
 
     createPendingBooking(bookingData: any): Observable<any> {
+        console.log(bookingData);
         return this.http.post(`${this.backendURL}/bookings/pending-booking`, bookingData, { headers: this.getHeaders() });
     }
 
     getPendingBooking(bookingId: string): Observable<any> {
         return this.http.get(`${this.backendURL}/bookings/pending-booking/${bookingId}`);
     }
-} 
+}

@@ -11,63 +11,46 @@ import { FooterComponent } from '../../../../shared/widgets/footer/footer.compon
 import { FaqsComponent } from '../faqs/faqs.component';
 import { BusBenefitsComponent } from '../bus-benefits/bus-benefits.component';
 import { NotificationBannerComponent } from '../notification-banner/notification-banner.component';
-import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { NgbAlertModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormComponent } from '../../../../shared/reusableComponents/form/form.component';
-import { FormField } from '../../../../core/models/user/form-fields.interface';
 import { SearchTripService } from '../../../../core/services/user/search-trip.service';
-import { HttpClientModule } from '@angular/common/http';
-import { From } from '../../../../shared/configs/user/busSearchForm.config';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { FormService } from '../../../../core/services/user/search-form.service';
+import { DateService } from '../../../../core/services/user/date.service';
 
 @Component({
   selector: 'app-userhome',
   standalone: true,
-  imports: [
-    CommonModule, MatButtonModule, MatDatepickerModule, MatIconModule, MatInputModule, MatNativeDateModule, NgbDatepickerModule, NgbAlertModule,
-    UsernavComponent, NotificationBannerComponent, OffersComponent, BusBenefitsComponent, FaqsComponent, FooterComponent, FormsModule, JsonPipe, RouterModule, FormComponent, HttpClientModule
+  imports: [MatButtonModule, MatDatepickerModule, MatIconModule, MatInputModule, MatNativeDateModule, NgbDatepickerModule,
+    NgbAlertModule, JsonPipe, CommonModule, RouterModule, FormsModule, UsernavComponent, NotificationBannerComponent,
+    FormComponent, OffersComponent, BusBenefitsComponent, FaqsComponent, FooterComponent
   ],
   templateUrl: './userhome.component.html',
   styleUrl: './userhome.component.css',
 })
 export class UserhomeComponent implements OnInit, OnDestroy {
-  model !: NgbDateStruct;
   searchForm!: FormGroup;
-  From: FormField[] = From
-
-  To: FormField[] = [
-    {
-      name: 'to',
-      label: 'From',
-      type: 'autocomplete',
-      placeholder: 'To',
-      validators: [Validators.required],
-      errors: [{ type: 'required', message: 'To location is required' }]
-    },
-  ]
-
-  Date: FormField[] = [
-    {
-      name: 'dateField',
-      type: 'date',
-      placeholder: 'Date',
-      validators: [Validators.required],
-      errors: [{ type: 'required', message: 'Date is required' }]
-    }
-  ]
+  From = this.formService.getFromFields();
+  To = this.formService.getToFields();
+  Date = this.formService.getDateFields();
+  minDate: Date;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private router: Router, private searchTripService: SearchTripService) { }
+  constructor(
+    private router: Router,
+    private searchTripService: SearchTripService,
+    private formService: FormService,
+    private dateService: DateService
+  ) {
+    this.minDate = new Date();
+  }
 
   ngOnInit() {
-    this.searchForm = this.fb.group({
-      from: ['', Validators.required],
-      to: ['', Validators.required],
-      dateField: ['', Validators.required]
-    });
+    this.searchForm = this.formService.createSearchForm();
     this.setupDebouncing();
   }
 
@@ -77,40 +60,22 @@ export class UserhomeComponent implements OnInit, OnDestroy {
   }
 
   private setupDebouncing() {
-    //Debounce for the 'from' field
-    this.searchForm.get('from')!.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(value => {
-      console.log('Debounced from value:', value);
-    }); 
- 
-    // Debounce for the 'to' field
-    this.searchForm.get('to')!.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(value => {
-      console.log('Debounced to value:', value);
-    });
+    this.formService.setupDebouncing(this.searchForm, this.destroy$);
   }
 
   onSearchSubmit() {
     if (this.searchForm.valid) {
-      const searchData = {
-        from: this.searchForm.get('from')?.value,
-        to: this.searchForm.get('to')?.value,
-        date: this.formatDate(this.searchForm.get('dateField')?.value)
-      };
+      const searchData = this.formService.getSearchData(this.searchForm);
+      console.log('Search data:', searchData);
 
-      console.log('Sending search data:', searchData);
+      const adjustedDate = new Date(searchData.date);
+      searchData.date = adjustedDate.toISOString().split('T')[0];
 
-      this.searchTripService.searchTrips(searchData).subscribe(
+      this.searchTripService.searchTrips(searchData).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(
         (results) => {
-          console.log('Received search results:', results);
-          const searchDataToStore = { ...searchData, results };
-          localStorage.setItem('searchData', JSON.stringify(searchDataToStore));
+          this.formService.storeSearchData(searchData, results);
           this.router.navigate(['/searchresults'], {
             state: {
               searchResults: results,
@@ -124,17 +89,6 @@ export class UserhomeComponent implements OnInit, OnDestroy {
           console.error('Error searching trips:', error);
         }
       );
-    }
-  }
-
-  private formatDate(date: string | Date): string {
-    if (date instanceof Date) {
-      return date.toISOString().split('T')[0];
-    } else if (typeof date === 'string') {
-      return new Date(date).toISOString().split('T')[0];
-    } else {
-      console.error('Invalid date format:', date);
-      return '';
     }
   }
 } 

@@ -172,6 +172,26 @@
                         </div>
                     </ng-container>
 
+                    <ng-container *ngSwitchCase="'date'">
+                        <div class="relative">
+                            <input [matDatepicker]="picker" [formControlName]="field.name" [min]="minDate"
+                                [id]="field.name" [ngClass]="{
+                                    'border-blue-500 focus:border-blue-400 focus:ring-blue-400': !shouldShowError(field.name),
+                                    'border-red-500 focus:border-transparent focus:ring-transparent': shouldShowError(field.name)
+                                }"
+                                class="block w-full px-3 py-3 pr-10 text-gray-700 bg-white rounded-lg focus:outline-none focus:ring-1 transition-colors peer"
+                                placeholder=" "
+                                [style.border]="shouldShowError(field.name) ? '1px solid red' : '1px solid gainsboro'">
+                            <label [for]="field.name"
+                                class="absolute left-4 top-3 text-gray-600 transition-all duration-200 peer-focus:-top-2.5 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1 peer-focus:text-xs peer-focus:font-medium peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:font-medium">
+                                {{ field.placeholder }}
+                            </label>
+                            <mat-datepicker-toggle [for]="picker"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </div>
+                    </ng-container>
+
                     <ng-container *ngSwitchDefault>
                         <input [type]="field.type" [id]="field.name" [formControlName]="field.name" [ngClass]="{
                                 'border-blue-500 focus:border-blue-400 focus:ring-blue-400': !shouldShowError(field.name),

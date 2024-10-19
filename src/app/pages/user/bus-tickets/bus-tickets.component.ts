@@ -12,16 +12,16 @@ import { StripeService } from '../../../core/services/user/stripe.service';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { environment } from '../../../../environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CancellationBookingPolicyComponent } from '../cancellation-booking-policy/cancellation-booking-policy.component';
 
 @Component({
   selector: 'app-bus-tickets',
   standalone: true,
-  imports: [CommonModule, UsernavComponent, MatButtonModule, MatCardModule, MatIconModule, MatInputModule, FooterComponent],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule, UsernavComponent, CancellationBookingPolicyComponent, FooterComponent],
   templateUrl: './bus-tickets.component.html',
   styleUrl: './bus-tickets.component.css'
 })
 export class BusTicketsComponent implements OnInit {
-
   pendingBooking: any;
   priceBreakdown!: { baseFare: number; tax: number; convenienceFee: number; totalAmount: number; };
   private stripePromise: Promise<Stripe | null>;
@@ -40,7 +40,6 @@ export class BusTicketsComponent implements OnInit {
       }
     });
 
-    // Check for Stripe redirect
     this.route.queryParams.subscribe(params => {
       if (params['session_id']) {
         this.handleStripeRedirect(params['session_id']);
@@ -65,12 +64,12 @@ export class BusTicketsComponent implements OnInit {
   }
 
   calculatePriceBreakdown() {
-    const baseFare = this.pendingBooking.totalTicketPrice;
-    const tax = Math.round(baseFare * 0.05);
-    const convenienceFee = 13;
-    const totalAmount = baseFare + tax + convenienceFee;
-
-    this.priceBreakdown = { baseFare, tax, convenienceFee, totalAmount };
+    this.priceBreakdown = {
+      baseFare: this.pendingBooking.baseFare,
+      tax: this.pendingBooking.tax,
+      convenienceFee: this.pendingBooking.convenienceFee,
+      totalAmount: this.pendingBooking.totalAmount
+    };
   }
 
   onPaymentMethodChange(method: 'stripe' | 'wallet') {

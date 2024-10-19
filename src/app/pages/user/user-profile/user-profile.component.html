@@ -1,7 +1,7 @@
 <app-usernav></app-usernav>
 
 <div class="relative min-h-screen flex bg-gray-100">
-    <div class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-neutral-200 to-neutral-100 rounded-bl-[70%] rounded-br-[40%]">
+    <div class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-slate-200 to-neutral-100 rounded-bl-[110%] rounded-br-[40%]">
     </div>
 
     <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
@@ -9,28 +9,30 @@
             <div class="mt-28">
                 <p class="text-3xl font-sans text-black mb-4 font-semibold">Account Information</p>
             </div>
-            <div class="flex">
+            <div class="flex flex-col md:flex-row">
                 <!-- Sidebar -->
-                <app-profile-side-bar></app-profile-side-bar> 
+                <app-profile-side-bar class="mb-4 md:mb-0"></app-profile-side-bar> 
 
                 <!-- Main content -->
                 <div class="flex-1" *ngIf="userProfile">
-                    <div class="bg-white border-l shadow-sm p-8 mb-8 h-full">
-                        <div class="flex items-center mb-8">
-                            <div class="w-40 h-40 rounded-full overflow-hidden mr-8 border-4 border-neutral-300 relative">
-                                <div *ngIf="!userProfile.profileImage" class="w-full h-full bg-neutral-100 flex items-center justify-center">
-                                    <span class="text-7xl text-violet-700" style="font-weight: 500;">{{ userInitial }}</span>
+                    <div class="bg-white border-l shadow-sm p-8 mb-8 min-h-[600px] flex flex-col">
+                        <div class="flex-grow overflow-y-auto">
+                            <div class="flex items-center mb-8">
+                                <div class="w-40 h-40 rounded-full overflow-hidden mr-8 border-4 border-neutral-300 relative">
+                                    <div *ngIf="!userProfile.profileImage" class="w-full h-full bg-neutral-100 flex items-center justify-center">
+                                        <span class="text-7xl text-violet-700" style="font-weight: 500;">{{ userInitial }}</span>
+                                    </div>
+                                    <img *ngIf="userProfile.profileImage" [src]="userProfile.profileImage" alt="Profile Image" class="w-full h-full object-cover">
                                 </div>
-                                <img *ngIf="userProfile.profileImage" [src]="userProfile.profileImage" alt="Profile Image" class="w-full h-full object-cover">
+                                <div>
+                                    <p class="text-3xl font-sans font-semibold">{{ fullName }}</p>
+                                    <p class="text-black my-2">{{ userProfile.phone || 'No phone number provided' }}</p>
+                                    <p class="text-black mb-2">{{ userProfile.email }}</p>
+                                    <button mat-stroked-button color="primary" class="mb-2 mt-2" (click)="onEditProfilePhoto()">Edit Profile Photo</button>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-3xl font-sans font-semibold">{{ fullName }}</p>
-                                <p class="text-black my-2">{{ userProfile.phone || 'No phone number provided' }}</p>
-                                <p class="text-black mb-2">{{ userProfile.email }}</p>
-                                <button mat-stroked-button color="primary" class="mb-2 mt-2" (click)="onEditProfilePhoto()">Edit Profile Photo</button>
-                            </div>
+                            <app-user-personal-info (profileUpdated)="onProfileUpdated()"></app-user-personal-info>
                         </div>
-                        <app-user-personal-info (profileUpdated)="onProfileUpdated()"></app-user-personal-info>
                     </div>
                 </div>
             </div>

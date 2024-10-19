@@ -18,8 +18,13 @@
             <app-form [form]="updateSearchForm" [fields]="To" (formSubmit)="onUpdateSearch()" submitButtonText="Update"
                 [hideSubmitButton]="true" class="w-80"></app-form>
 
-            <app-form [form]="updateSearchForm" [fields]="Date" (formSubmit)="onUpdateSearch()"
-                submitButtonText="Update" [hideSubmitButton]="true" class="w-80"></app-form>
+            <app-form class="w-80"
+                [form]="updateSearchForm" 
+                [fields]="Date" 
+                (formSubmit)="onUpdateSearch()"
+                submitButtonText="Update" 
+                [hideSubmitButton]="true">
+            </app-form>
 
             <button (click)="onUpdateSearch()" mat-button color="warn" style="font-size: 13px; font-weight: 600;">
                 UPDATE SEARCH</button>

@@ -1,0 +1,54 @@
+<p-sidebar [(visible)]="isVisible" position="right" styleClass="hidden-scrollbar" (onHide)="onSidebarHide()">
+    <div class="sidebar-content" *ngIf="isVisible">
+        <p class="text-2xl font-serif text-black mb-4">Cancellation Policy</p>
+
+        <div *ngIf="booking?.cancellationPolicy">
+            <div *ngIf="booking.hoursUntilDeparture > 0" class="mb-4 border-b">
+                <p class="font-sans text-xl">Current cancellation status:</p>
+                <p class="font-semibold">Time until departure:
+                    <span class="font-normal hover:text-red-400">
+                        {{ booking.hoursUntilDeparture | timeFormat }}
+                    </span>
+                </p>
+                <p class="font-semibold">Current refund percentage:
+                    <span class="font-normal hover:text-red-400">
+                        {{ booking.currentRefundPercentage }}%
+                    </span>
+                </p>
+            </div>
+            <div *ngIf="booking.hoursUntilDeparture <= 0" class="mb-4 text-red-600 font-serif text-lg">
+                <p>Cancellation is no longer possible. The departure time has passed.</p>
+            </div>
+            <table *ngIf="booking.hoursUntilDeparture > 0" class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-2 text-left font-serif">Timeframe</th>
+                        <th class="p-2 text-left font-serif">Refund Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let policy of booking.cancellationPolicy; let i = index" class="border-b">
+                        <td class="p-2 font-sans">{{ getTimeframe(i, booking.cancellationPolicy) }}</td>
+                        <td class="p-2 font-sans">{{ policy.refundPercentage }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="booking.hoursUntilDeparture > 0" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 mt-4">
+                <p class="font-bold mb-2">Note:</p>
+                <ul class="list-disc pl-5">
+                    <li *ngFor="let note of cancellationNotes" class="mb-1">{{ note }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="flex items-start justify-start border-t">
+        <button *ngIf="booking.hoursUntilDeparture > 0" mat-stroked-button color="primary" class="mt-3" (click)="toggleCancelTicketConfirmation($event)">
+            Cancel Ticket
+        </button>
+        <app-confirmation-popup 
+            [isOpen]="isConfirmationOpen" 
+            (onConfirm)="onConfirmCancelTicket()" 
+            (onCancel)="onCancelConfirmation()">
+        </app-confirmation-popup>
+    </div>
+</p-sidebar>

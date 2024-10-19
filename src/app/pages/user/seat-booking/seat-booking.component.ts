@@ -45,10 +45,6 @@ export class SeatBookingComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('Received trip data:', this.trip);
-    console.log('Received boardingPoint:', this.boardingPoint);
-    console.log('Received droppingPoint:', this.droppingPoint);
-
     this.updateTotalTicketPrice();
   }
 
@@ -99,7 +95,6 @@ export class SeatBookingComponent implements OnInit, OnChanges {
   updateTotalTicketPrice() {
     if (this.trip && this.trip.selectedSeats) {
       this.totalTicketPrice = this.trip.selectedSeats.length * this.trip.ticketPrice;
-      console.log('paisa', this.totalTicketPrice);
     }
   }
 
@@ -137,11 +132,9 @@ export class SeatBookingComponent implements OnInit, OnChanges {
       travelDate: selectedDate
     };
 
-    console.log('Pending booking data:', pendingBookingData);
-
     this.pendingBookingService.createPendingBooking(pendingBookingData).subscribe(
       response => {
-        console.log('Pending booking created:', response);
+        this.totalTicketPrice = response.totalTicketPrice; 
         this.router.navigate(['/busTickets', response.bookingId]);
       },
       error => {  

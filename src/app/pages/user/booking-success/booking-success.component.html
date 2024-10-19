@@ -1,141 +1,170 @@
 <app-usernav></app-usernav>
 
-<div class="max-w-7xl mx-auto bg-white rounded-lg overflow-hidden mt-20" *ngIf="!isLoading && bookingDetails" id="contentToConvertPDF">
-    <div class="p-6">
-        <div class="flex justify-center items-center">
-            <p class="text-lg font-sans" style="font-weight: 500;">BusNGo Ticket</p>
-        </div>
-        <div class="flex justify-between items-center">
-            <div class="flex items-center">
-                <div>
-                    <span class="text-2xl font-bold"><span class="text-red-500">B</span><span class="text-black">usNGo</span></span>
+<div class="max-w-7xl mx-auto bg-white rounded-lg overflow-hidden mt-20" *ngIf="!isLoading && bookingDetails">
+    <div id="contentToConvertPDF">
+        <div class="p-6">
+            <div class="flex justify-center items-center">
+                <p class="text-lg font-sans" style="font-weight: 500;">BusNGo Ticket</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div>
+                        <span class="text-2xl font-bold">
+                            <span class="text-red-500">B</span>
+                            <span class="text-black">usNGo</span>
+                        </span>
+                    </div>
+                    <div class="h-20 border-l-2 border-gray-200 ml-6"></div>
+                    <div class="text-2xl font-semibold ml-6">eTICKET</div>
                 </div>
-                <div class="h-20 border-l-2 border-gray-200 ml-6"></div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">Need Help With Your Trip</div>
+                    <div class="text-sm">7994673892</div>
+                    <div class="text-sm">busngogmail.com</div>
+                </div>
+            </div>
+            <div class="border-b-2 border-gray-300 mt-4"></div>
 
-                <div class="text-2xl font-semibold ml-6">eTICKET</div>
+            <div class="mt-4 flex justify-between items-center">
+                <div class="flex text-xl font-semibold">
+                    <span>{{ bookingDetails.tripId.startFrom.city }}</span>
+                    <span class="text-gray-400 ml-4">&rarr;</span>
+                    <span class="ml-4">{{ bookingDetails.tripId.endTo.city }}</span>
+                    <div class="text-3xl font-medium ml-10" style="margin-top: -5px;">{{
+                        formatDate(bookingDetails.travelDate) }}</div>
+                </div>
+                <div class="text-xl font-semibold">
+                    Ticket No : <span class="font-bold">{{ bookingDetails.bookingId }}</span>
+                </div>
+            </div>
+            <div class="border-b-2 border-emerald-300 mt-4"></div>
+
+            <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
+                <div>
+                    <div class="text-lg font-semibold">{{ bookingDetails.busId.name }}</div>
+                    <div class="text-sm text-gray-500">{{ bookingDetails.tripId.fleetType.name }}</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.routeId.schedule.startFrom }}</div>
+                    <div class="text-sm text-gray-500">Departure Time</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.routeId.schedule.end }}</div>
+                    <div class="text-sm text-gray-500">Arrival Time</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.selectedSeatNumbers.join(', ') }}</div>
+                    <div class="text-sm text-gray-500">Seat Numbers</div>
+                </div>
             </div>
 
-            <div class="text-right">
-                <div class="text-sm font-semibold">Need Help With Your Trip</div>
-                <div class="text-sm">7994673892</div>
-                <div class="text-sm">busngo&#64;gmail.com</div>
+            <div class="border-b border-gray-200 mb-4"></div>
+
+            <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
+                <div>
+                    <div class="text-lg font-semibold">Boarding point details</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.boardingPoint.location }}</div>
+                    <div class="text-sm text-gray-500">Location</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.boardingPoint.city }}</div>
+                    <div class="text-sm text-gray-500">City</div>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200 mb-4"></div>
+
+            <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
+                <div>
+                    <div class="text-lg font-semibold">Dropping point details</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.droppingPoint.location }}</div>
+                    <div class="text-sm text-gray-500">Location</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold">{{ bookingDetails.droppingPoint.city }}</div>
+                    <div class="text-sm text-gray-500">City</div>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200 mb-4"></div>
+
+            <div class="mb-4" *ngFor="let traveller of bookingDetails.travellersDetails; let i = index">
+                <div class="text-lg font-semibold">{{ traveller.firstName }} {{ traveller.lastName }}</div>
+                <div class="text-sm text-gray-500">Seat No. {{ bookingDetails.selectedSeatNumbers[i] }}</div>
+            </div>
+
+            <div class="border-b border-gray-200 mb-4"></div>
+
+            <div class="flex justify-end mb-4">
+                <div class="text-right">
+                    <div class="text-lg font-semibold">Total Fare : <span class="text-2xl font-bold">Rs.{{
+                            bookingDetails.totalAmount }}</span></div>
+                    <div class="text-sm text-gray-500">( Inclusive of Rs.{{ bookingDetails.tax }} Tax )</div>
+                </div>
             </div>
         </div>
-        <div class="border-b-2 border-gray-300"></div>
 
-        <div class="mt-4 flex justify-between items-center">
-            <div class="flex text-xl font-semibold">
-                <span>{{ bookingDetails?.tripId?.startFrom?.city }}</span>
-                <span class="text-gray-400 ml-4">&rarr;</span>
-                <span class="ml-4">{{ bookingDetails?.tripId?.endTo?.city }}</span>
-                <div class="text-3xl font-medium ml-10" style="margin-top: -5px;">{{ formatDate(bookingDetails?.travelDate) }}</div>
-            </div>
-            <div class="text-xl font-semibold">
-                Ticket No : <span class="font-bold">BSGI10492939</span>
+        <!--Cancellation Policy section -->
+        <div class="p-6 border-t mb-6">
+            <p class="text-xl font-semibold mb-4">Cancellation Policy</p>
+            <div *ngIf="bookingDetails.cancellationPolicy">
+                <div *ngIf="bookingDetails.hoursUntilDeparture > 0" class="mb-4">
+                    <p class="font-semibold">Current cancellation status:</p>
+                    <p>Time until departure: {{ bookingDetails.hoursUntilDeparture | timeFormat }}</p>
+                    <p>Current refund percentage: {{ bookingDetails.currentRefundPercentage }}%</p>
+                </div>
+                <div *ngIf="bookingDetails.hoursUntilDeparture <= 0" class="mb-4 text-red-600 font-serif text-lg">
+                    <p>Cancellation is no longer possible. The departure time has passed.</p>
+                </div>
+                <table *ngIf="bookingDetails.hoursUntilDeparture > 0" class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-2 text-left font-serif">Timeframe</th>
+                            <th class="p-2 text-left font-serif">Refund Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let policy of bookingDetails.cancellationPolicy; let i = index" class="border-b">
+                            <td class="p-2 font-sans">{{ getTimeframe(i, bookingDetails.cancellationPolicy) }}</td>
+                            <td class="p-2 font-sans">{{ policy.refundPercentage }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="border-b-2 border-emerald-300 mt-4"></div>
+    </div>
+    <div class="mb-10 border-b"></div>
 
-        <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
-            <div>
-                <div class="text-lg font-semibold">{{ bookingDetails?.busId?.name }}</div>
-                <div class="text-sm text-gray-500">{{ bookingDetails?.tripId?.fleetType?.name }}</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">19:35 PM</div>
-                <div class="text-sm text-gray-500">Reporting Time</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">{{ bookingDetails?.routeId?.schedule?.startFrom }}</div>
-                <div class="text-sm text-gray-500">Departure Time</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">{{ bookingDetails?.selectedSeatNumbers }}</div>
-                <div class="text-sm text-gray-500">Seat Numbers</div>
-            </div>
+    <div class="text-xl font-semibold mb-6">Whom Should I Call ?</div>
+    <div class="grid grid-cols-3 gap-8">
+        <div>
+            <div class="text-lg font-semibold">For boarding point related</div>
+            <div class="text-sm mt-2">+91 123456789</div>
         </div>
 
-        <div class="border-b border-gray-200 mb-4"></div>
-
-        <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
-            <div>
-                <div class="text-lg font-semibold">Boarding point details</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">{{ bookingDetails?.boardingPoint?.location }}</div>
-                <div class="text-sm text-gray-500">Location</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">{{ bookingDetails?.boardingPoint?.city }}</div>
-                <div class="text-sm text-gray-500">City</div>
-            </div>
-            <!-- <div class="text-right">
-                <div class="text-sm font-semibold">N</div>
-            </div> -->
+        <div>
+            <div class="text-lg font-semibold">For time related</div>
+            <div class="text-sm mt-2">+91 987654321</div>
         </div>
 
-        <div class="border-b border-gray-200 mb-4"></div>
-
-        <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
-            <div>
-                <div class="text-lg font-semibold">Dropping point details</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">{{ bookingDetails?.droppingPoint?.location }}</div>
-                <div class="text-sm text-gray-500">Location</div>
-            </div>
-            <div class="text-right">
-                <div class="text-sm font-semibold">{{ bookingDetails?.droppingPoint?.city }}</div>
-                <div class="text-sm text-gray-500">City</div>
-            </div>
-            <!-- <div class="text-right">
-                <div class="text-sm font-semibold">N</div>
-            </div> -->
-        </div>
-
-        <div class="border-b border-gray-200 mb-4"></div>
-
-        <div class="mb-4">
-            <div class="text-lg font-semibold">HARIKRISHNAN.K</div>
-            <div class="text-sm text-gray-500">Seat No. R13</div>
-        </div>
-
-        <div class="border-b border-gray-200 mb-4"></div>
-
-        <div class="flex justify-end mb-4">
-            <div class="text-right">
-                <div class="text-lg font-semibold">Total Fare : <span class="text-2xl font-bold">Rs.136</span></div>
-                <div class="text-sm text-gray-500">( Inclusive of Rs.0 Service Tax )</div>
-            </div>
-        </div>
-        <div class="border-b border-gray-200 mb-4"></div>
-
-
-        <div class="text-xl font-semibold mb-6">Whom Should I Call ?</div>
-        <div class="grid grid-cols-3 gap-8">
-            <div>
-                <div class="text-lg font-semibold">For boarding point related</div>
-                <div class="text-sm mt-2">+91 123456789</div>
-            </div>
-
-            <div>
-                <div class="text-lg font-semibold">For time related</div>
-                <div class="text-sm mt-2">+91 987654321</div>
-            </div>
-
-            <div>
-                <div class="text-lg font-semibold">For cancellation related</div>
-                <div class="text-sm mt-2">Call +91 987654321 or email us at <a href="mailto:support@busngo.in" class="text-blue-500">supportbusngo.in</a></div>
+        <div>
+            <div class="text-lg font-semibold">For cancellation related</div>
+            <div class="text-sm mt-2">Call +91 987654321 or email us at
+                <a href="mailto:support@busngo.in" class="text-blue-500 hover:underline">supportbusngo.in</a>
             </div>
         </div>
     </div>
 </div>
-<div class="max-w-7xl mx-auto bg-white rounded-lg overflow-hidden p-4">
+
+<div class="max-w-7xl mx-auto bg-white rounded-lg overflow-hidden p-4 mt-4">
     <div class="flex justify-start items-start h-full space-x-10">
         <button mat-stroked-button color="primary" (click)="goToHome()">GO BACK TO HOME</button>
         <button mat-raised-button color="primary" (click)="generatePDF()">PRINT TICKET</button>
     </div>
 </div>
-<div class="p-10">
 
-</div>
+<div class="p-10"></div>

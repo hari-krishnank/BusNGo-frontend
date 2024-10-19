@@ -28,4 +28,8 @@ export class CompletedBookingService {
     getBookingByBookingId(bookingId: string): Observable<any> {
         return this.http.get<any>(`${this.backendURL}/profile/booking/${bookingId}`, { headers: this.getHeaders() });
     }
+
+    cancelBooking(bookingId: string): Observable<any> {
+        return this.http.post<any>(`${this.backendURL}/profile/booking/${bookingId}/cancel`, {}, { headers: this.getHeaders() });
+    }
 }

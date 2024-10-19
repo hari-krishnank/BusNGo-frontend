@@ -12,7 +12,6 @@ export class SearchTripService {
     constructor(private http: HttpClient) { }
 
     searchTrips(searchData: any): Observable<any> {
-        console.log(searchData);
         return this.http.post<any>(`${this.backendUrl}/search/trip`, searchData);
     }
-}
+}   
