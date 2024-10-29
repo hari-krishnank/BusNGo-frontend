@@ -5,14 +5,13 @@
 .sidebar {
     flex-shrink: 0;
     overflow-y: scroll;
-    border-right: 1px solid #e5e7eb;
     height: 100%;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
 .main-content {
-    flex-grow: 1;
+    flex-grow: 1; 
     overflow-y: scroll;
     padding: 1rem;
     height: 100%;

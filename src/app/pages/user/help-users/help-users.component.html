@@ -1,1 +1,67 @@
 <app-usernav></app-usernav>
+<div class="flex flex-col min-h-screen bg-gray-100">
+    <div class="flex-grow flex mt-16 ml-20">
+        <div class="w-1/3 bg-white p-6 shadow-md m-4 flex flex-col h-[calc(100vh-100px)]">
+            @if (!showChat) {
+            <div class="mb-6">
+                <div class="flex justify-center items-center ml-[100px] w-[45%] mb-2">
+                    <img src="/assets/User/ai-chatbot.png" alt="Customer Support" class="w-full h-full object-contain">
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <div class="flex items-start">
+                        <mat-icon class="text-gray-400 text-[18px] mt-[3px] mr-2">help_outline</mat-icon>
+                        <p class="text-sm ml-2">Have a query related to your bookings or on your previous concerns?</p>
+                    </div>
+                    <button mat-button color="primary" class="hover:underline">Login to your account</button>
+                </div>
+            </div>
+            <div class="mb-2">
+                <p class="font-semibold text-[18px] mb-2">FAQs (Select a Help Topic)</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                <button mat-button class="w-full text-left !justify-start border border-gray-300 rounded-lg p-4"
+                    (click)="openChat('technical')"> 
+                    <div class="flex items-center">
+                        <mat-icon class="text-gray-400 mr-2">computer</mat-icon>
+                        <span>Technical Issues</span>
+                    </div>
+                </button>
+
+                <!-- <button mat-button class="w-full text-left !justify-start border border-gray-300 rounded-lg p-4"
+                    (click)="openChat('referral')">
+                    <div class="flex items-center">
+                        <mat-icon class="text-gray-400 mr-2">group</mat-icon>
+                        <span>BusNGo Referral Help</span>
+                    </div>
+                </button> -->
+
+                <button mat-button class="w-full text-left !justify-start border border-gray-300 rounded-lg p-4"
+                    (click)="openChat('booking')">
+                    <div class="flex items-center">
+                        <mat-icon class="text-gray-400 mr-2">event_seat</mat-icon>
+                        <span>New bus booking help</span>
+                    </div>
+                </button>
+
+                <!-- <button mat-button class="w-full text-left !justify-start border border-gray-300 rounded-lg p-4"
+                    (click)="openChat('offers')">
+                    <div class="flex items-center">
+                        <mat-icon class="text-gray-400 mr-2">local_offer</mat-icon>
+                        <span>Offers</span>
+                    </div>
+                </button> -->
+            </div>
+            } @else {
+            <app-ai-chat [selectedTopic]="selectedTopic!" (goBack)="closeChat()"></app-ai-chat>
+            }
+        </div>
+        <div class="w-3/4 p-8">
+            <p class="text-3xl font-bold mb-6 justify-center items-center flex">BusNGo Help</p>
+            <div class="flex items-center justify-center">
+                <img src="/assets/User/customer-support.png" alt="Customer Support" class="max-w-lg">
+            </div>
+            <p class="text-2xl font-semibold text-center mt-6">24/7 Customer Support</p>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

@@ -1,11 +1,14 @@
 <app-update-search [searchData]="searchData"></app-update-search>
-<div class="search-results-container container mx-auto p-4 mb-16 mt-36">
+<div class="search-results-container container mx-auto p-4 mb-16 mt-[140px]">
     <app-sort-buses></app-sort-buses>
-    <div class="flex h-[calc(100vh-100px)]">
+    <div class="flex h-full">
         <div class="w-1/4 pr-4 sidebar">
             <app-filter-buses></app-filter-buses>
         </div>
-        <div class="main-content w-3/4 ml-auto" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+        <div class="main-content w-3/4 ml-auto border-l" 
+            infiniteScroll 
+            [infiniteScrollDistance]="2" 
+            [infiniteScrollThrottle]="50"
             (scrolled)="onScroll()">
             <div class="space-y-8">
                 <div *ngFor="let trip of displayedResults; trackBy: trackByTripId"

@@ -1,19 +1,19 @@
 <app-usernav></app-usernav>
 <div class="relative min-h-screen flex bg-gray-100">
-    <div
-        class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-slate-200 to-neutral-100 rounded-bl-[110%] rounded-br-[40%]">
+    <div class="absolute top-0 left-0 right-0 h-80 bg-gradient-to-r from-slate-200 to-neutral-100 rounded-bl-[110%] rounded-br-[40%]">
     </div>
     <div class="relative z-10 flex w-full max-w-7xl mx-auto p-8">
         <div class="w-full">
             <div class="mt-28">
                 <p class="text-3xl font-sans text-black mb-4 font-semibold">Your Bookings</p>
             </div>
-            <div class="flex">
-                <app-profile-side-bar></app-profile-side-bar>
+            <div class="flex flex-col md:flex-row">
+                <app-profile-side-bar class="mb-4 md:mb-0"></app-profile-side-bar>
 
                 <div class="flex-1">
                     <div class="bg-white border-l shadow-sm p-8 mb-8 min-h-[600px] flex flex-col">
                         <app-bookingsnavbar></app-bookingsnavbar>
+                        
                         <div class="flex-grow overflow-y-auto">
                             <div *ngIf="isLoading" class="space-y-4 mt-6">
                                 <div *ngFor="let i of [1,2]" class="bg-white rounded-lg p-6 animate-pulse">
@@ -35,12 +35,10 @@
                                         <div class="flex justify-between items-center">
                                             <div class="flex space-x-2">
                                                 <mat-icon>directions_bus</mat-icon>
-                                                <p class="text-sm font-semibold font-sans">{{ booking.tripId.title }}
-                                                </p>
+                                                <p class="text-sm font-semibold font-sans">{{ booking.tripId.title }}</p>
                                             </div>
                                             <div class="flex flex-col items-end">
-                                                <span
-                                                    class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full mr-2">
+                                                <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full mr-2">
                                                     {{ booking.status }}
                                                 </span>
                                                 <span class="text-sm text-black mt-2 font-semibold mr-2">Trip ID: {{ booking.bookingId }}</span>
@@ -57,7 +55,17 @@
                                 <p class="text-gray-500">You haven't cancelled tickets yet.</p>
                             </div>
                         </div>
-                        <div class="mt-4">
+
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex items-center">
+                                <span class="mr-2 text-xs font-normal text-gray-700">Sort by:</span>
+                                <mat-form-field appearance="outline" class="w-60 mt-4">
+                                    <mat-select [(value)]="sortOption" (selectionChange)="onSortChange()">
+                                        <mat-option value="-cancelledAt">Latest Cancelled</mat-option>
+                                        <mat-option value="cancelledAt">Oldest Cancelled</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                             <mat-paginator 
                                 [length]="totalBookings" 
                                 [pageSize]="pageSize"
@@ -72,3 +80,4 @@
         </div>
     </div>
 </div>
+<app-footer></app-footer>

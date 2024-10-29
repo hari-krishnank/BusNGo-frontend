@@ -1,7 +1,7 @@
 <div class="fixed top-0 left-0 right-0 z-50 bg-white">
     <app-usernav></app-usernav>
 
-    <div class="p-2 mt-1.5" style="background-color: #f2f2f2">
+    <div class="p-2 mt-1.5 bg-stone-50">
         <div class="container mx-auto flex items-center justify-center space-x-4 mt-16">
             <app-form [form]="updateSearchForm" [fields]="From" (formSubmit)="onUpdateSearch()"
                 submitButtonText="Update" [hideSubmitButton]="true" class="w-80"></app-form>
@@ -26,7 +26,7 @@
                 [hideSubmitButton]="true">
             </app-form>
 
-            <button (click)="onUpdateSearch()" mat-button color="warn" style="font-size: 13px; font-weight: 600;">
+            <button (click)="onUpdateSearch()" mat-stroked-button color="warn" style="font-size: 13px; font-weight: 600;">
                 UPDATE SEARCH</button>
         </div>
     </div>

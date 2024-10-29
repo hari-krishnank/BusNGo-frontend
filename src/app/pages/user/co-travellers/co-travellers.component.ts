@@ -20,22 +20,23 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 })
 export class CoTravellersComponent implements OnInit {
   private dialog = inject(MatDialog);
-  private coTravellerService = inject(CoTravellerService);
   coTravellers: any[] = [];
   pageSize = 5;
   pageIndex = 0;
-  totalBookings = 5;
+  totalCoTravellers = 0;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private coTravellerService: CoTravellerService) { }
 
   ngOnInit(): void {
     this.loadCoTravellers();
   }
 
   loadCoTravellers() {
-    this.coTravellerService.getAllCoTravellers().subscribe(
-      (travellers) => {
-        this.coTravellers = travellers;
-      },
+    this.coTravellerService.getAllCoTravellers(this.pageIndex + 1, this.pageSize).subscribe(
+      (response) => {
+        this.coTravellers = response.coTravellers;
+        this.totalCoTravellers = response.total;      },
       (error) => {
         console.error('Error fetching co-travellers:', error);
       }

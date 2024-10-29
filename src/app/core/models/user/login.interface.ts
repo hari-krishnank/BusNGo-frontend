@@ -6,6 +6,7 @@ export interface ILoginOption {
 
 export interface ILoginResponse {
     access_token: string;
+    refresh_token: string; 
     user: {
         userId: string;
         email: string;

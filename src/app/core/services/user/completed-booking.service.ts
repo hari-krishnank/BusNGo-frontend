@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 
@@ -21,8 +21,16 @@ export class CompletedBookingService {
         return this.http.get(`${this.backendURL}/payments/completed-booking/${bookingId}`);
     }
 
-    getAllCompletedBookings(): Observable<any> {
-        return this.http.get(`${this.backendURL}/profile`, { headers: this.getHeaders() });
+    getAllCompletedBookings(page: number, limit: number, sort: string): Observable<any> {
+        let params = new HttpParams()
+            .set('page', page.toString())
+            .set('limit', limit.toString())
+            .set('sort', sort);
+
+        return this.http.get(`${this.backendURL}/profile`, {
+            headers: this.getHeaders(),
+            params: params
+        });
     }
 
     getBookingByBookingId(bookingId: string): Observable<any> {

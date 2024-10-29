@@ -81,7 +81,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       this.searchResultsService.searchResults$.subscribe(results => {
         this.searchResults = results || [];
         this.noResultsFound = this.searchResults.length === 0;
-        this.loadInitialResults();
+        this.loadInitialResults(); 
         console.log('Updated search results:', this.searchResults);
       })
     );

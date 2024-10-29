@@ -17,7 +17,7 @@ import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { forgotPasswordField } from '../../../shared/configs/user/forgotPassword.config';
 import { MatIconModule } from '@angular/material/icon';
 
-@Component({
+@Component({ 
   selector: 'app-user-login',
   standalone: true,
   imports: [UsernavComponent, RouterModule, CommonModule, ReactiveFormsModule, FormComponent, FooterComponent, MatButtonModule, NzMessageModule, MatIconModule],

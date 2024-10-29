@@ -1,55 +1,57 @@
 <div class="filter-container">
     <div class="filter-header">
-        <h2 class="text-xl font-bold">Filters</h2>
-        <button class="text-gray-400">Reset All</button>
+        <p class="text-xl font-bold">Filters</p>
+        <button mat-button color="warn" class="text-gray-400" (click)="resetAllFilters()">Reset All</button>
     </div>
-    <div class="filter-scroll-area scrollbar-hide">
-        <!-- Bus Type filters -->
+    <!-- <div class="filter-scroll-area scrollbar-hide"> -->
+    <div class="filter-scroll-area">
         <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
-                <h3 class="font-semibold">Bus Type</h3>
-                <button class="text-gray-400">Reset</button>
+                <p class="font-semibold">Bus Type</p>
+                <button mat-button color="warn" class="text-gray-400" (click)="resetBusTypeFilter()">Reset</button>
             </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button class="bg-gray-100 p-2 rounded">AC</button>
-                <button class="bg-gray-100 p-2 rounded">Non-AC</button>
-                <button class="bg-gray-100 p-2 rounded">Seater</button>
-                <button class="bg-gray-100 p-2 rounded">Sleeper</button>
+            <div class="grid gap-2">
+                <button mat-stroked-button
+                    *ngFor="let type of busTypes"
+                    [color]="selectedBusTypes.has(type.value) ? 'primary' : ''"
+                    [class.mat-primary]="selectedBusTypes.has(type.value)" 
+                    (click)="toggleBusType(type.value)">
+                    <span class="text-sm">{{ type.label }}</span>
+                    <span *ngIf="type.count" class="text-xs text-gray-500 ml-1">({{ type.count }})</span>
+                </button>
             </div>
         </div>
 
-        <!-- Departure Time filters -->
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="font-semibold">Departure Time</h3>
-                <button class="text-gray-400">Reset</button>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button class="bg-gray-100 p-2 rounded text-sm">12 midnight - 6 AM</button>
-                <button class="bg-gray-100 p-2 rounded text-sm">6 AM - 12 noon</button>
-                <button class="bg-gray-100 p-2 rounded text-sm">12 noon - 6 PM</button>
-                <button class="bg-gray-100 p-2 rounded text-sm">6 PM - 12 midnight</button>
-            </div>
-        </div>
-
-        <!-- Arrival Time filters -->
         <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
-                <h3 class="font-semibold text-gray-800">Arrival Time</h3>
-                <button class="text-gray-400 text-sm">Reset</button>
+                <p class="font-semibold">Departure Time</p>
+                <button mat-button color="warn" class="text-gray-400" (click)="resetDepartureFilter()">Reset</button>
             </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-                    12 midnight - 6 AM
+            <div class="grid gap-2">
+                <button mat-stroked-button 
+                    *ngFor="let time of departureTimes"
+                    [color]="selectedDepartureTimes.has(time.value) ? 'primary' : ''"
+                    [class.mat-primary]="selectedDepartureTimes.has(time.value)"
+                    (click)="toggleDepartureTime(time.value)">
+                    <span class="text-sm">{{ time.label }}</span>
+                    <span *ngIf="time.count" class="text-xs text-gray-500 ml-1">({{ time.count }})</span>
                 </button>
-                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-                    6 AM - 12 noon
-                </button>
-                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-                    12 noon - 6 PM
-                </button>
-                <button class="bg-gray-100 p-2 rounded text-sm text-gray-700 hover:bg-gray-200 transition-colors">
-                    6 PM - 12 midnight
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <p class="font-semibold text-gray-800">Amenities</p>
+                <button mat-button color="warn" class="text-gray-400" (click)="resetAmenitiesFilter()">Reset</button>
+            </div>
+            <div class="grid gap-2">
+                <button mat-stroked-button 
+                    *ngFor="let amenity of amenities" 
+                    [color]="amenity.selected ? 'primary' : ''"
+                    [class.mat-primary]="amenity.selected" 
+                    (click)="toggleAmenity(amenity.value)">
+                    <span class="text-sm">{{ amenity.label }}</span>
+                    <span *ngIf="amenity.count" class="text-xs text-gray-500 ml-1">({{ amenity.count }})</span>
                 </button>
             </div>
         </div>

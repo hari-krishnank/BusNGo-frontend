@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.component';
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
 import { FooterComponent } from '../../../shared/widgets/footer/footer.component';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button'; 
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { WalletAddMoneyModalComponent } from '../wallet-add-money-modal/wallet-add-money-modal.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,19 +18,13 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
   styleUrl: './wallet.component.css'
 })
 export class WalletComponent {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   walletBalance: number = 0;
   transactions: any[] = [];
   pagedTransactions: any[] = [];
   pageSize: number = 5;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  constructor(
-    private dialog: MatDialog,
-    private walletService: WalletService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+  constructor(private dialog: MatDialog, private walletService: WalletService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.url.subscribe(segments => {

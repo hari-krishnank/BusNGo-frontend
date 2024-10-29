@@ -12,25 +12,34 @@ import { UsernavComponent } from '../../../shared/widgets/usernav/usernav.compon
 import { ProfileSideBarComponent } from '../profile-side-bar/profile-side-bar.component';
 import { CustomPaginatorComponent } from '../../../shared/reusableComponents/custom-paginator/custom-paginator.component';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-completed-bookings',
   standalone: true,
-  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, MatPaginatorModule, FooterComponent, UsernavComponent, ProfileSideBarComponent, CustomPaginatorComponent],
+  imports: [BookingsnavbarComponent, RouterModule, MatButtonModule, MatFormFieldModule, MatSelectModule, CommonModule, SkeletonModule, SidebarModule, MatIconModule, MatPaginatorModule, FooterComponent, UsernavComponent, ProfileSideBarComponent, CustomPaginatorComponent],
   templateUrl: './completed-bookings.component.html',
   styleUrl: './completed-bookings.component.css'
 })
 export class CompletedBookingsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  completedBookings: any[] = []; 
+  completedBookings: any[] = [];
   isLoading: boolean = true;
   sidebarVisible2: boolean = false;
   selectedBooking: any = null;
 
   pageSize = 5;
   pageIndex = 0;
-  totalBookings = 1;
+  totalBookings = 0;
+  sortOptions = [
+    { value: '-travelDate', viewValue: 'Latest Travel Date' },
+    { value: 'travelDate', viewValue: 'Earliest Travel Date' },
+    { value: '-completedAt', viewValue: 'Recently Completed' },
+    { value: 'completedAt', viewValue: 'Oldest Completed' }
+  ];
+  selectedSort = '-travelDate';
 
   constructor(private completedBookingService: CompletedBookingService, private router: Router) { }
 
@@ -40,9 +49,14 @@ export class CompletedBookingsComponent implements OnInit {
 
   loadCompletedBookings() {
     this.isLoading = true;
-    this.completedBookingService.getAllCompletedBookings().subscribe({
+    this.completedBookingService.getAllCompletedBookings(
+      this.pageIndex + 1,
+      this.pageSize,
+      this.selectedSort
+    ).subscribe({
       next: (response) => {
         this.completedBookings = response.bookings;
+        this.totalBookings = response.count;
         this.isLoading = false;
       },
       error: (error) => {
@@ -59,6 +73,14 @@ export class CompletedBookingsComponent implements OnInit {
   onPageChange(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.loadCompletedBookings();
+  }
+
+  onSortChange() {
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
     this.loadCompletedBookings();
   }
 } 

@@ -9,12 +9,14 @@ import { CancelledBookingService } from '../../../core/services/user/cancelled-b
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-cancelled-bookings',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatPaginatorModule, UsernavComponent, ProfileSideBarComponent, BookingsnavbarComponent, CustomPaginatorComponent, FooterComponent],
-  templateUrl: './cancelled-bookings.component.html',
+  imports: [CommonModule, MatIconModule, MatPaginatorModule, MatButtonModule,MatSelectModule, UsernavComponent, ProfileSideBarComponent, BookingsnavbarComponent, CustomPaginatorComponent, FooterComponent],
+  templateUrl: './cancelled-bookings.component.html', 
   styleUrl: './cancelled-bookings.component.css'
 })
 export class CancelledBookingsComponent implements OnInit {
@@ -25,7 +27,8 @@ export class CancelledBookingsComponent implements OnInit {
 
   pageSize = 5;
   pageIndex = 0;
-  totalBookings = 1;
+  totalBookings = 0;
+  sortOption = '-cancelledAt';
 
   constructor(private cancelledBookingService: CancelledBookingService, private router: Router) { }
 
@@ -35,9 +38,10 @@ export class CancelledBookingsComponent implements OnInit {
 
   loadCancelledBookings() {
     this.isLoading = true;
-    this.cancelledBookingService.getAllCancelledBookings().subscribe({
+    this.cancelledBookingService.getAllCancelledBookings(this.pageIndex + 1, this.pageSize, this.sortOption).subscribe({
       next: (response) => {
         this.cancelledBookings = response.bookings;
+        this.totalBookings = response.count;
         this.isLoading = false;
       },
       error: (error) => {
@@ -54,6 +58,14 @@ export class CancelledBookingsComponent implements OnInit {
   onPageChange(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.loadCancelledBookings();
+  }
+
+  onSortChange() {
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
     this.loadCancelledBookings();
   }
 }

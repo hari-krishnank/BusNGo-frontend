@@ -1,0 +1,62 @@
+<div class="flex flex-col h-full">
+    <div class="bg-white p-4 flex items-center border-b flex-shrink-0">
+        <button mat-icon-button class="mr-2" (click)="goBack.emit()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div>
+            <div class="flex items-center">
+                <mat-icon class="mr-2">{{ selectedTopic.icon }}</mat-icon>
+                <span class="font-semibold">{{ selectedTopic.title }}</span>
+            </div>
+            <div class="text-sm text-gray-500">{{ selectedTopic.description }}</div>
+        </div>
+    </div>
+
+    <div class="message-container flex-1 overflow-y-auto p-4 bg-gray-50" #messageContainer>
+        @for (message of messages; track message) {
+        <div class="mb-4" [ngClass]="{'flex justify-end': message.type === 'user'}">
+            <div class="max-w-[70%] rounded-lg p-3"
+                [ngClass]="message.type === 'user' ? 'bg-blue-500 text-white' : 'bg-white'">
+                @if (message.isLoading) {
+                <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                </div>
+                } @else {
+                <div class="text-sm whitespace-pre-wrap">{{ message.content }}</div>
+                <div class="text-xs mt-1" [ngClass]="message.type === 'user' ? 'text-gray-300' : 'text-gray-500'">
+                    {{ message.timestamp | date:'shortTime' }}
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </div>
+
+    @if (showQuickActions) {
+    <div class="p-4 bg-white border-t">
+        <div class="grid gap-2">
+            <button mat-stroked-button color="primary"
+                class="w-full text-left !justify-start border p-2 rounded text-sm" *ngFor="let action of quickActions"
+                (click)="handleQuickAction(action.message)">
+                {{ action.label }}
+            </button>
+        </div>
+    </div>
+    }
+
+    <div class="bg-white border-t p-4">
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+                <app-form [form]="messageForm" [fields]="formFields" [hideSubmitButton]="true"
+                    (formSubmit)="onFormSubmit($event)">
+                </app-form>
+            </div>
+            <button mat-icon-button color="primary" (click)="sendMessage()"
+                [disabled]="isLoading || !messageForm.get('message')?.value?.trim()">
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

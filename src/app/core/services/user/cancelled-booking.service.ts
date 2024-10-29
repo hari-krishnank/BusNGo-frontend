@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +16,15 @@ export class CancelledBookingService {
 
     constructor(private http: HttpClient) { }
 
-    getAllCancelledBookings(): Observable<any> {
-        return this.http.get(`${this.backendURL}/profile/cancelledBookings`, { headers: this.getHeaders() });
+    getAllCancelledBookings(page: number, limit: number, sort: string): Observable<any> {
+        let params = new HttpParams()
+            .set('page', page.toString())
+            .set('limit', limit.toString())
+            .set('sort', sort);
+
+        return this.http.get(`${this.backendURL}/profile/cancelledBookings`, {
+            headers: this.getHeaders(),
+            params: params
+        });
     }
 }
