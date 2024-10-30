@@ -95,7 +95,7 @@ export class LoginService {
   private handleSuccessfulAuth(response: ILoginResponse): void {
     console.log(response);
     
-    if (response.access_token && response.refresh_token) {
+    if (response.access_token) {
       this.setToken(response.access_token);
       this.setRefreshToken(response.refresh_token);
       this.setUserInfo(response.user);
