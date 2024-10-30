@@ -1,6 +1,7 @@
 export const environment = {
     production: false,
-    backendUrl: 'http://localhost:3000',
+    // backendUrl: 'http://localhost:3000',
+    backendUrl: 'https://busngo.zendensofas.shop',
     mapbox: {
         accessToken: 'pk.eyJ1IjoiaGtoYXJpIiwiYSI6ImNsejNxcDZrOTBsNXEybHNmNTllMWpoZjAifQ.lv6StO59jmfyDpTRsUwGow'
     },
