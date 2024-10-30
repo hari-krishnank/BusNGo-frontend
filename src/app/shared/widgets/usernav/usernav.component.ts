@@ -3,8 +3,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
-import { LoginService } from '../../../core/services/user/login.service';
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../../../core/services/user/login.service';
 
 @Component({
   selector: 'app-usernav',
@@ -23,7 +23,7 @@ export class UsernavComponent implements OnInit {
     this.updateUserInfo();
   }
   
-  updateUserInfo() {
+  updateUserInfo() { 
     const userInfo = this.loginService.getUserInfo();
     if (userInfo) {
       this.firstName = userInfo.username || userInfo.email;

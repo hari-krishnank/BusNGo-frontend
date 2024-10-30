@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { LoginService } from '../services/user/login.service';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { ILoginResponse } from '../models/user/login.interface';
+import { LoginService } from '../services/user/login.service';
 
 export const UserJwtInterceptor: HttpInterceptorFn = (req, next) => {
     const loginService = inject(LoginService);
