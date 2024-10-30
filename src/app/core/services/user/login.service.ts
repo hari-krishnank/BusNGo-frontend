@@ -93,6 +93,8 @@ export class LoginService {
   }
 
   private handleSuccessfulAuth(response: ILoginResponse): void {
+    console.log(response);
+    
     if (response.access_token && response.refresh_token) {
       this.setToken(response.access_token);
       this.setRefreshToken(response.refresh_token);
@@ -120,10 +122,6 @@ export class LoginService {
   getToken(): string | null {
     return localStorage.getItem('refreshToken');
   }
-  
-  getUserToken(): string | null {
-    return localStorage.getItem('userToken');
-  }
 
   setRefreshToken(token: string): void {
     localStorage.setItem('refreshToken', token);
@@ -134,6 +132,7 @@ export class LoginService {
   }
 
   setUserInfo(user: any): void {
+    console.log(user);
     localStorage.setItem('userInfo', JSON.stringify(user));
   }
 
@@ -143,7 +142,7 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getUserToken();
+    return !!this.getToken();
   }
 
   logout(): void {
