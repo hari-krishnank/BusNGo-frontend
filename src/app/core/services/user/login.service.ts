@@ -120,6 +120,10 @@ export class LoginService {
   getToken(): string | null {
     return localStorage.getItem('refreshToken');
   }
+  
+  getUserToken(): string | null {
+    return localStorage.getItem('userToken');
+  }
 
   setRefreshToken(token: string): void {
     localStorage.setItem('refreshToken', token);
@@ -139,7 +143,7 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return !!this.getUserToken();
   }
 
   logout(): void {
