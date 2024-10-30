@@ -8,9 +8,9 @@ export const UserJwtInterceptor: HttpInterceptorFn = (req, next) => {
     const loginService = inject(LoginService);
     const token = loginService.getToken();
 
-    // if (req.url.includes('refresh') || req.url.includes('login')) {
-    //     return next(req);
-    // }
+    if (req.url.includes('refresh') || req.url.includes('login')) {
+        return next(req);
+    }
 
     if (token) {
         req = req.clone({
