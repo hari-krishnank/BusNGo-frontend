@@ -36,8 +36,7 @@ export class CoTravellersComponent implements OnInit {
     this.coTravellerService.getAllCoTravellers(this.pageIndex + 1, this.pageSize).subscribe(
       (response) => {
         this.coTravellers = response.coTravellers;
-        this.totalCoTravellers = response.total;
-      },
+        this.totalCoTravellers = response.total;      },
       (error) => {
         console.error('Error fetching co-travellers:', error);
       }
@@ -70,10 +69,6 @@ export class CoTravellersComponent implements OnInit {
         console.error('Error deleting co-traveller:', error);
       }
     );
-  }
-
-  get hasCoTravellers(): boolean {
-    return this.coTravellers?.length > 0;
   }
 
   onPageChange(event: PageEvent) {

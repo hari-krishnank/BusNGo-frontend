@@ -18,7 +18,7 @@
                             </button>
                         </div>
                         <div class="flex-grow overflow-y-auto">
-                            <div *ngIf="coTravellers?.length === 0" class="text-center py-4">
+                            <div *ngIf="coTravellers.length === 0" class="text-center py-4">
                                 <p class="text-gray-600 mb-4 text-lg font-serif">You haven't added any co-travellers
                                     yet.</p>
                                 <img src="assets/User/Co-traveller.png" alt="No co-travellers"
@@ -29,7 +29,7 @@
                                     We can also remember their preferences and you can email or sms tickets easily.
                                 </p>
                             </div>
-                            <div *ngIf="hasCoTravellers" class="space-y-2">
+                            <div *ngIf="coTravellers.length > 0" class="space-y-2">
                                 <app-co-travellers-card 
                                     *ngFor="let traveller of coTravellers" 
                                     [traveller]="traveller"
@@ -38,7 +38,7 @@
                                 </app-co-travellers-card>
                             </div>
                         </div>
-                        <div class="mt-4" *ngIf="hasCoTravellers">
+                        <div class="mt-4" *ngIf="coTravellers.length > 0">
                             <mat-paginator 
                                 [length]="totalCoTravellers" 
                                 [pageSize]="pageSize"
