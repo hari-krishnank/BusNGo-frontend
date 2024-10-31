@@ -121,7 +121,7 @@ export class LoginService {
     }
 
     getToken(): string | null {
-        return localStorage.getItem('refreshToken');
+        return localStorage.getItem('userToken');
     }
 
     setRefreshToken(token: string): void {

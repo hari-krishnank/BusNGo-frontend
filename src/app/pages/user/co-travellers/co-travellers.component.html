@@ -29,7 +29,7 @@
                                     We can also remember their preferences and you can email or sms tickets easily.
                                 </p>
                             </div>
-                            <div *ngIf="coTravellers.length > 0" class="space-y-2">
+                            <div *ngIf="hasCoTravellers" class="space-y-2">
                                 <app-co-travellers-card 
                                     *ngFor="let traveller of coTravellers" 
                                     [traveller]="traveller"
@@ -38,7 +38,7 @@
                                 </app-co-travellers-card>
                             </div>
                         </div>
-                        <div class="mt-4" *ngIf="coTravellers.length > 0">
+                        <div class="mt-4" *ngIf="hasCoTravellers">
                             <mat-paginator 
                                 [length]="totalCoTravellers" 
                                 [pageSize]="pageSize"
